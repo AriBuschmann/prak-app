@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Frontend
+node_modules/
+src/PrakApp.Api/wwwroot/
+src/PrakApp.Web/test-results/
+src/PrakApp.Web/playwright-report/
+src/PrakApp.Web/blob-report/
+*.tsbuildinfo
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+Thumbs.db
+.DS_Store
+
+# Lokale Einstellungen
+appsettings.*.local.json
+.env
+.env.*

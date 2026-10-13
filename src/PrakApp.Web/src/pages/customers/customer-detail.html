@@ -1,0 +1,70 @@
+<section class="page" if.bind="customer">
+  <p class="breadcrumb"><a load="customers" t="customers.title"></a> › ${customer.customerNumber}</p>
+
+  <div class="page-header">
+    <h1 data-testid="customer-name">${customer.firstName} ${customer.lastName}</h1>
+    <button type="button" click.trigger="edit()" t="common.edit"></button>
+  </div>
+
+  <div class="card details">
+    <dl>
+      <dt t="customer.number"></dt><dd>${customer.customerNumber}</dd>
+      <dt t="customer.email"></dt><dd>${customer.email || '–'}</dd>
+      <dt t="customer.phone"></dt><dd>${customer.phone || '–'}</dd>
+      <dt t="customer.address"></dt>
+      <dd>${customer.street || ''}<br if.bind="customer.street">${customer.postalCode || ''} ${customer.city || ''}</dd>
+      <dt t="common.createdAt"></dt><dd>${formatDate(customer.createdAt)} (${customer.createdBy})</dd>
+    </dl>
+  </div>
+
+  <div class="section-header">
+    <h2 t="contracts.title"></h2>
+    <button type="button" class="primary" click.trigger="showNewContract()" t="contracts.new"></button>
+  </div>
+  <p class="muted" if.bind="!contracts.length" t="contracts.none"></p>
+  <jqx-grid else columns.bind="columns" rows.bind="contracts" row-click.bind="row => openContract(row)" page-size.bind="10"></jqx-grid>
+
+  <modal-dialog heading.bind="'customers.edit' | t" open.bind="editOpen">
+    <form submit.trigger:prevent="save()">
+      <customer-form customer.bind="form" errors.bind="errors"></customer-form>
+      <div class="dialog-actions">
+        <button type="button" click.trigger="editOpen = false" t="common.cancel"></button>
+        <button type="submit" class="primary" t="common.save"></button>
+      </div>
+    </form>
+  </modal-dialog>
+
+  <modal-dialog heading.bind="'contracts.new' | t" open.bind="contractOpen">
+    <form submit.trigger:prevent="createContract()">
+      <div class="form-grid">
+        <label class="wide">
+          <span t="contract.type"></span>
+          <select name="contractTypeId" value.bind="newContract.contractTypeId">
+            <option model.bind="null" t="common.pleaseSelect"></option>
+            <option repeat.for="type of contractTypes" model.bind="type.id">${type.name}</option>
+          </select>
+          <small class="error" repeat.for="message of contractErrors.contractTypeId">${message}</small>
+        </label>
+        <label>
+          <span t="contract.startDate"></span>
+          <input name="startDate" type="date" value.bind="newContract.startDate">
+          <small class="error" repeat.for="message of contractErrors.startDate">${message}</small>
+        </label>
+        <label>
+          <span t="contract.endDateOptional"></span>
+          <input name="endDate" type="date" value.bind="newContract.endDate">
+          <small class="error" repeat.for="message of contractErrors.endDate">${message}</small>
+        </label>
+        <label>
+          <span t="contract.monthlyFee"></span>
+          <input name="monthlyFee" type="number" step="0.01" min="0" value.bind="newContract.monthlyFee">
+          <small class="error" repeat.for="message of contractErrors.monthlyFee">${message}</small>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" click.trigger="contractOpen = false" t="common.cancel"></button>
+        <button type="submit" class="primary" t="common.save"></button>
+      </div>
+    </form>
+  </modal-dialog>
+</section>

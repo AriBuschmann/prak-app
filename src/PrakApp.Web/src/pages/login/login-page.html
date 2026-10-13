@@ -1,0 +1,12 @@
+<section class="card login">
+  <h1 t="login.title"></h1>
+  <p class="muted" t="login.hint"></p>
+  <ul class="user-list">
+    <li repeat.for="user of users">
+      <button type="button" click.trigger="login(user)" data-user="${user.userName}">
+        <strong>${user.displayName}</strong>
+        <span class="muted">${user.role}</span>
+      </button>
+    </li>
+  </ul>
+</section>

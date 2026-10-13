@@ -1,0 +1,34 @@
+<div class="form-grid">
+  <label>
+    <span t="customer.firstName"></span>
+    <input name="firstName" value.bind="customer.firstName" autocomplete="off">
+    <small class="error" repeat.for="message of errors.firstName">${message}</small>
+  </label>
+  <label>
+    <span t="customer.lastName"></span>
+    <input name="lastName" value.bind="customer.lastName" autocomplete="off">
+    <small class="error" repeat.for="message of errors.lastName">${message}</small>
+  </label>
+  <label class="wide">
+    <span t="customer.email"></span>
+    <input name="email" type="email" value.bind="customer.email" autocomplete="off">
+    <small class="error" repeat.for="message of errors.email">${message}</small>
+  </label>
+  <label class="wide">
+    <span t="customer.phone"></span>
+    <input name="phone" value.bind="customer.phone" autocomplete="off">
+  </label>
+  <label class="wide">
+    <span t="customer.street"></span>
+    <input name="street" value.bind="customer.street" autocomplete="off">
+  </label>
+  <label>
+    <span t="customer.postalCode"></span>
+    <input name="postalCode" value.bind="customer.postalCode" autocomplete="off">
+    <small class="error" repeat.for="message of errors.postalCode">${message}</small>
+  </label>
+  <label>
+    <span t="customer.city"></span>
+    <input name="city" value.bind="customer.city" autocomplete="off">
+  </label>
+</div>

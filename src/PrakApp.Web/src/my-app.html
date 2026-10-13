@@ -1,0 +1,23 @@
+<header class="topbar">
+  <a class="brand" load="customers" t="app.title"></a>
+  <nav if.bind="auth.user">
+    <a load="customers" t="nav.customers"></a>
+  </nav>
+  <div class="spacer"></div>
+  <select class="language" value.bind="language" change.trigger="changeLanguage()" aria-label="Sprache / Language">
+    <option value="de">Deutsch</option>
+    <option value="en">English</option>
+  </select>
+  <template if.bind="auth.user">
+    <span class="user" data-testid="current-user">${auth.user.displayName}</span>
+    <button class="link" click.trigger="logout()" t="nav.logout"></button>
+  </template>
+</header>
+
+<main class="content">
+  <div class="error-banner" if.bind="errorMessage" role="alert">
+    <span><strong t="common.unexpectedError"></strong> ${errorMessage}</span>
+    <button type="button" class="link" click.trigger="dismissError()">×</button>
+  </div>
+  <au-viewport></au-viewport>
+</main>

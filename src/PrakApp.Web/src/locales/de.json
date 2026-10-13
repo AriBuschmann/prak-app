@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "Vertragsverwaltung"
+  },
+  "nav": {
+    "customers": "Kunden",
+    "logout": "Abmelden"
+  },
+  "login": {
+    "title": "Anmeldung",
+    "hint": "Übungsumgebung: Wähle einen Benutzer aus. Es gibt kein Passwort."
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "edit": "Bearbeiten",
+    "createdAt": "Angelegt am",
+    "months": "Monat(e)",
+    "unexpectedError": "Unerwarteter Fehler",
+    "pleaseSelect": "Bitte wählen …"
+  },
+  "customers": {
+    "title": "Kunden",
+    "new": "Neuer Kunde",
+    "edit": "Kunde bearbeiten",
+    "found": "Kunden",
+    "searchPlaceholder": "Suche nach Name oder Kundennummer"
+  },
+  "customer": {
+    "number": "Kundennr.",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "street": "Straße und Hausnummer",
+    "postalCode": "PLZ",
+    "city": "Ort",
+    "address": "Anschrift",
+    "contractCount": "Verträge",
+    "totalPaid": "Bezahlt gesamt"
+  },
+  "contracts": {
+    "title": "Verträge",
+    "new": "Neuer Vertrag",
+    "none": "Für diesen Kunden gibt es noch keine Verträge."
+  },
+  "contract": {
+    "number": "Vertragsnr.",
+    "customer": "Kunde",
+    "type": "Tarif",
+    "startDate": "Beginn",
+    "endDate": "Ende",
+    "endDateOptional": "Ende (optional)",
+    "monthlyFee": "Monatsbeitrag",
+    "status": "Status",
+    "noticePeriod": "Kündigungsfrist",
+    "cancel": "Kündigen",
+    "cancelNotAvailable": "Die Kündigung ist noch nicht fertig umgesetzt.",
+    "cancelledAt": "Gekündigt am",
+    "cancellationReason": "Kündigungsgrund",
+    "statusValues": {
+      "Active": "Aktiv",
+      "Cancelled": "Gekündigt",
+      "Ended": "Beendet"
+    }
+  },
+  "balance": {
+    "title": "Beitragskonto",
+    "monthsDue": "Fällige Monate",
+    "expected": "Soll",
+    "paid": "Bezahlt",
+    "balance": "Saldo"
+  },
+  "payment": {
+    "title": "Zahlungen",
+    "new": "Zahlung erfassen",
+    "none": "Noch keine Zahlungen.",
+    "date": "Zahlungsdatum",
+    "amount": "Betrag",
+    "reference": "Verwendungszweck",
+    "recordedBy": "Erfasst von"
+  }
+}

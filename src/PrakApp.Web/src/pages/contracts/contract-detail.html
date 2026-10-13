@@ -1,0 +1,77 @@
+<section class="page">
+  <template if.bind="contract">
+    <p class="breadcrumb">
+      <a load="customers" t="customers.title"></a> ›
+      <a load="customers/${contract.customerId}">${contract.customerName}</a> ›
+      ${contract.contractNumber}
+    </p>
+
+    <div class="page-header">
+      <h1>${contract.contractNumber} <span class="badge status-${contract.status}">${'contract.statusValues.' + contract.status | t}</span></h1>
+      <div class="actions">
+        <button type="button" click.trigger="cancelContract()" disabled.bind="contract.status !== 'Active'" t="contract.cancel"></button>
+        <button type="button" class="primary" click.trigger="showPayment()" t="payment.new"></button>
+      </div>
+    </div>
+
+    <p class="notice" if.bind="notice">${notice}</p>
+
+    <div class="columns">
+      <div class="card details">
+        <dl>
+          <dt t="contract.customer"></dt><dd>${contract.customerName}</dd>
+          <dt t="contract.type"></dt><dd>${contract.typeName}</dd>
+          <dt t="contract.startDate"></dt><dd>${formatDate(contract.startDate)}</dd>
+          <dt t="contract.endDate"></dt><dd>${formatDate(contract.endDate) || '–'}</dd>
+          <dt t="contract.monthlyFee"></dt><dd>${formatMoney(contract.monthlyFee)}</dd>
+          <dt t="contract.noticePeriod"></dt><dd>${contract.noticePeriodMonths} ${'common.months' | t}</dd>
+          <template if.bind="contract.cancelledAt">
+            <dt t="contract.cancelledAt"></dt><dd>${formatDate(contract.cancelledAt)}</dd>
+            <dt t="contract.cancellationReason"></dt><dd>${contract.cancellationReason || '–'}</dd>
+          </template>
+        </dl>
+      </div>
+
+      <div class="card balance" if.bind="balance">
+        <h2 t="balance.title"></h2>
+        <dl>
+          <dt t="balance.monthsDue"></dt><dd data-testid="months-due">${balance.monthsDue}</dd>
+          <dt t="balance.expected"></dt><dd>${formatMoney(balance.expectedTotal)}</dd>
+          <dt t="balance.paid"></dt><dd>${formatMoney(balance.paidTotal)}</dd>
+          <dt t="balance.balance"></dt>
+          <dd class="${balance.balance > 0 ? 'negative' : 'positive'}" data-testid="balance">${formatMoney(balance.balance)}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <h2 t="payment.title"></h2>
+    <p class="muted" if.bind="!payments.length" t="payment.none"></p>
+    <jqx-grid else columns.bind="columns" rows.bind="payments" page-size.bind="10"></jqx-grid>
+  </template>
+
+  <modal-dialog heading.bind="'payment.new' | t" open.bind="paymentOpen">
+    <form submit.trigger:prevent="savePayment()">
+      <div class="form-grid">
+        <label>
+          <span t="payment.amount"></span>
+          <input name="amount" type="number" step="0.01" min="0" value.bind="payment.amount">
+          <small class="error" repeat.for="message of paymentErrors.amount">${message}</small>
+        </label>
+        <label>
+          <span t="payment.date"></span>
+          <div ref="paymentDateEl" data-testid="payment-date"></div>
+          <small class="error" repeat.for="message of paymentErrors.paymentDate">${message}</small>
+        </label>
+        <label class="wide">
+          <span t="payment.reference"></span>
+          <input name="reference" value.bind="payment.reference" autocomplete="off">
+          <small class="error" repeat.for="message of paymentErrors.reference">${message}</small>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" click.trigger="paymentOpen = false" t="common.cancel"></button>
+        <button type="submit" class="primary" t="common.save"></button>
+      </div>
+    </form>
+  </modal-dialog>
+</section>

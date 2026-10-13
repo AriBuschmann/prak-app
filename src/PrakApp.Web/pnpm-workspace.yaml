@@ -1,0 +1,4 @@
+# Das Aurelia-Vite-Plugin fügt Importe von @aurelia/*-Paketen ein (im Entwicklungsmodus deren
+# "/development"-Varianten). Damit Vite sie findet, müssen sie direkt unter node_modules liegen.
+publicHoistPattern:
+  - '@aurelia/*'

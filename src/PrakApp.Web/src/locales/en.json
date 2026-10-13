@@ -1,0 +1,80 @@
+{
+  "app": {
+    "title": "Contract management"
+  },
+  "nav": {
+    "customers": "Customers",
+    "logout": "Sign out"
+  },
+  "login": {
+    "title": "Sign in",
+    "hint": "Practice environment: pick a user. There is no password."
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "createdAt": "Created",
+    "months": "month(s)",
+    "unexpectedError": "Unexpected error",
+    "pleaseSelect": "Please select …"
+  },
+  "customers": {
+    "title": "Customers",
+    "new": "New customer",
+    "edit": "Edit customer",
+    "found": "customers",
+    "searchPlaceholder": "Search by name or customer number"
+  },
+  "customer": {
+    "number": "Customer no.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "street": "Street and number",
+    "postalCode": "Postcode",
+    "city": "City",
+    "address": "Address",
+    "contractCount": "Contracts",
+    "totalPaid": "Total paid"
+  },
+  "contracts": {
+    "title": "Contracts",
+    "new": "New contract",
+    "none": "This customer has no contracts yet."
+  },
+  "contract": {
+    "number": "Contract no.",
+    "customer": "Customer",
+    "type": "Plan",
+    "startDate": "Start",
+    "endDate": "End",
+    "endDateOptional": "End (optional)",
+    "monthlyFee": "Monthly fee",
+    "status": "Status",
+    "noticePeriod": "Notice period",
+    "cancel": "Cancel contract",
+    "statusValues": {
+      "Active": "Active",
+      "Cancelled": "Cancelled",
+      "Ended": "Ended"
+    }
+  },
+  "balance": {
+    "title": "Account",
+    "monthsDue": "Months due",
+    "expected": "Expected",
+    "paid": "Paid",
+    "balance": "Balance"
+  },
+  "payment": {
+    "title": "Payments",
+    "new": "Record payment",
+    "none": "No payments yet.",
+    "date": "Payment date",
+    "amount": "Amount",
+    "reference": "Reference",
+    "recordedBy": "Recorded by"
+  }
+}

@@ -1,0 +1,301 @@
+2026-10-07T03:58:02.114Z [INF] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5080
+2026-10-07T03:58:02.120Z [INF] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2026-10-07T03:58:02.121Z [INF] Microsoft.Hosting.Lifetime: Hosting environment: Production
+2026-10-07T04:05:46.275Z [WRN] PrakApp.Api.Data: Slow query (2949 ms) in CustomerRepository.SearchAsync
+2026-10-07T04:11:02.406Z [WRN] PrakApp.Api.Data: Slow query (2419 ms) in CustomerRepository.SearchAsync
+2026-10-07T05:17:46.691Z [WRN] PrakApp.Api.Data: Slow query (3046 ms) in CustomerRepository.SearchAsync
+2026-10-07T05:23:59.628Z [WRN] PrakApp.Api.Data: Slow query (2543 ms) in CustomerRepository.SearchAsync
+2026-10-07T06:04:08.640Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 35.4901ms
+2026-10-07T06:09:06.244Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/25/payments - 201 - application/json 26.2727ms
+2026-10-07T06:11:38.371Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/54 - 200 - application/json 14.9317ms
+2026-10-07T06:19:51.261Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/19/payments - 201 - application/json 13.2503ms
+2026-10-07T06:24:41.790Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/46/payments - 200 - application/json 4.6938ms
+2026-10-07T06:27:15.542Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 2.3390ms
+2026-10-07T06:31:30.236Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/61/payments - 200 - application/json 4.3583ms
+2026-10-07T06:32:10.683Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/1 - 200 - application/json 9.1746ms
+2026-10-07T06:32:19.441Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/75/payments - 201 - application/json 26.8526ms
+2026-10-07T06:43:00.071Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 50.4297ms
+2026-10-07T06:43:34.397Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/73/payments - 200 - application/json 8.3254ms
+2026-10-07T06:44:11.364Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/36/contracts - 200 - application/json 14.6740ms
+2026-10-07T06:46:57.824Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/65/payments - 200 - application/json 16.1510ms
+2026-10-07T06:48:23.072Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/46 - 200 - application/json 20.1429ms
+2026-10-07T06:49:16.960Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/3 - 200 - application/json 12.9816ms
+2026-10-07T06:50:10.919Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/34/payments - 200 - application/json 7.7549ms
+2026-10-07T06:52:52.302Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/35 - 200 - application/json 10.5322ms
+2026-10-07T06:52:55.357Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/42 - 200 - application/json 5.4908ms
+2026-10-07T06:54:30.596Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/1 - 200 - application/json 21.7236ms
+2026-10-07T06:54:57.986Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/61 - 200 - application/json 8.7280ms
+2026-10-07T06:56:11.725Z [INF] PrakApp.Api.Auth.AuthController: User praktikum signed in
+2026-10-07T06:56:11.725Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Yil - 200 - application/json 14.7558ms
+2026-10-07T06:58:35.782Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/13 - 200 - application/json 7.5590ms
+2026-10-07T07:00:13.100Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 14.2775ms
+2026-10-07T07:03:58.502Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 2.1328ms
+2026-10-07T07:12:30.761Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/1/payments - 201 - application/json 29.3281ms
+2026-10-07T07:12:37.585Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 60.5414ms
+2026-10-07T07:14:04.501Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/48/contracts - 200 - application/json 15.6182ms
+2026-10-07T07:18:31.731Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/36/contracts - 200 - application/json 5.3404ms
+2026-10-07T07:19:57.590Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/56 - 200 - application/json 8.8066ms
+2026-10-07T07:21:07.596Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/61 - 200 - application/json 19.7979ms
+2026-10-07T07:25:41.293Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 6.8599ms
+2026-10-07T07:33:06.182Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 8.1962ms
+2026-10-07T07:37:47.042Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 19.5718ms
+2026-10-07T07:38:12.255Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/64 - 200 - application/json 4.9109ms
+2026-10-07T07:38:56.215Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/59 - 200 - application/json 9.9320ms
+2026-10-07T07:40:38.445Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 30.6854ms
+2026-10-07T07:42:29.065Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/8/contracts - 200 - application/json 9.1787ms
+2026-10-07T07:45:45.901Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/64/payments - 200 - application/json 19.1734ms
+2026-10-07T07:46:50.362Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/11 - 200 - application/json 9.7511ms
+2026-10-07T07:48:36.967Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/38/payments - 200 - application/json 3.6348ms
+2026-10-07T07:51:56.908Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/37 - 200 - application/json 14.3515ms
+2026-10-07T07:52:31.245Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/5 - 200 - application/json 16.1659ms
+2026-10-07T07:54:02.326Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/36/payments - 201 - application/json 23.6031ms
+2026-10-07T07:55:36.038Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/73/payments - 200 - application/json 11.7851ms
+2026-10-07T08:01:00.467Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/59/contracts - 200 - application/json 6.3998ms
+2026-10-07T08:02:33.489Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 60.2260ms
+2026-10-07T08:02:40.600Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/55/payments - 201 - application/json 8.3332ms
+2026-10-07T08:05:31.454Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Brandt - 200 - application/json 6.4537ms
+2026-10-07T08:11:23.376Z [INF] PrakApp.Api.Auth.AuthController: User s.okafor signed in
+2026-10-07T08:11:23.376Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 27.2289ms
+2026-10-07T08:16:15.044Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/52 - 200 - application/json 7.7042ms
+2026-10-07T08:16:18.702Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/52/contracts - 200 - application/json 15.6417ms
+2026-10-07T08:16:21.420Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/2 - 200 - application/json 24.7680ms
+2026-10-07T08:22:43.652Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 37.6283ms
+2026-10-07T08:23:41.579Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/6/payments - 200 - application/json 11.9121ms
+2026-10-07T08:26:27.270Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/75 - 200 - application/json 6.8360ms
+2026-10-07T08:27:08.929Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/49 - 200 - application/json 16.8974ms
+2026-10-07T08:29:26.468Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 18.8382ms
+2026-10-07T08:34:09.534Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/10/payments - 201 - application/json 23.3803ms
+2026-10-07T08:36:09.086Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 2.8267ms
+2026-10-07T08:36:35.725Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/9/payments - 200 - application/json 6.4468ms
+2026-10-07T08:38:38.757Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 16.9152ms
+2026-10-07T08:41:54.940Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/52/payments - 200 - application/json 6.9244ms
+2026-10-07T08:42:56.063Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/20 - 200 - application/json 4.3716ms
+2026-10-07T08:46:01.529Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/61 - 200 - application/json 17.1655ms
+2026-10-07T08:46:16.034Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/74/payments - 201 - application/json 14.3023ms
+2026-10-07T08:49:03.210Z [ERR] Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware: An unhandled exception has occurred while executing the request. TraceId: 00-1b7a5c962f5d9e7fc82578e807841f2f-843b27b5a30e70af-00 User: m.berger
+Microsoft.Data.SqlClient.SqlException (0x80131904): String or binary data would be truncated in table 'PrakApp.dbo.Customer', column 'LastName'. Truncated value: 'Albers-Lindqvist von Hohenstein-Marquardt zu Rabenau-Westerholt und Kleinmachnow'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, Object param)
+   at PrakApp.Api.Customers.CustomerRepository.UpdateAsync(Int32 id, CustomerInput input)
+   at PrakApp.Api.Customers.CustomersController.Update(Int32 id, CustomerInput input)
+ClientConnectionId:f3812ea4-5f12-28c2-858c-5dd5f2363be1
+Error Number:2628,State:1,Class:16
+2026-10-07T08:49:03.213Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/23 - 500 - application/problem+json 41.2210ms
+2026-10-07T08:52:40.018Z [ERR] Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware: An unhandled exception has occurred while executing the request. TraceId: 00-43211563a5d2e590093f517544b87e5c-d13a875a8864e769-00 User: m.berger
+Microsoft.Data.SqlClient.SqlException (0x80131904): String or binary data would be truncated in table 'PrakApp.dbo.Customer', column 'LastName'. Truncated value: 'Albers-Lindqvist von Hohenstein-Marquardt zu Rabenau-Westerholt und Kleinmachnow'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, Object param)
+   at PrakApp.Api.Customers.CustomerRepository.UpdateAsync(Int32 id, CustomerInput input)
+   at PrakApp.Api.Customers.CustomersController.Update(Int32 id, CustomerInput input)
+ClientConnectionId:dfc6635f-4e46-7cf6-e0e3-0e84c0e0b1bc
+Error Number:2628,State:1,Class:16
+2026-10-07T08:52:40.021Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/23 - 500 - application/problem+json 41.2210ms
+2026-10-07T09:00:29.834Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/27 - 200 - application/json 12.1248ms
+2026-10-07T09:02:14.465Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 3.2018ms
+2026-10-07T09:02:42.702Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/62/payments - 201 - application/json 23.8772ms
+2026-10-07T09:12:30.734Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/12 - 200 - application/json 12.1114ms
+2026-10-07T09:13:02.246Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 21.4744ms
+2026-10-07T09:15:20.748Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/25 - 200 - application/json 12.6786ms
+2026-10-07T09:15:43.730Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/9 - 200 - application/json 11.1600ms
+2026-10-07T09:16:42.375Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/39 - 200 - application/json 8.4181ms
+2026-10-07T09:18:36.918Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/64 - 200 - application/json 2.3436ms
+2026-10-07T09:22:37.730Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Ko - 200 - application/json 38.5305ms
+2026-10-07T09:23:42.192Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/10/payments - 200 - application/json 12.6404ms
+2026-10-07T09:24:00.972Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 2.5628ms
+2026-10-07T09:27:14.013Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 31.8680ms
+2026-10-07T09:30:42.867Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/47 - 200 - application/json 6.4177ms
+2026-10-07T09:32:18.652Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/21/payments - 201 - application/json 17.8729ms
+2026-10-07T09:35:26.644Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/9 - 200 - application/json 12.4957ms
+2026-10-07T09:36:30.208Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/65/payments - 201 - application/json 8.5876ms
+2026-10-07T09:38:56.871Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=K-1000 - 200 - application/json 6.7737ms
+2026-10-07T09:40:47.406Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Ko - 200 - application/json 40.7384ms
+2026-10-07T09:42:00.627Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/63 - 200 - application/json 22.1354ms
+2026-10-07T09:43:42.484Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/57/payments - 201 - application/json 27.8363ms
+2026-10-07T09:45:26.821Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/19/payments - 200 - application/json 12.7090ms
+2026-10-07T09:48:47.642Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/40 - 200 - application/json 11.8104ms
+2026-10-07T09:48:57.029Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/12 - 200 - application/json 4.4207ms
+2026-10-07T09:52:34.861Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 10.9778ms
+2026-10-07T09:57:11.475Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/69 - 200 - application/json 8.7314ms
+2026-10-07T09:57:50.119Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/56/contracts - 200 - application/json 5.2561ms
+2026-10-07T09:59:28.167Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/32/contracts - 200 - application/json 9.5218ms
+2026-10-07T09:59:31.735Z [INF] PrakApp.Api.Auth.AuthController: User s.okafor signed in
+2026-10-07T09:59:31.735Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/49 - 200 - application/json 6.1344ms
+2026-10-07T10:00:27.456Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 36.6361ms
+2026-10-07T10:03:56.261Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/41 - 200 - application/json 25.8480ms
+2026-10-07T10:06:44.714Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/43 - 200 - application/json 6.3482ms
+2026-10-07T10:07:10.228Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/16 - 200 - application/json 4.3624ms
+2026-10-07T10:08:32.942Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/45/payments - 201 - application/json 15.7462ms
+2026-10-07T10:09:02.242Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/66/payments - 201 - application/json 14.7223ms
+2026-10-07T10:09:48.718Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/65 - 200 - application/json 10.1089ms
+2026-10-07T10:10:21.005Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/6/contracts - 200 - application/json 5.7760ms
+2026-10-07T10:13:02.339Z [INF] PrakApp.Api.Auth.AuthController: User s.okafor signed in
+2026-10-07T10:13:02.339Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/73/payments - 201 - application/json 8.3081ms
+2026-10-07T10:14:01.519Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/50 - 200 - application/json 8.7590ms
+2026-10-07T10:14:37.877Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/20/payments - 200 - application/json 4.9437ms
+2026-10-07T10:15:23.998Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/44/payments - 200 - application/json 5.5439ms
+2026-10-07T10:15:59.578Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.2314ms
+2026-10-07T10:21:48.062Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/64/payments - 200 - application/json 4.3215ms
+2026-10-07T10:36:01.147Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 44.4054ms
+2026-10-07T10:36:32.707Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/49 - 200 - application/json 9.5334ms
+2026-10-07T10:36:56.005Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/34 - 200 - application/json 10.5912ms
+2026-10-07T10:39:53.851Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Schu - 200 - application/json 27.2774ms
+2026-10-07T10:41:20.545Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/16 - 200 - application/json 17.9324ms
+2026-10-07T10:41:42.129Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/72/payments - 201 - application/json 15.2209ms
+2026-10-07T10:42:32.029Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.3441ms
+2026-10-07T10:45:32.557Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 3.5998ms
+2026-10-07T10:45:42.783Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/30/contracts - 200 - application/json 15.1098ms
+2026-10-07T10:56:23.780Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Brandt - 200 - application/json 35.6760ms
+2026-10-07T10:56:28.746Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Ko - 200 - application/json 31.3347ms
+2026-10-07T10:57:49.669Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/77/payments - 200 - application/json 18.8884ms
+2026-10-07T11:01:12.283Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/16 - 200 - application/json 6.4040ms
+2026-10-07T11:02:17.703Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 17.1707ms
+2026-10-07T11:07:51.165Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Hof - 200 - application/json 25.4185ms
+2026-10-07T11:11:47.488Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/27 - 200 - application/json 18.8582ms
+2026-10-07T11:15:22.552Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 45.7282ms
+2026-10-07T11:17:30.344Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/32/contracts - 200 - application/json 11.9512ms
+2026-10-07T11:18:36.775Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/16/payments - 201 - application/json 13.6302ms
+2026-10-07T11:19:06.553Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 55.3542ms
+2026-10-07T11:20:28.161Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.4569ms
+2026-10-07T11:27:47.042Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/25/contracts - 200 - application/json 9.2867ms
+2026-10-07T11:28:23.213Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/6 - 200 - application/json 3.8229ms
+2026-10-07T11:29:45.829Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/51/contracts - 200 - application/json 7.7688ms
+2026-10-07T11:30:06.560Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 44.3789ms
+2026-10-07T11:35:42.319Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/41 - 200 - application/json 21.3606ms
+2026-10-07T11:37:56.049Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/58/payments - 201 - application/json 26.3768ms
+2026-10-07T11:50:09.677Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/30 - 200 - application/json 5.7286ms
+2026-10-07T11:52:24.228Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Yil - 200 - application/json 21.1781ms
+2026-10-07T11:55:39.405Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 22.4042ms
+2026-10-07T11:55:54.771Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/1 - 200 - application/json 20.4736ms
+2026-10-07T11:57:14.353Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/16/contracts - 200 - application/json 13.2445ms
+2026-10-07T11:58:34.057Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/58/contracts - 200 - application/json 6.6192ms
+2026-10-07T12:05:23.767Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/23 - 200 - application/json 7.8441ms
+2026-10-07T12:06:51.104Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 12.8959ms
+2026-10-07T12:11:53.007Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/58/payments - 200 - application/json 18.8350ms
+2026-10-07T12:12:20.658Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 34.7088ms
+2026-10-07T12:12:55.692Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/20 - 200 - application/json 7.6703ms
+2026-10-07T12:13:20.345Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 39.4989ms
+2026-10-07T12:17:15.155Z [INF] PrakApp.Api.Auth.AuthController: User m.berger signed in
+2026-10-07T12:17:15.155Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.4572ms
+2026-10-07T12:17:35.267Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/32 - 200 - application/json 12.3358ms
+2026-10-07T12:20:01.640Z [WRN] Microsoft.AspNetCore.Server.Kestrel: Connection id "0HN74BADA54F" bad request data: "Request body too large."
+2026-10-07T12:21:13.127Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 4.8945ms
+2026-10-07T12:23:54.058Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 36.3964ms
+2026-10-07T12:24:38.218Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/59 - 200 - application/json 17.4624ms
+2026-10-07T12:24:56.761Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/53 - 200 - application/json 8.3735ms
+2026-10-07T12:25:57.389Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 55.2760ms
+2026-10-07T12:27:35.764Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/61 - 200 - application/json 6.9173ms
+2026-10-07T12:28:02.355Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/62 - 200 - application/json 7.8076ms
+2026-10-07T12:34:34.574Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/63 - 200 - application/json 11.2076ms
+2026-10-07T12:40:53.105Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/2 - 200 - application/json 14.1909ms
+2026-10-07T12:42:33.242Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/63/payments - 201 - application/json 13.3871ms
+2026-10-07T12:46:01.454Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 3.4220ms
+2026-10-07T12:47:32.997Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Schu - 200 - application/json 18.1986ms
+2026-10-07T12:50:03.822Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/70 - 200 - application/json 15.3708ms
+2026-10-07T12:52:56.440Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 25.5819ms
+2026-10-07T12:54:19.249Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/47/payments - 200 - application/json 4.7695ms
+2026-10-07T12:54:23.671Z [INF] PrakApp.Api.Auth.AuthController: User s.okafor signed in
+2026-10-07T12:54:23.671Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/50/contracts - 200 - application/json 6.7299ms
+2026-10-07T12:55:30.251Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Ko - 200 - application/json 36.7068ms
+2026-10-07T13:03:20.847Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 20.7979ms
+2026-10-07T13:04:17.547Z [INF] PrakApp.Api.Auth.AuthController: User t.lindqvist signed in
+2026-10-07T13:04:17.547Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/20 - 200 - application/json 9.1113ms
+2026-10-07T13:04:34.135Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/40/payments - 200 - application/json 6.2647ms
+2026-10-07T13:06:18.599Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/18/payments - 201 - application/json 24.5679ms
+2026-10-07T13:06:45.037Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/36 - 200 - application/json 4.9858ms
+2026-10-07T13:13:29.077Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Brandt - 200 - application/json 39.1957ms
+2026-10-07T13:21:22.963Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/36/contracts - 200 - application/json 5.1628ms
+2026-10-07T13:23:06.004Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/14 - 200 - application/json 6.8060ms
+2026-10-07T13:24:09.844Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/43 - 200 - application/json 12.6525ms
+2026-10-07T13:45:27.568Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/64 - 200 - application/json 12.8321ms
+2026-10-07T13:46:13.047Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/26 - 200 - application/json 4.5750ms
+2026-10-07T13:51:59.399Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/51 - 200 - application/json 17.7127ms
+2026-10-07T13:54:48.206Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/6/payments - 201 - application/json 18.9391ms
+2026-10-07T13:55:31.265Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/27 - 200 - application/json 11.6406ms
+2026-10-07T14:01:17.309Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Ko - 200 - application/json 23.8546ms
+2026-10-07T14:02:18.792Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/7 - 200 - application/json 19.2158ms
+2026-10-07T14:05:33.120Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/999 - 404 - application/problem+json 1.9930ms
+2026-10-07T14:05:54.086Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/40 - 200 - application/json 12.2511ms
+2026-10-07T14:06:02.480Z [ERR] Microsoft.AspNetCore.Server.Kestrel: Unexpected exception in TimingPipeFlushResult. System.IO.IOException: An existing connection was forcibly closed by the remote host.
+2026-10-07T14:07:07.541Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/16/payments - 201 - application/json 23.4261ms
+2026-10-07T14:09:57.089Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/58 - 200 - application/json 12.1259ms
+2026-10-07T14:10:12.535Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=K-1000 - 200 - application/json 15.6194ms
+2026-10-07T14:12:31.336Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/9/contracts - 200 - application/json 14.9288ms
+2026-10-07T14:16:16.967Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/54/payments - 201 - application/json 22.9013ms
+2026-10-07T14:19:17.769Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 59.9115ms
+2026-10-07T14:21:24.118Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/27/payments - 200 - application/json 6.4146ms
+2026-10-07T14:23:13.498Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Hof - 200 - application/json 22.7665ms
+2026-10-07T14:24:24.972Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/45 - 200 - application/json 3.1679ms
+2026-10-07T14:24:58.734Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/7 - 200 - application/json 9.5775ms
+2026-10-07T14:28:24.540Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.5712ms
+2026-10-07T14:28:25.700Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 16.5919ms
+2026-10-07T14:28:32.900Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/62/payments - 200 - application/json 12.5715ms
+2026-10-07T14:36:03.223Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/77/payments - 201 - application/json 18.6231ms
+2026-10-07T14:38:52.961Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/11/payments - 200 - application/json 5.9306ms
+2026-10-07T14:39:07.759Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/3 - 200 - application/json 9.3882ms
+2026-10-07T14:39:19.381Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/27 - 200 - application/json 7.5676ms
+2026-10-07T14:39:55.797Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.6841ms
+2026-10-07T14:45:12.258Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.2644ms
+2026-10-07T14:49:25.757Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.3957ms
+2026-10-07T15:00:28.919Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 16.9713ms
+2026-10-07T15:02:59.264Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/13/payments - 200 - application/json 19.7671ms
+2026-10-07T15:05:19.113Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/70/payments - 201 - application/json 29.3721ms
+2026-10-07T15:07:27.597Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/75 - 200 - application/json 16.6603ms
+2026-10-07T15:08:55.916Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 50.2997ms
+2026-10-07T15:11:09.611Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Neu - 200 - application/json 26.4524ms
+2026-10-07T15:12:07.907Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/26 - 200 - application/json 7.4716ms
+2026-10-07T15:15:39.101Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/62/contracts - 200 - application/json 6.7876ms
+2026-10-07T15:20:53.801Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/54/contracts - 200 - application/json 6.5246ms
+2026-10-07T15:28:01.003Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.1483ms
+2026-10-07T15:29:40.909Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/4/payments - 201 - application/json 14.1265ms
+2026-10-07T15:30:56.375Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 2.7782ms
+2026-10-07T15:31:05.344Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/34/contracts - 200 - application/json 4.9153ms
+2026-10-07T15:35:07.866Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/24/payments - 200 - application/json 7.1264ms
+2026-10-07T15:35:47.611Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/35/payments - 201 - application/json 23.2360ms
+2026-10-07T15:36:01.983Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 10.9872ms
+2026-10-07T15:39:00.713Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/34 - 200 - application/json 11.2773ms
+2026-10-07T15:40:10.167Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/2/payments - 200 - application/json 9.8752ms
+2026-10-07T15:40:46.025Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.7420ms
+2026-10-07T15:42:00.216Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/5 - 200 - application/json 6.8601ms
+2026-10-07T15:42:22.931Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Brandt - 200 - application/json 6.8738ms
+2026-10-07T15:43:47.138Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/52 - 200 - application/json 18.2559ms
+2026-10-07T15:44:41.788Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.5590ms
+2026-10-07T15:49:27.931Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/24 - 200 - application/json 4.4988ms
+2026-10-07T15:50:42.296Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Schu - 200 - application/json 11.6232ms
+2026-10-07T15:53:38.617Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/66/payments - 201 - application/json 28.1198ms
+2026-10-07T15:55:23.639Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/75/payments - 201 - application/json 15.8519ms
+2026-10-07T15:56:26.222Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.3973ms
+2026-10-07T15:56:38.344Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/54 - 200 - application/json 16.4641ms
+2026-10-07T15:58:47.109Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/1 - 200 - application/json 12.6986ms
+2026-10-07T16:01:10.991Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/19/payments - 200 - application/json 11.4764ms
+2026-10-07T16:02:10.618Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 5.6306ms
+2026-10-07T16:02:40.666Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/35 - 200 - application/json 6.9414ms
+2026-10-07T16:03:08.621Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/51/payments - 201 - application/json 19.7131ms
+2026-10-07T16:10:55.269Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/40 - 200 - application/json 6.7698ms
+2026-10-07T16:12:38.928Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Hof - 200 - application/json 11.7942ms
+2026-10-07T16:13:57.111Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/28 - 200 - application/json 11.6884ms
+2026-10-07T16:14:11.369Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/74/payments - 201 - application/json 19.3166ms
+2026-10-07T16:17:08.691Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.6837ms
+2026-10-07T16:20:59.764Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/19 - 200 - application/json 14.9710ms
+2026-10-07T16:21:43.999Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 13.2447ms
+2026-10-07T16:26:37.177Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/9 - 200 - application/json 9.2644ms
+2026-10-07T16:27:44.095Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/24 - 200 - application/json 13.1168ms
+2026-10-07T16:27:58.075Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/71/payments - 201 - application/json 26.1039ms
+2026-10-07T16:29:07.124Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 POST http://localhost:5080/api/contracts/54/payments - 201 - application/json 22.5392ms
+2026-10-07T16:41:07.832Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contract-types - 200 - application/json 1.1987ms
+2026-10-07T16:41:19.862Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/5 - 200 - application/json 7.5738ms
+2026-10-07T16:43:00.692Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/2/contracts - 200 - application/json 9.7280ms
+2026-10-07T16:43:39.524Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 17.8025ms
+2026-10-07T16:44:47.604Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/38/contracts - 200 - application/json 15.4362ms
+2026-10-07T16:49:19.469Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 PUT http://localhost:5080/api/customers/14 - 200 - application/json 7.8998ms
+2026-10-07T16:52:30.165Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers?q=Yil - 200 - application/json 37.3720ms
+2026-10-07T16:53:15.342Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/9/payments - 200 - application/json 17.9855ms
+2026-10-07T16:56:48.139Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/contracts/14/payments - 200 - application/json 9.3349ms
+2026-10-07T16:57:28.840Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers/35/contracts - 200 - application/json 11.3950ms
+2026-10-07T16:57:46.923Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 15.9915ms
+2026-10-07T16:59:34.231Z [INF] Microsoft.AspNetCore.Hosting.Diagnostics: Request finished HTTP/1.1 GET http://localhost:5080/api/customers - 200 - application/json 18.1922ms

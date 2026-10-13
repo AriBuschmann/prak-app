@@ -1,0 +1,69 @@
+import { bindable } from 'aurelia';
+import { $, JQX_THEME } from '../jqx';
+
+export interface GridColumn {
+  text: string;
+  datafield: string;
+  type?: 'string' | 'number' | 'date';
+  width?: string | number;
+  cellsformat?: string;
+  cellsalign?: 'left' | 'center' | 'right';
+  cellsrenderer?: (row: number, column: string, value: unknown) => string;
+}
+
+/**
+ * Aurelia-Wrapper um das jqxGrid.
+ *
+ *   <jqx-grid columns.bind="columns" rows.bind="customers" row-click.bind="row => open(row)"></jqx-grid>
+ */
+export class JqxGrid<T = unknown> {
+  @bindable columns: GridColumn[] = [];
+  @bindable rows: T[] = [];
+  @bindable rowClick?: (row: T) => void;
+  @bindable pageSize = 15;
+
+  gridEl!: HTMLElement;
+  private isAttached = false;
+
+  attached(): void {
+    $(this.gridEl).jqxGrid({
+      theme: JQX_THEME,
+      width: '100%',
+      autoheight: true,
+      pageable: true,
+      pagesize: this.pageSize,
+      pagesizeoptions: ['10', '15', '25', '50'],
+      sortable: true,
+      columnsresize: true,
+      altrows: true,
+      selectionmode: 'singlerow',
+      source: this.createAdapter(),
+      columns: this.columns.map(({ type: _type, ...column }) => column),
+    });
+    $(this.gridEl).on('rowclick', (event: JQuery.TriggeredEvent) => {
+      const args = (event as unknown as { args: { row: { bounddata: T } } }).args;
+      this.rowClick?.(args.row.bounddata);
+    });
+    this.isAttached = true;
+  }
+
+  rowsChanged(): void {
+    if (this.isAttached) {
+      $(this.gridEl).jqxGrid({ source: this.createAdapter() });
+    }
+  }
+
+  detaching(): void {
+    this.isAttached = false;
+    $(this.gridEl).off('rowclick');
+    $(this.gridEl).jqxGrid('destroy');
+  }
+
+  private createAdapter(): unknown {
+    return new $.jqx.dataAdapter({
+      localdata: this.rows ?? [],
+      datatype: 'array',
+      datafields: this.columns.map(c => ({ name: c.datafield, type: c.type ?? 'string' })),
+    });
+  }
+}
