@@ -42,10 +42,13 @@ cd ..\..
 3. Links **Ausführen und Debuggen** (Strg+Umschalt+D) → oben **„App starten (Backend + Frontend)“**
    auswählen → **F5**.
 
-F5 baut das Backend, startet es mit Debugger, startet den Vite-Entwicklungsserver und öffnet Edge
-auf http://localhost:9000. Haltepunkte funktionieren in C#-Dateien und in den TypeScript-Dateien
-des Frontends. Beenden mit Umschalt+F5. Der Vite-Server läuft im Terminal weiter und wird beim
-nächsten F5 wiederverwendet; zum Beenden das Terminal „frontend: dev“ schließen.
+F5 baut das Backend, startet es mit Debugger, startet den Vite-Entwicklungsserver in einem eigenen
+Terminal und öffnet http://localhost:9000 im Standardbrowser, sobald das Backend bereit ist.
+Haltepunkte in C#-Dateien funktionieren direkt in VS Code; den Frontend-Code untersuchst du im
+Browser mit F12 (Entwicklertools). Umschalt+F5 beendet Backend und Vite-Server.
+
+Falls die Seite meldet, dass Port 9000 belegt ist: ein altes Vite-Terminal läuft noch – im
+Terminal-Bereich schließen (Papierkorb-Symbol) und erneut F5 drücken.
 
 Weitere Aufgaben (Tests, Frontend bauen, Datenbank neu aufbauen) gibt es unter
 **Terminal → Aufgabe ausführen…**.

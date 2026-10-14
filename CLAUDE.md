@@ -45,7 +45,8 @@ hat die KI vorgeschlagen, was wurde übernommen, was war falsch, was wurde geler
 ## Entwicklungsumgebung
 
 Entwickelt wird in **VS Code** (Konfiguration in `.vscode/`). F5 mit „App starten (Backend + Frontend)“
-startet Backend (mit Debugger), Vite-Entwicklungsserver und Browser. Tests, Frontend-Build und
+startet Backend (mit Debugger) und Vite-Entwicklungsserver und öffnet den Browser. Frontend-Code wird
+mit den Entwicklertools des Browsers (F12) untersucht. Tests, Frontend-Build und
 Datenbank-Neuaufbau gibt es auch als Aufgaben (Terminal → Aufgabe ausführen…).
 
 ## Wichtige Befehle

@@ -13,40 +13,17 @@
       "presentation": { "reveal": "silent" }
     },
     {
-      "label": "frontend: dev",
-      "detail": "Vite-Entwicklungsserver auf http://localhost:9000 (läuft im Hintergrund weiter)",
-      "type": "shell",
-      "command": "pnpm dev",
-      "options": { "cwd": "${workspaceFolder}/src/PrakApp.Web" },
-      "isBackground": true,
-      "problemMatcher": {
-        "owner": "vite",
-        "pattern": { "regexp": "^__kein_treffer__$" },
-        "background": {
-          "activeAtBeginning": true,
-          "beginsPattern": "VITE",
-          "endsPattern": "ready in"
-        }
-      }
-    },
-    {
-      "label": "backend: wait",
-      "detail": "Wartet, bis das Backend auf http://localhost:5080 antwortet (höchstens 60 Sekunden)",
+      "label": "app: wait",
+      "detail": "Wartet, bis Backend (Port 5080) und Vite (Port 9000) antworten – höchstens 90 Sekunden",
       "type": "process",
       "command": "powershell",
       "args": [
         "-NoProfile",
         "-Command",
-        "for ($i = 0; $i -lt 120; $i++) { try { Invoke-WebRequest http://127.0.0.1:5080/health -UseBasicParsing -TimeoutSec 2 | Out-Null; exit 0 } catch { Start-Sleep -Milliseconds 500 } }; Write-Host 'Backend antwortet nicht. Läuft es?'; exit 1"
+        "for ($i = 0; $i -lt 180; $i++) { curl.exe -sf -o NUL -m 2 http://localhost:5080/health; $api = $LASTEXITCODE -eq 0; curl.exe -sf -o NUL -m 2 http://localhost:9000/; if ($api -and $LASTEXITCODE -eq 0) { exit 0 }; Start-Sleep -Milliseconds 500 }; Write-Host 'Backend oder Vite antwortet nicht.'; exit 1"
       ],
       "problemMatcher": [],
       "presentation": { "reveal": "silent" }
-    },
-    {
-      "label": "frontend: start",
-      "dependsOn": ["frontend: dev", "backend: wait"],
-      "dependsOrder": "parallel",
-      "problemMatcher": []
     },
     {
       "label": "frontend: build",

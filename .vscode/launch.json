@@ -1,6 +1,8 @@
 {
   // Starten mit F5. Oben in der Ansicht "Ausführen und Debuggen" die Konfiguration auswählen.
-  // "App starten" startet Backend und Frontend zusammen und öffnet den Browser.
+  // "App starten" startet Backend (mit Debugger) und Vite-Entwicklungsserver und öffnet danach
+  // http://localhost:9000 im Standardbrowser. Umschalt+F5 beendet beides wieder.
+  // Frontend-Code wird im Browser mit F12 (Entwicklertools) untersucht.
   "version": "0.2.0",
   "configurations": [
     {
@@ -15,21 +17,37 @@
         "ASPNETCORE_URLS": "http://localhost:5080"
       },
       "console": "internalConsole",
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      // Sobald das Backend bereit ist, das Frontend (Vite, Port 9000) im Standardbrowser öffnen
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on",
+        "uriFormat": "http://localhost:9000"
+      }
     },
     {
-      "name": "Frontend (Browser)",
+      "name": "Frontend-Server (Vite)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm dev",
+      "cwd": "${workspaceFolder}/src/PrakApp.Web"
+    },
+    {
+      // Optional: Frontend-Code direkt in VS Code debuggen (Haltepunkte in .ts-Dateien).
+      // Vorher "App starten" laufen lassen.
+      "name": "Browser debuggen (Edge, optional)",
       "type": "msedge",
       "request": "launch",
-      "preLaunchTask": "frontend: start",
+      "preLaunchTask": "app: wait",
       "url": "http://localhost:9000",
-      "webRoot": "${workspaceFolder}/src/PrakApp.Web"
+      "webRoot": "${workspaceFolder}/src/PrakApp.Web",
+      "trace": true
     }
   ],
   "compounds": [
     {
       "name": "App starten (Backend + Frontend)",
-      "configurations": ["Backend (API)", "Frontend (Browser)"],
+      "configurations": ["Backend (API)", "Frontend-Server (Vite)"],
       "stopAll": true
     }
   ]
