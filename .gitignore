@@ -2,6 +2,7 @@
 bin/
 obj/
 *.user
+*.suo
 .vs/
 TestResults/
 
@@ -16,6 +17,9 @@ src/PrakApp.Web/blob-report/
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 .idea/
 Thumbs.db
 .DS_Store

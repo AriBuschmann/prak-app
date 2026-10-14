@@ -34,7 +34,23 @@ pnpm install
 cd ..\..
 ```
 
-## Starten
+## Entwickeln in VS Code
+
+1. In VS Code **Datei → Ordner öffnen…** → `C:\dev\prak-app` (den ganzen Ordner, nicht einzelne Dateien).
+2. Die vorgeschlagenen Erweiterungen installieren (Hinweis unten rechts). Wichtig ist **C#**.
+   *C# Dev Kit* wird nicht benötigt.
+3. Links **Ausführen und Debuggen** (Strg+Umschalt+D) → oben **„App starten (Backend + Frontend)“**
+   auswählen → **F5**.
+
+F5 baut das Backend, startet es mit Debugger, startet den Vite-Entwicklungsserver und öffnet Edge
+auf http://localhost:9000. Haltepunkte funktionieren in C#-Dateien und in den TypeScript-Dateien
+des Frontends. Beenden mit Umschalt+F5. Der Vite-Server läuft im Terminal weiter und wird beim
+nächsten F5 wiederverwendet; zum Beenden das Terminal „frontend: dev“ schließen.
+
+Weitere Aufgaben (Tests, Frontend bauen, Datenbank neu aufbauen) gibt es unter
+**Terminal → Aufgabe ausführen…**.
+
+## Starten über die Kommandozeile
 
 **Variante A – alles über das Backend** (so wie später auf einem Server):
 

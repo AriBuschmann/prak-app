@@ -1,0 +1,15 @@
+{
+  "dotnet.defaultSolution": "PrakApp.sln",
+  // TypeScript-Version aus dem Projekt verwenden statt der in VS Code eingebauten
+  "typescript.tsdk": "src/PrakApp.Web/node_modules/typescript/lib",
+  "files.exclude": {
+    "**/bin": true,
+    "**/obj": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/wwwroot": true,
+    "**/pnpm-lock.yaml": true
+  },
+  "files.eol": "\n"
+}

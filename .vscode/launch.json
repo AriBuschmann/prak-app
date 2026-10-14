@@ -1,0 +1,36 @@
+{
+  // Starten mit F5. Oben in der Ansicht "Ausführen und Debuggen" die Konfiguration auswählen.
+  // "App starten" startet Backend und Frontend zusammen und öffnet den Browser.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend (API)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "backend: build",
+      "program": "${workspaceFolder}/src/PrakApp.Api/bin/Debug/net9.0/PrakApp.Api.dll",
+      "cwd": "${workspaceFolder}/src/PrakApp.Api",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5080"
+      },
+      "console": "internalConsole",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Frontend (Browser)",
+      "type": "msedge",
+      "request": "launch",
+      "preLaunchTask": "frontend: start",
+      "url": "http://localhost:9000",
+      "webRoot": "${workspaceFolder}/src/PrakApp.Web"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "App starten (Backend + Frontend)",
+      "configurations": ["Backend (API)", "Frontend (Browser)"],
+      "stopAll": true
+    }
+  ]
+}

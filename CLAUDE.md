@@ -42,6 +42,12 @@ hat die KI vorgeschlagen, was wurde übernommen, was war falsch, was wurde geler
 - Datenbank: SQL Server LocalDB, Patch-Skripte in `Database/Patch/<Version>/Approved/core/`.
 - Tests: `tests/PrakApp.Api.Tests` (xUnit), `src/PrakApp.Web/e2e` (Playwright).
 
+## Entwicklungsumgebung
+
+Entwickelt wird in **VS Code** (Konfiguration in `.vscode/`). F5 mit „App starten (Backend + Frontend)“
+startet Backend (mit Debugger), Vite-Entwicklungsserver und Browser. Tests, Frontend-Build und
+Datenbank-Neuaufbau gibt es auch als Aufgaben (Terminal → Aufgabe ausführen…).
+
 ## Wichtige Befehle
 
 ```powershell

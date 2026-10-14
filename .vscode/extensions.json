@@ -1,0 +1,12 @@
+{
+  // VS Code schlägt diese Erweiterungen beim ersten Öffnen des Ordners vor.
+  "recommendations": [
+    "ms-dotnettools.csharp",
+    "editorconfig.editorconfig",
+    "ms-playwright.playwright"
+  ],
+  // C# Dev Kit wird nicht benötigt (eigene Lizenzbedingungen); die C#-Erweiterung reicht.
+  "unwantedRecommendations": [
+    "ms-dotnettools.csdevkit"
+  ]
+}
