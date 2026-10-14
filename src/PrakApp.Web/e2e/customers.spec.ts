@@ -21,6 +21,16 @@ test('neuen Kunden anlegen', async ({ page }) => {
   await expect(page.getByTestId('customer-name')).toHaveText(`Erika ${lastName}`);
 });
 
+test('Kunden aus der Liste öffnen', async ({ page }) => {
+  const customerNumber = page.locator('.grid div[role=gridcell]').filter({ hasText: /^K-\d+$/ }).first();
+  const number = (await customerNumber.textContent())!.trim();
+
+  await customerNumber.click();
+
+  await expect(page).toHaveURL(/\/customers\/\d+$/);
+  await expect(page.locator('.breadcrumb')).toContainText(number);
+});
+
 test('Pflichtfelder werden geprüft', async ({ page }) => {
   await page.getByRole('button', { name: 'Neuer Kunde' }).click();
   const dialog = page.locator('.dialog-body').filter({ visible: true });

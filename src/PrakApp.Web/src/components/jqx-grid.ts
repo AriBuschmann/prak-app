@@ -41,8 +41,13 @@ export class JqxGrid<T = unknown> {
       columns: this.columns.map(({ type: _type, ...column }) => column),
     });
     $(this.gridEl).on('rowclick', (event: JQuery.TriggeredEvent) => {
-      const args = (event as unknown as { args: { row: { bounddata: T } } }).args;
-      this.rowClick?.(args.row.bounddata);
+      // Das Grid kennt nur die Spalten-Felder (z. B. keine "id"). Deshalb das Original-Objekt
+      // über seine Position in den Daten holen – auch nach dem Sortieren stimmt "boundindex".
+      const args = (event as unknown as { args: { row: { boundindex: number } } }).args;
+      const row = this.rows[args.row.boundindex];
+      if (row) {
+        this.rowClick?.(row);
+      }
     });
     this.isAttached = true;
   }
