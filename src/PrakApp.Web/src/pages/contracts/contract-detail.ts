@@ -3,7 +3,8 @@ import type { Params } from '@aurelia/router';
 import { I18N } from '@aurelia/i18n';
 import { $, JQX_THEME } from '../../jqx';
 import { http, ApiError } from '../../services/http';
-import { dateCell, formatDate, formatMoney, moneyCell } from '../../services/format';
+// Neu in dieser Zeile: toIsoDate, die Hilfsfunktion aus format.ts, die ein Date in "JJJJ-MM-TT" umwandelt
+import { dateCell, formatDate, formatMoney, moneyCell, toIsoDate } from '../../services/format';
 import type { BalanceInfo, ContractRecord, Payment } from '../../services/models';
 import type { GridColumn } from '../../components/jqx-grid';
 
@@ -51,16 +52,22 @@ export class ContractDetail {
     if (!this.contract) return;
     this.payment = { amount: this.contract.monthlyFee, reference: '' };
     this.paymentErrors = {};
-    $(this.paymentDateEl).jqxDateTimeInput('setDate', new Date());
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    $(this.paymentDateEl).jqxDateTimeInput('setDate', today);
     this.paymentOpen = true;
   }
 
   async savePayment(): Promise<void> {
     if (!this.contract) return;
+    // Das Datum aus dem jQWidgets-Datumsfeld holen: ein Date-Objekt oder null, wenn das Feld leer ist
+    const paymentDate = $(this.paymentDateEl).jqxDateTimeInput('getDate') as Date | null;
     try {
       await http.post(`/api/contracts/${this.contract.id}/payments`, {
         amount: Number(this.payment.amount) || 0,
-        paymentDate: $(this.paymentDateEl).jqxDateTimeInput('getDate') as Date | null,
+        // Ist ein Datum da, als Text "JJJJ-MM-TT" schicken (ohne Umrechnung nach UTC), sonst null.
+        // Leeres Feld bleibt null, damit der Server "Zahlungsdatum ist erforderlich." meldet
+        paymentDate: paymentDate ? toIsoDate(paymentDate) : null,
         reference: this.payment.reference,
       });
       this.paymentOpen = false;

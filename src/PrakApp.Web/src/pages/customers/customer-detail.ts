@@ -2,7 +2,9 @@ import { resolve } from 'aurelia';
 import { IRouter, type Params } from '@aurelia/router';
 import { I18N } from '@aurelia/i18n';
 import { http, ApiError } from '../../services/http';
-import { dateCell, formatDate, moneyCell } from '../../services/format';
+// Neu in dieser Zeile: toIsoDate aus format.ts. Die Funktion macht aus einem Date einen Text "JJJJ-MM-TT"
+// (in Ortszeit) und wird unten in emptyContract() für das vorgeschlagene Beginndatum verwendet.
+import { dateCell, formatDate, moneyCell, toIsoDate } from '../../services/format';
 import type { ContractDetail, ContractListItem, ContractType, Customer } from '../../services/models';
 import type { GridColumn } from '../../components/jqx-grid';
 
@@ -104,12 +106,12 @@ export class CustomerDetail {
   }
 
   private emptyContract(): NewContract {
-    const today = new Date();
-    const startDate = [
-      today.getFullYear(),
-      String(today.getMonth() + 1).padStart(2, '0'),
-      String(today.getDate()).padStart(2, '0'),
-    ].join('-');
-    return { contractTypeId: null, startDate, endDate: '', monthlyFee: '' };
+    // Geändert: Hier wurde das heutige Datum früher in 7 Zeilen selbst aus Jahr, Monat und Tag
+    // zusammengebaut. Genau diese Logik steckt jetzt in toIsoDate() in format.ts und wird auch beim Erfassen
+    // von Zahlungen benutzt, so steht sie nur noch an einer Stelle. Das Verhalten ist gleich geblieben.
+    // So funktioniert die Zeile: new Date() ist "jetzt", toIsoDate() macht daraus z. B. "2026-10-22".
+    // Diesen Text erwartet das Datumsfeld <input type="date"> im Dialog "Neuer Vertrag" als Vorbelegung.
+    // Die übrigen Felder starten leer: kein Tarif gewählt (null), kein Vertragsende, kein Monatsbeitrag.
+    return { contractTypeId: null, startDate: toIsoDate(new Date()), endDate: '', monthlyFee: '' };
   }
 }
