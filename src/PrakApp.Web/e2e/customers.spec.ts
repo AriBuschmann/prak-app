@@ -38,3 +38,16 @@ test('Pflichtfelder werden geprüft', async ({ page }) => {
 
   await expect(dialog.getByText('Nachname ist erforderlich.')).toBeVisible();
 });
+
+test('Spalte "Verträge" zählt Verträge, nicht Zahlungen', async ({ page }) => {
+  // Beobachtung: K-100063 (Simon Wagner) hat in den Demo-Daten 3 Verträge mit zusammen 43 Zahlungen
+
+  // 1. Die Kundennummer in das Suchfeld schreiben (das Feld hat data-testid="customer-search")
+  await page.getByTestId('customer-search').fill('K-100063');
+  // 2. Enter drücken: fill() aus Schritt 1 drückt keine Taste, die Suche startet aber erst beim Loslassen einer Taste (keyup)
+  await page.getByTestId('customer-search').press('Enter');
+  // 3. In der Tabelle die Zeile suchen, die die Kundennummer K-100063 enthält
+  const row = page.locator('.grid [role=row]').filter({ hasText: 'K-100063' });
+  // 4. Die 5. Zelle dieser Zeile ist die Spalte "Verträge" (Zählung ab 0, also nth(4)): dort muss 3 stehen
+  await expect(row.locator('[role=gridcell]').nth(4)).toHaveText('3');
+});

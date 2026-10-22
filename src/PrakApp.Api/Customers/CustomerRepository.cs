@@ -15,9 +15,11 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
 {
     public async Task<IReadOnlyList<CustomerListItem>> SearchAsync(string? query)
     {
+        // COUNT(co.Id) wurde durch COUNT(DISTINCT co.Id) ersetzt: Der JOIN mit Payment wiederholt jeden Vertrag einmal pro Zahlung,
+        // deshalb wird jede Vertrags-Id nur einmal gezählt (sonst käme die Anzahl der Zahlungen heraus).
         const string sql = """
             SELECT cu.Id, cu.CustomerNumber, cu.FirstName, cu.LastName, cu.City,
-                   COUNT(co.Id)             AS ContractCount,
+                   COUNT(DISTINCT co.Id)    AS ContractCount,
                    ISNULL(SUM(p.Amount), 0) AS TotalPaid
             FROM dbo.Customer cu
             LEFT JOIN dbo.Contract co ON co.CustomerId = cu.Id
