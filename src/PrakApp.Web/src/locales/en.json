@@ -55,6 +55,12 @@
     "status": "Status",
     "noticePeriod": "Notice period",
     "cancel": "Cancel contract",
+    "cancelTitle": "Cancel contract",
+    "cancelConfirm": "Confirm cancellation",
+    "cancelHint": "The cancellation cannot be undone.",
+    "expectedEndDate": "Expected end date",
+    "cancelledAt": "Cancelled on",
+    "cancellationReason": "Reason for cancellation",
     "statusValues": {
       "Active": "Active",
       "Cancelled": "Cancelled",

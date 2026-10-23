@@ -46,7 +46,37 @@ Regeln: Vor- und Nachname sind Pflicht, die PLZ hat 5 Ziffern, die E-Mail-Adress
 | GET     | `/api/contract-types`         | Tarife                                         |
 | GET     | `/api/contracts/{id}`         | Vertrag mit Beitragskonto (`balance`)          |
 | POST    | `/api/contracts`              | Vertrag anlegen                                |
+| GET     | `/api/contracts/{id}/cancellation-preview` | Voraussichtliches Vertragsende bei Kündigung heute (speichert nichts) |
 | POST    | `/api/contracts/{id}/cancel`  | Vertrag kündigen, Body: `{ "reason": "..." }`  |
+
+### Kündigung
+
+Fachliche Regeln: [docs/features/kuendigung.md](features/kuendigung.md).
+
+**Vorschau** – `GET /api/contracts/{id}/cancellation-preview` berechnet, was eine Kündigung heute ergeben
+würde, und wird vom Kündigungsdialog angezeigt. Es wird nichts gespeichert.
+
+```json
+{
+  "cancelledAt": "2026-10-22T00:00:00",
+  "endDate": "2027-02-28T00:00:00"
+}
+```
+
+**Kündigen** – `POST /api/contracts/{id}/cancel` mit Body `{ "reason": "Umzug ins Ausland" }`.
+Setzt Status `Cancelled`, Kündigungsdatum (heute), Grund und das berechnete Vertragsende.
+
+Regeln: Der Kündigungsgrund ist Pflicht und hat höchstens 200 Zeichen (Leerzeichen am Anfang und Ende
+werden entfernt). Nur aktive Verträge können gekündigt werden.
+
+| Status | Bedeutung |
+|--------|-----------|
+| 204    | Gekündigt (ohne Inhalt) |
+| 400    | Kündigungsgrund fehlt oder ist zu lang (`errors.Reason`) – nur beim Kündigen |
+| 404    | Vertrag nicht gefunden |
+| 409    | Vertrag ist nicht aktiv (schon gekündigt oder beendet) |
+
+Die Vorschau antwortet mit 200 und den Daten oben, sonst ebenfalls mit 404 oder 409.
 
 ## Zahlungen
 

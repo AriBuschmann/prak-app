@@ -60,7 +60,8 @@ button.primary { background: var(--primary); border-color: var(--primary); color
 button.primary:hover { background: var(--primary-hover); }
 button.link { background: none; border: none; color: #fff; padding: 0; text-decoration: underline; }
 
-input, select { font: inherit; padding: .4rem .55rem; border: 1px solid var(--border); border-radius: 6px; width: 100%; }
+input, select, textarea { font: inherit; padding: .4rem .55rem; border: 1px solid var(--border); border-radius: 6px; width: 100%; }
+textarea { resize: vertical; }
 .toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: .75rem; }
 .toolbar .search { max-width: 360px; }
 
@@ -71,6 +72,9 @@ input, select { font: inherit; padding: .4rem .55rem; border: 1px solid var(--bo
 .error { color: var(--danger); }
 .dialog-actions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: 1.25rem; }
 .dialog-body { padding: 1rem !important; }
+/* jqxWindow legt beim Öffnen eine feste Höhe fest. Erscheinen danach Fehlermeldungen, würden die Buttons
+   abgeschnitten – deshalb darf das Fenster mit seinem Inhalt mitwachsen. */
+.jqx-window, .jqx-window-content { height: auto !important; }
 
 .error-banner {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;

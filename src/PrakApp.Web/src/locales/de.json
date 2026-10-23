@@ -55,7 +55,10 @@
     "status": "Status",
     "noticePeriod": "Kündigungsfrist",
     "cancel": "Kündigen",
-    "cancelNotAvailable": "Die Kündigung ist noch nicht fertig umgesetzt.",
+    "cancelTitle": "Vertrag kündigen",
+    "cancelConfirm": "Kündigen",
+    "cancelHint": "Die Kündigung kann nicht rückgängig gemacht werden.",
+    "expectedEndDate": "Voraussichtliches Vertragsende",
     "cancelledAt": "Gekündigt am",
     "cancellationReason": "Kündigungsgrund",
     "statusValues": {

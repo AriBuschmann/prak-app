@@ -47,3 +47,10 @@ public sealed record ContractInput(
     decimal MonthlyFee);
 
 public sealed record CancelContractRequest(string? Reason);
+
+/// <summary>
+/// Neu (Schritt 4): Vorschau für den Kündigungsdialog. Zeigt, wann der Vertrag enden würde,
+/// wenn man heute kündigt.
+/// </summary>
+
+public sealed record CancellationPreview(DateTime CancelledAt, DateTime EndDate);

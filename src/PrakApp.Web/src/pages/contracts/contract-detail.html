@@ -14,8 +14,6 @@
       </div>
     </div>
 
-    <p class="notice" if.bind="notice">${notice}</p>
-
     <div class="columns">
       <div class="card details">
         <dl>
@@ -71,6 +69,29 @@
       <div class="dialog-actions">
         <button type="button" click.trigger="paymentOpen = false" t="common.cancel"></button>
         <button type="submit" class="primary" t="common.save"></button>
+      </div>
+    </form>
+  </modal-dialog>
+
+  <!-- Neu (Schritt 4): Kündigungsdialog -->
+  <modal-dialog heading.bind="'contract.cancelTitle' | t" open.bind="cancelOpen">
+    <form submit.trigger:prevent="saveCancellation()">
+      <div class="form-grid">
+        <label class="wide">
+          <span t="contract.cancellationReason"></span>
+          <textarea name="reason" rows="3" value.bind="cancelReason"></textarea>
+          <small class="error" repeat.for="message of cancelErrors.reason">${message}</small>
+        </label>
+        <dl class="wide" if.bind="cancelPreview">
+          <dt t="contract.expectedEndDate"></dt>
+          <dd data-testid="expected-end-date">${formatDate(cancelPreview.endDate)}</dd>
+        </dl>
+        <p class="wide muted" t="contract.cancelHint"></p>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" click.trigger="cancelOpen = false" t="common.cancel"></button>
+        <!-- Eigener Text, damit es auf Englisch nicht "Cancel" neben "Cancel contract" heißt -->
+        <button type="submit" class="primary" t="contract.cancelConfirm"></button>
       </div>
     </form>
   </modal-dialog>

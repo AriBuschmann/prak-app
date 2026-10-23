@@ -45,6 +45,9 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
 builder.Services.AddSingleton<CustomerValidator>();
 builder.Services.AddSingleton<ContractValidator>();
+// Neu (Schritt 2): Validator für den Kündigungsgrund. Singleton wie die anderen Validatoren, weil er keinen Zustand hat,
+// ohne diese Zeile könnte der DI-Container den ContractService nicht erzeugen
+builder.Services.AddSingleton<CancellationValidator>();
 builder.Services.AddSingleton<PaymentValidator>();
 builder.Services.AddSingleton<BalanceCalculator>();
 builder.Services.AddScoped<ContractService>();

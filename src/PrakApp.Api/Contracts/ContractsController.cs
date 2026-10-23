@@ -29,11 +29,29 @@ public sealed class ContractsController(ContractService service, IContractReposi
     [HttpPost("{id:int}/cancel")]
     public async Task<IActionResult> Cancel(int id, CancelContractRequest request)
     {
-        return await service.CancelAsync(id, request.Reason) switch
+        // Geändert (Schritt 2): Der Service gibt jetzt Ergebnis und Fehler zusammen zurück (ein Tupel),
+        // "var (result, errors)" zerlegt es in zwei Variablen. Vorher wurde nur der Grund übergeben.
+        var (result, errors) = await service.CancelAsync(id, request);
+        return result switch
         {
+            // Neu (Schritt 2): ungültiger Kündigungsgrund → 400 mit den Fehlern pro Feld, wie überall im Projekt
+            CancelResult.Invalid => ValidationProblem(new ValidationProblemDetails(errors.ToDictionary())),
             CancelResult.NotFound => NotFound(),
             CancelResult.NotActive => Conflict(new ProblemDetails { Title = "Nur aktive Verträge können gekündigt werden." }),
             _ => NoContent(),
+        };
+    }
+
+    // Neu (Schritt 4): voraussichtliches Vertragsende für den Kündigungsdialog, ohne etwas zu speichern
+    [HttpGet("{id:int}/cancellation-preview")]
+    public async Task<ActionResult<CancellationPreview>> GetCancellationPreview(int id)
+    {
+        var (result, preview) = await service.PreviewCancellationAsync(id);
+        return result switch
+        {
+            CancelResult.NotFound => NotFound(),
+            CancelResult.NotActive => Conflict(new ProblemDetails { Title = "Nur aktive Verträge können gekündigt werden." }),
+            _ => preview!,
         };
     }
 }

@@ -75,6 +75,12 @@ export interface ContractDetail {
   balance: BalanceInfo;
 }
 
+/** Neu (Schritt 4): Antwort von GET /api/contracts/{id}/cancellation-preview */
+export interface CancellationPreview {
+  cancelledAt: string;
+  endDate: string;
+}
+
 export interface Payment {
   id: number;
   contractId: number;

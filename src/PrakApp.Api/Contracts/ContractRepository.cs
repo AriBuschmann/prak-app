@@ -9,7 +9,7 @@ public interface IContractRepository
     Task<IReadOnlyList<ContractListItem>> GetByCustomerAsync(int customerId);
     Task<ContractRecord?> GetAsync(int id);
     Task<int> CreateAsync(ContractInput input, string createdBy);
-    Task CancelAsync(int id, DateTime cancelledAt, string? reason);
+    Task CancelAsync(int id, DateTime cancelledAt, DateTime endDate, string reason);
 }
 
 public sealed class ContractRepository(IDbConnectionFactory db) : IContractRepository
@@ -78,15 +78,16 @@ public sealed class ContractRepository(IDbConnectionFactory db) : IContractRepos
         });
     }
 
-    public async Task CancelAsync(int id, DateTime cancelledAt, string? reason)
+    // Neu (Schritt 3): speichert jetzt auch das berechnete Vertragsende (EndDate)
+    public async Task CancelAsync(int id, DateTime cancelledAt, DateTime endDate, string reason)
     {
         const string sql = """
             UPDATE dbo.Contract
-            SET Status = N'Cancelled', CancelledAt = @cancelledAt, CancellationReason = @reason
+            SET Status = N'Cancelled', CancelledAt = @cancelledAt, CancellationReason = @reason, EndDate = @endDate
             WHERE Id = @id;
             """;
 
         using var connection = db.Create();
-        await connection.ExecuteAsync(sql, new { id, cancelledAt, reason });
+        await connection.ExecuteAsync(sql, new { id, cancelledAt, endDate, reason });
     }
 }

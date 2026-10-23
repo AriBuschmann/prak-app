@@ -5,7 +5,7 @@ import { $, JQX_THEME } from '../../jqx';
 import { http, ApiError } from '../../services/http';
 // Neu in dieser Zeile: toIsoDate, die Hilfsfunktion aus format.ts, die ein Date in "JJJJ-MM-TT" umwandelt
 import { dateCell, formatDate, formatMoney, moneyCell, toIsoDate } from '../../services/format';
-import type { BalanceInfo, ContractRecord, Payment } from '../../services/models';
+import type { BalanceInfo, CancellationPreview, ContractRecord, Payment } from '../../services/models';
 import type { GridColumn } from '../../components/jqx-grid';
 
 export class ContractDetail {
@@ -14,7 +14,12 @@ export class ContractDetail {
   contract: ContractRecord | null = null;
   balance: BalanceInfo | null = null;
   payments: Payment[] = [];
-  notice = '';
+
+  // Neu (Schritt 4): Zustand des Kündigungsdialogs
+  cancelOpen = false;
+  cancelReason = '';
+  cancelErrors: Record<string, string[]> = {};
+  cancelPreview: CancellationPreview | null = null;
 
   paymentOpen = false;
   payment = { amount: '' as number | string, reference: '' };
@@ -81,10 +86,31 @@ export class ContractDetail {
     }
   }
 
-  cancelContract(): void {
-    // TODO: Kündigungsdialog (Grund) anzeigen und POST /api/contracts/{id}/cancel aufrufen.
-    //       Fachliche Regeln: docs/features/kuendigung.md
-    this.notice = this.i18n.tr('contract.cancelNotAvailable');
+  // Neu (Schritt 4): Dialog öffnen. Das voraussichtliche Vertragsende berechnet der Server
+  // (dieselben Regeln wie beim Kündigen, siehe docs/features/kuendigung.md)
+  async cancelContract(): Promise<void> {
+    if (!this.contract) return;
+    this.cancelPreview = await http.get<CancellationPreview>(`/api/contracts/${this.contract.id}/cancellation-preview`);
+    this.cancelReason = '';
+    this.cancelErrors = {};
+    this.cancelOpen = true;
+  }
+
+  // Neu (Schritt 4): Kündigung speichern. Bei falscher Eingabe (400) die Meldungen am Feld zeigen,
+  // sonst Dialog schließen und die Seite neu laden (Status, Kündigungsdatum, Grund und Vertragsende)
+  async saveCancellation(): Promise<void> {
+    if (!this.contract) return;
+    try {
+      await http.post(`/api/contracts/${this.contract.id}/cancel`, { reason: this.cancelReason });
+      this.cancelOpen = false;
+      await this.load(this.contract.id);
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 400) {
+        this.cancelErrors = e.fieldErrors;
+        return;
+      }
+      throw e;
+    }
   }
 
   private async load(id: number): Promise<void> {
