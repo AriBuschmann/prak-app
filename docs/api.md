@@ -17,6 +17,7 @@ Außer den Endpunkten unter `/api/auth` brauchen alle Aufrufe eine Anmeldung (Co
 | Methode | Pfad                            | Beschreibung                                         |
 |---------|---------------------------------|------------------------------------------------------|
 | GET     | `/api/customers?q=<text>`       | Kunden suchen (ohne Parameter: alle)                 |
+| GET     | `/api/customers/duplicates?firstName=&lastName=&postalCode=` | Mögliche doppelte Kunden: gleicher Name und gleiche PLZ (ohne PLZ: nur Name) |
 | GET     | `/api/customers/{id}`           | Ein Kunde                                            |
 | POST    | `/api/customers`                | Kunde anlegen                                        |
 | PUT     | `/api/customers/{id}`           | Kunde ändern                                         |

@@ -81,4 +81,21 @@ public class CustomerEndpointTests(WebApplicationFactory<Program> factory) : ICl
         // Keine Treffer: Das Zeichen wurde als normales Zeichen gesucht und kommt bei keinem Kunden vor
         Assert.Empty(customers!);
     }
+
+    [Theory]
+    [InlineData("wolfgang", "THIEL", "97070", true)]
+    [InlineData("Wolfgang", "Thiel", "24103", false)]
+    [InlineData("Wolfgang", "Thiel", "", true)]
+    public async Task Duplicates_are_found_by_name_and_postal_code(string firstName, string lastName, string postalCode, bool expected)
+    {
+        var client = factory.CreateClient(new WebApplicationFactoryClientOptions { HandleCookies = true });
+        (await client.PostAsJsonAsync("/api/auth/login", new { userName = "praktikum" })).EnsureSuccessStatusCode();
+
+        var url = $"/api/customers/duplicates?firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}"
+            + $"&postalCode={Uri.EscapeDataString(postalCode)}";
+        var duplicates = await client.GetFromJsonAsync<JsonElement[]>(url);
+
+        var numbers = duplicates!.Select(c => c.GetProperty("customerNumber").GetString()).ToList();
+        Assert.Equal(expected, numbers.Contains("K-100003"));
+    }
 }

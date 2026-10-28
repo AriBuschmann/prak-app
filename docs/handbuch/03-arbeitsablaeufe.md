@@ -2,7 +2,9 @@
 
 ## 3.1 Neuen Kunden anlegen
 
-1. Erst suchen, ob der Kunde schon existiert (Name **und** Postleitzahl vergleichen).
+1. Erst suchen, ob der Kunde schon existiert (Name **und** Postleitzahl vergleichen). Beim Speichern warnt die
+   Vertragsverwaltung zusätzlich, wenn es schon Kunden mit gleichem Namen und gleicher PLZ gibt. Ist es wirklich
+   eine andere Person, mit „Trotzdem anlegen“ bestätigen.
 2. „Neuer Kunde“ → Vorname, Nachname (Pflicht), Anschrift, E-Mail, Telefon erfassen.
 3. Die Kundennummer (`K-…`) vergibt das System automatisch. Sie wird dem Kunden mitgeteilt.
 4. Doppelnamen und Namenszusätze vollständig übernehmen (z. B. „von Albers-Lindqvist“).

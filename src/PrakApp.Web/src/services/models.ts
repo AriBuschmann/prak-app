@@ -24,6 +24,16 @@ export interface Customer {
   createdBy: string;
 }
 
+/** Möglicher doppelter Kunde: gleicher Name und gleiche PLZ (GET /api/customers/duplicates) */
+export interface CustomerDuplicate {
+  id: number;
+  customerNumber: string;
+  firstName: string;
+  lastName: string;
+  postalCode: string | null;
+  city: string | null;
+}
+
 export type CustomerInput = Omit<Customer, 'id' | 'customerNumber' | 'createdAt' | 'createdBy'>;
 
 export interface ContractType {

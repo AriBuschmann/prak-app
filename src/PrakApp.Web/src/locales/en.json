@@ -48,7 +48,9 @@
     "new": "New customer",
     "edit": "Edit customer",
     "found": "customers",
-    "searchPlaceholder": "Search by name, city, customer or contract number"
+    "searchPlaceholder": "Search by name, city, customer or contract number",
+    "duplicateWarning": "There are already customers with this name and postal code. Please check whether it is the same person:",
+    "createAnyway": "Create anyway"
   },
   "customer": {
     "number": "Customer no.",

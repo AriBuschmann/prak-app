@@ -9,6 +9,15 @@ public sealed record CustomerListItem(
     int ContractCount,
     decimal TotalPaid);
 
+/// <summary>Möglicher doppelter Kunde (gleicher Name und gleiche PLZ), siehe GET /api/customers/duplicates.</summary>
+public sealed record CustomerDuplicate(
+    int Id,
+    string CustomerNumber,
+    string FirstName,
+    string LastName,
+    string? PostalCode,
+    string? City);
+
 public sealed record Customer(
     int Id,
     string CustomerNumber,

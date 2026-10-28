@@ -14,6 +14,14 @@ public sealed class CustomersController(
     [HttpGet]
     public Task<IReadOnlyList<CustomerListItem>> Search([FromQuery] string? q) => customers.SearchAsync(q);
 
+    // Warnung vor doppelten Kunden: Das Frontend fragt das vor dem Anlegen ab. Ohne Vor- oder Nachnamen keine Treffer
+    [HttpGet("duplicates")]
+    public async Task<IReadOnlyList<CustomerDuplicate>> FindDuplicates(
+        [FromQuery] string? firstName, [FromQuery] string? lastName, [FromQuery] string? postalCode) =>
+        string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName)
+            ? []
+            : await customers.FindDuplicatesAsync(firstName, lastName, postalCode);
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Customer>> Get(int id) =>
         await customers.GetAsync(id) is { } customer ? customer : NotFound();

@@ -3,7 +3,7 @@ import { IRouter } from '@aurelia/router';
 import { I18N } from '@aurelia/i18n';
 import { http, ApiError } from '../../services/http';
 import { moneyCell } from '../../services/format';
-import type { ContractSearchItem, Customer, CustomerInput, CustomerListItem } from '../../services/models';
+import type { ContractSearchItem, Customer, CustomerDuplicate, CustomerInput, CustomerListItem } from '../../services/models';
 import type { GridColumn } from '../../components/jqx-grid';
 
 const emptyCustomer = (): CustomerInput => ({
@@ -15,6 +15,13 @@ const emptyCustomer = (): CustomerInput => ({
   postalCode: null,
   city: null,
 });
+
+// Kurzer Text aus Vorname, Nachname und PLZ, z. B. "erika|albers|24103". Damit merkt sich die Seite, für welche
+// Eingaben sie schon vor doppelten Kunden gewarnt hat. Ohne Vor- oder Nachnamen null (dann wird nicht geprüft)
+const duplicateKey = (c: CustomerInput): string | null =>
+  c.firstName?.trim() && c.lastName?.trim()
+    ? [c.firstName, c.lastName, c.postalCode ?? ''].map(v => v.trim().toLowerCase()).join('|')
+    : null;
 
 export class CustomerList {
   private readonly router = resolve(IRouter);
@@ -29,6 +36,16 @@ export class CustomerList {
   newCustomer = emptyCustomer();
   errors: Record<string, string[]> = {};
   saving = false;
+  // Mögliche doppelte Kunden zu den Eingaben im Dialog (gleicher Name und gleiche PLZ, Handbuch 3.1)
+  duplicates: CustomerDuplicate[] = [];
+  // Für welche Eingaben die Warnung schon angezeigt wurde (siehe duplicateKey)
+  private warnedFor: string | null = null;
+
+  // Warnung und Knopf "Trotzdem anlegen" nur, solange die Eingaben noch dieselben sind wie bei der Prüfung.
+  // Ändert man Name oder PLZ, verschwindet die Warnung, und beim nächsten Speichern wird neu geprüft
+  get duplicateWarningActive(): boolean {
+    return this.duplicates.length > 0 && this.warnedFor === duplicateKey(this.newCustomer);
+  }
 
   readonly columns: GridColumn[] = [
     { text: this.i18n.tr('customer.number'), datafield: 'customerNumber', width: 120 },
@@ -59,6 +76,8 @@ export class CustomerList {
   showCreate(): void {
     this.newCustomer = emptyCustomer();
     this.errors = {};
+    this.duplicates = [];
+    this.warnedFor = null;
     this.createOpen = true;
   }
 
@@ -67,6 +86,18 @@ export class CustomerList {
     if (this.saving) return;
     this.saving = true;
     try {
+      // Vor dem Anlegen prüfen, ob es den Kunden schon gibt. Wurde für genau diese Eingaben schon gewarnt,
+      // ist dieser Klick "Trotzdem anlegen" und es wird ohne neue Prüfung gespeichert
+      const key = duplicateKey(this.newCustomer);
+      if (key !== null && key !== this.warnedFor) {
+        const { firstName, lastName, postalCode } = this.newCustomer;
+        const query = new URLSearchParams({ firstName: firstName ?? '', lastName: lastName ?? '', postalCode: postalCode ?? '' });
+        this.duplicates = await http.get<CustomerDuplicate[]>(`/api/customers/duplicates?${query}`);
+        if (this.duplicates.length) {
+          this.warnedFor = key;
+          return;
+        }
+      }
       const created = await http.post<Customer>('/api/customers', this.newCustomer);
       this.createOpen = false;
       await this.router.load(`customers/${created.id}`);

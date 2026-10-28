@@ -58,13 +58,16 @@ test('Nachname mit 100 Zeichen kann gespeichert werden', async ({ page }) => {
   const lastName = 'Albers-Lindqvist von Hohenstein-Marquardt zu Rabenau-Westerholt und Kleinmachnow-Freiherr von Testen';
   // Sicherheitsprüfung für den Test selbst: Hat der Name wirklich genau 100 Zeichen? Sonst würde der Test die Grenze verfehlen
   expect(lastName).toHaveLength(100);
+  // Eindeutiger Vorname: Sonst gibt es den Kunden durch frühere Testläufe schon, und die App warnt vor einem doppelten
+  // Kunden, statt zu speichern. Der Nachname, um den es in diesem Test geht, bleibt unverändert
+  const firstName = `Erika${Date.now()}`;
 
   // Dialog "Neuer Kunde" öffnen (beforeEach oben hat schon angemeldet und die Kundenliste geöffnet)
   await page.getByRole('button', { name: 'Neuer Kunde' }).click();
   // Nur den sichtbaren Dialog nehmen: Auf der Seite gibt es noch weitere, versteckte Dialoge mit .dialog-body
   const dialog = page.locator('.dialog-body').filter({ visible: true });
   // Pflichtfelder ausfüllen: Vorname und den 100 Zeichen langen Nachnamen
-  await dialog.locator('input[name=firstName]').fill('Erika');
+  await dialog.locator('input[name=firstName]').fill(firstName);
   await dialog.locator('input[name=lastName]').fill(lastName);
   // Speichern schickt POST (neuen Datensatz, also Kunden, anlegen) /api/customers, vor der Korrektur antwortete der Server hier mit Fehler 500
   await dialog.getByRole('button', { name: 'Speichern' }).click();
@@ -73,7 +76,7 @@ test('Nachname mit 100 Zeichen kann gespeichert werden', async ({ page }) => {
   // Die Adresse muss auf /customers/<Id des neuen Kunden> enden, \d+ steht für eine oder mehrere Ziffern
   await expect(page).toHaveURL(/\/customers\/\d+$/);
   // Die Überschrift zeigt "Vorname Nachname". So ist geprüft, dass alle 100 Zeichen gespeichert und nicht abgeschnitten wurden
-  await expect(page.getByTestId('customer-name')).toHaveText(`Erika ${lastName}`);
+  await expect(page.getByTestId('customer-name')).toHaveText(`${firstName} ${lastName}`);
 });
 
 test('Bearbeiten → Abbrechen verwirft die Änderungen', async ({ page }) => {
@@ -287,6 +290,34 @@ test.describe('Pfadzeile', () => {
     await expect(page.getByRole('heading', { name: 'Kunden' })).toBeVisible();
     await expect(page.locator('.error-banner')).toHaveCount(0);
   });
+});
+
+test('Warnung vor doppeltem Kunden (gleicher Name und PLZ), danach "Trotzdem anlegen"', async ({ page }) => {
+  const lastName = `Doppelt${Date.now()}`;
+  const existing = await page.request.post('/api/customers', {
+    data: { firstName: 'Erika', lastName, postalCode: '24103', city: 'Kiel' },
+  });
+  expect(existing.status()).toBe(201);
+  const existingNumber = (await existing.json()).customerNumber;
+  let posted = 0;
+  page.on('request', (request) => {
+    if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/customers') posted++;
+  });
+
+  await page.getByRole('button', { name: 'Neuer Kunde' }).click();
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  await dialog.locator('input[name=firstName]').fill('erika');
+  await dialog.locator('input[name=lastName]').fill(lastName.toUpperCase());
+  await dialog.locator('input[name=postalCode]').fill('24103');
+  await dialog.getByRole('button', { name: 'Speichern' }).click();
+
+  await expect(dialog.getByTestId('duplicate-warning')).toContainText(existingNumber);
+  await expect(page).toHaveURL(/\/customers$/);
+  expect(posted).toBe(0);
+
+  await dialog.getByRole('button', { name: 'Trotzdem anlegen' }).click();
+  await expect(page).toHaveURL(/\/customers\/\d+$/);
+  expect(posted).toBe(1);
 });
 
 test('Suche nach Vertragsnummer führt direkt zum Vertrag', async ({ page }) => {

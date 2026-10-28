@@ -70,6 +70,10 @@ textarea { resize: vertical; }
 .contract-hits { margin-bottom: .75rem; }
 .contract-hits h2 { font-size: 1rem; margin: 0 0 .5rem; }
 .contract-hits ul { margin: 0; padding-left: 1.25rem; }
+/* Warnung vor doppelten Kunden im Dialog "Neuer Kunde" */
+.duplicate-warning { margin-top: .75rem; padding: .5rem .75rem; border: 1px solid #f5c97a; border-radius: 6px; background: #fff7e6; }
+.duplicate-warning p { margin: 0 0 .25rem; }
+.duplicate-warning ul { margin: 0; padding-left: 1.25rem; }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem 1rem; }
 .form-grid label { display: flex; flex-direction: column; gap: .25rem; }

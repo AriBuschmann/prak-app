@@ -48,7 +48,9 @@
     "new": "Neuer Kunde",
     "edit": "Kunde bearbeiten",
     "found": "Kunden",
-    "searchPlaceholder": "Suche nach Name, Ort, Kunden- oder Vertragsnummer"
+    "searchPlaceholder": "Suche nach Name, Ort, Kunden- oder Vertragsnummer",
+    "duplicateWarning": "Es gibt schon Kunden mit diesem Namen und dieser PLZ. Bitte prüfen, ob es derselbe Kunde ist:",
+    "createAnyway": "Trotzdem anlegen"
   },
   "customer": {
     "number": "Kundennr.",

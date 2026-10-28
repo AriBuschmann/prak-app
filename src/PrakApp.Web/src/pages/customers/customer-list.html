@@ -26,9 +26,20 @@
   <modal-dialog heading.bind="'customers.new' | t" open.bind="createOpen">
     <form submit.trigger:prevent="create()">
       <customer-form customer.bind="newCustomer" errors.bind="errors"></customer-form>
+      <!-- Warnung vor doppelten Kunden (gleicher Name und gleiche PLZ, Handbuch 3.1) mit Links zu den vorhandenen Kunden -->
+      <div class="duplicate-warning" if.bind="duplicateWarningActive" data-testid="duplicate-warning" role="alert">
+        <p t="customers.duplicateWarning"></p>
+        <ul>
+          <li repeat.for="d of duplicates">
+            <a load="/customers/${d.id}">${d.customerNumber}</a> · ${d.firstName} ${d.lastName} · ${d.postalCode || ''} ${d.city || ''}
+          </li>
+        </ul>
+      </div>
       <div class="dialog-actions">
         <button type="button" click.trigger="createOpen = false" t="common.cancel"></button>
-        <button type="submit" class="primary" disabled.bind="saving" t="common.save"></button>
+        <!-- Nach der Warnung heißt der Knopf "Trotzdem anlegen" -->
+        <button type="submit" class="primary" disabled.bind="saving"
+                t.bind="duplicateWarningActive ? 'customers.createAnyway' : 'common.save'"></button>
       </div>
     </form>
   </modal-dialog>

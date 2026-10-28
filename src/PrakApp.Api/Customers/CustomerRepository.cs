@@ -6,6 +6,7 @@ namespace PrakApp.Api.Customers;
 public interface ICustomerRepository
 {
     Task<IReadOnlyList<CustomerListItem>> SearchAsync(string? query);
+    Task<IReadOnlyList<CustomerDuplicate>> FindDuplicatesAsync(string firstName, string lastName, string? postalCode);
     Task<Customer?> GetAsync(int id);
     Task<int> CreateAsync(CustomerInput input, string createdBy);
     Task<bool> UpdateAsync(int id, CustomerInput input);
@@ -35,6 +36,30 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
 
         using var connection = db.Create();
         var rows = await connection.QueryAsync<CustomerListItem>(sql, new { Query = SqlLike.Escape(Normalize(query)) });
+        return rows.AsList();
+    }
+
+    // Mögliche doppelte Kunden nach Handbuch 3.1: gleicher Vor- und Nachname und gleiche PLZ.
+    // Ohne PLZ wird nur der Name verglichen. Groß-/Kleinschreibung spielt keine Rolle (Sortierfolge "CI" der Datenbank),
+    // Leerzeichen am Rand werden wie beim Speichern entfernt (Normalize)
+    public async Task<IReadOnlyList<CustomerDuplicate>> FindDuplicatesAsync(string firstName, string lastName, string? postalCode)
+    {
+        const string sql = """
+            SELECT Id, CustomerNumber, FirstName, LastName, PostalCode, City
+            FROM dbo.Customer
+            WHERE FirstName = @FirstName
+              AND LastName = @LastName
+              AND (@PostalCode IS NULL OR PostalCode = @PostalCode)
+            ORDER BY CustomerNumber;
+            """;
+
+        using var connection = db.Create();
+        var rows = await connection.QueryAsync<CustomerDuplicate>(sql, new
+        {
+            FirstName = firstName.Trim(),
+            LastName = lastName.Trim(),
+            PostalCode = Normalize(postalCode),
+        });
         return rows.AsList();
     }
 
