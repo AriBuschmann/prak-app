@@ -1,8 +1,10 @@
 <section class="page">
   <template if.bind="contract">
     <p class="breadcrumb">
-      <a load="customers" t="customers.title"></a> ›
-      <a load="customers/${contract.customerId}">${contract.customerName}</a> ›
+      <!-- "/" am Anfang: Pfad von der obersten Ebene der App aus. Ohne "/" hängt der Router ihn an die aktuelle Seite an
+           (contracts/77/customers), die Route gibt es nicht → Fehler AUR3401 -->
+      <a load="/customers" t="customers.title"></a> ›
+      <a load="/customers/${contract.customerId}">${contract.customerName}</a> ›
       ${contract.contractNumber}
     </p>
 

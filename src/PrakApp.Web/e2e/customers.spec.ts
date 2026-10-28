@@ -242,3 +242,49 @@ test('Suche findet Kunden über den Ort', async ({ page }) => {
   // In der Tabelle stehen 6 Zeilen, die "Würzburg" enthalten, also wirklich die Kunden aus diesem Ort
   await expect(page.locator('.grid [role=row]').filter({ hasText: 'Würzburg' })).toHaveCount(6);
 });
+
+// Bug: Die Links in der Pfadzeile ("Kunden › Name › Vertragsnummer") führten zum Router-Fehler AUR3401 statt zur Seite.
+// Ohne "/" am Anfang hängt der Router den Pfad an die aktuelle Seite an (z. B. /contracts/77/customers), diese Route
+// gibt es nicht. Korrektur: load="/customers" in contract-detail.html und customer-detail.html.
+// test.describe fasst die drei Tests zu einer Gruppe "Pfadzeile" zusammen (angemeldet durch beforeEach oben in der Datei)
+test.describe('Pfadzeile', () => {
+  test('Vertragsseite: "Kunden" führt zur Kundenliste', async ({ page }) => {
+    // Vertrag 77 aus den Demo-Daten öffnen und den ersten Link der Pfadzeile anklicken (nth(0) = erster, Zählung ab 0)
+    await page.goto('/contracts/77');
+    await page.locator('.breadcrumb a').nth(0).click();
+
+    // Die Kundenliste ist offen: Adresse endet auf /customers (vorher blieb sie bei /contracts/77) ...
+    await expect(page).toHaveURL(/\/customers$/);
+    // ... und die Überschrift "Kunden" ist zu sehen
+    await expect(page.getByRole('heading', { name: 'Kunden' })).toBeVisible();
+    // Kein rotes Fehler-Banner (vorher: "Unerwarteter Fehler AUR3401 ...")
+    await expect(page.locator('.error-banner')).toHaveCount(0);
+  });
+
+  test('Vertragsseite: Kundenname führt zur Kundenseite', async ({ page }) => {
+    await page.goto('/contracts/77');
+    // Zweiter Link der Pfadzeile ist der Name des Kunden, dem der Vertrag gehört
+    const customerLink = page.locator('.breadcrumb a').nth(1);
+    // Den Namen aus dem Link lesen statt ihn fest einzutragen; trim() entfernt Leerzeichen am Anfang und Ende,
+    // das ! sagt TypeScript, dass textContent() hier nicht null ist
+    const customerName = (await customerLink.textContent())!.trim();
+    await customerLink.click();
+
+    // Die Kundenseite ist offen: Adresse /customers/<Id> (\d+ = eine oder mehrere Ziffern) ...
+    await expect(page).toHaveURL(/\/customers\/\d+$/);
+    // ... und es ist der richtige Kunde: Die Überschrift zeigt denselben Namen wie der angeklickte Link
+    await expect(page.getByTestId('customer-name')).toHaveText(customerName);
+    await expect(page.locator('.error-banner')).toHaveCount(0);
+  });
+
+  test('Kundenseite: "Kunden" führt zur Kundenliste', async ({ page }) => {
+    // Auf der Kundenseite hat die Pfadzeile nur einen Link ("Kunden"), danach folgt die Kundennummer als Text
+    await page.goto('/customers/40');
+    await page.locator('.breadcrumb a').nth(0).click();
+
+    // Wie im ersten Test: Kundenliste offen, kein Fehler (vorher: Adresse /customers/40/customers, Fehler AUR3401)
+    await expect(page).toHaveURL(/\/customers$/);
+    await expect(page.getByRole('heading', { name: 'Kunden' })).toBeVisible();
+    await expect(page.locator('.error-banner')).toHaveCount(0);
+  });
+});

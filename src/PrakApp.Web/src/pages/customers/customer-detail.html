@@ -1,5 +1,6 @@
 <section class="page" if.bind="customer">
-  <p class="breadcrumb"><a load="customers" t="customers.title"></a> › ${customer.customerNumber}</p>
+  <!-- "/" am Anfang, sonst wird der Pfad an die aktuelle Seite angehängt (customers/40/customers, siehe contract-detail.html) -->
+  <p class="breadcrumb"><a load="/customers" t="customers.title"></a> › ${customer.customerNumber}</p>
 
   <div class="page-header">
     <h1 data-testid="customer-name">${customer.firstName} ${customer.lastName}</h1>
