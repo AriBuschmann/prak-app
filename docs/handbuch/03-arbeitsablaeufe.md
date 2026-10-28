@@ -38,7 +38,8 @@ Kontoauszug übereinstimmen.
 ## 3.5 Rückstände und Mahnungen
 
 - Liegt der Saldo eines Vertrags bei **mehr als zwei Monatsbeiträgen**, bekommt der Kunde eine
-  Zahlungserinnerung.
+  Zahlungserinnerung. Die Vertragsverwaltung markiert solche Verträge mit „Zahlungserinnerung fällig“
+  (im Beitragskonto auf der Vertragsseite und in der Vertragsliste beim Kunden).
 - Nach weiteren 14 Tagen ohne Zahlung: 1. Mahnung (durch die Buchhaltung).
 - Das Mahnwesen ist noch nicht in der Vertragsverwaltung abgebildet; die Buchhaltung führt dazu
   eine eigene Liste.

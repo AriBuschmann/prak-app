@@ -48,6 +48,9 @@ dl { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1.25rem; 
 dt { color: var(--muted); }
 dd { margin: 0; }
 .negative { color: var(--danger); font-weight: 600; }
+/* Zahlungserinnerung fällig (Beitragskonto und Vertragsliste beim Kunden) */
+.reminder-due { color: var(--danger); font-weight: 600; }
+p.reminder-due { margin: .75rem 0 0; }
 .positive { color: var(--success); font-weight: 600; }
 
 button {

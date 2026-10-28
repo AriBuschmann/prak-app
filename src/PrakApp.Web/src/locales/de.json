@@ -86,6 +86,8 @@
     "expectedEndDate": "Voraussichtliches Vertragsende",
     "cancelledAt": "Gekündigt am",
     "cancellationReason": "Kündigungsgrund",
+    "reminder": "Zahlungserinnerung",
+    "reminderDue": "fällig",
     "statusValues": {
       "Active": "Aktiv",
       "Cancelled": "Gekündigt",
@@ -97,7 +99,8 @@
     "monthsDue": "Fällige Monate",
     "expected": "Soll",
     "paid": "Bezahlt",
-    "balance": "Saldo"
+    "balance": "Saldo",
+    "reminderDue": "Zahlungserinnerung fällig: Rückstand über zwei Monatsbeiträge"
   },
   "payment": {
     "title": "Zahlungen",

@@ -42,6 +42,8 @@ export interface ContractListItem {
   endDate: string | null;
   monthlyFee: number;
   status: ContractStatus;
+  paidTotal: number;
+  reminderDue: boolean;
 }
 
 export type ContractStatus = 'Active' | 'Cancelled' | 'Ended';
@@ -77,6 +79,8 @@ export interface BalanceInfo {
   expectedTotal: number;
   paidTotal: number;
   balance: number;
+  /** Zahlungserinnerung fällig: Rückstand über zwei Monatsbeiträge (Handbuch 3.5) */
+  reminderDue: boolean;
 }
 
 export interface ContractDetail {

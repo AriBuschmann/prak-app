@@ -24,7 +24,12 @@ public sealed record ContractListItem(
     DateTime StartDate,
     DateTime? EndDate,
     decimal MonthlyFee,
-    string Status);
+    string Status,
+    decimal PaidTotal)
+{
+    // Kommt nicht aus der Datenbank, sondern wird im ContractRepository berechnet (darum nicht in der Klammer oben)
+    public bool ReminderDue { get; init; }
+}
 
 /// <summary>Treffer der Suche nach Vertragsnummer (GET /api/contracts?q=...).</summary>
 public sealed record ContractSearchItem(
@@ -50,8 +55,11 @@ public sealed record ContractRecord(
     DateTime? CancelledAt,
     string? CancellationReason);
 
-/// <summary>Kontostand eines Vertrags. Positiver Saldo = Rückstand, negativer Saldo = Guthaben.</summary>
-public sealed record BalanceInfo(int MonthsDue, decimal ExpectedTotal, decimal PaidTotal, decimal Balance);
+/// <summary>
+/// Kontostand eines Vertrags. Positiver Saldo = Rückstand, negativer Saldo = Guthaben.
+/// ReminderDue = Zahlungserinnerung fällig (Rückstand über zwei Monatsbeiträge, siehe BalanceCalculator.IsReminderDue).
+/// </summary>
+public sealed record BalanceInfo(int MonthsDue, decimal ExpectedTotal, decimal PaidTotal, decimal Balance, bool ReminderDue);
 
 public sealed record ContractDetail(ContractRecord Contract, BalanceInfo Balance);
 

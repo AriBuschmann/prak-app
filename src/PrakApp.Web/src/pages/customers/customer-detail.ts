@@ -44,6 +44,15 @@ export class CustomerDetail {
       text: this.i18n.tr('contract.status'), datafield: 'status', width: 110,
       cellsrenderer: (_r, _c, value) => `<div class="cell">${this.i18n.tr(`contract.statusValues.${value}`)}</div>`,
     },
+    {
+      // Zahlungserinnerung fällig (Rückstand über zwei Monatsbeiträge), sonst leer.
+      // Das Grid kann den Wert als Text "true" liefern, darum beide Fälle prüfen
+      text: this.i18n.tr('contract.reminder'), datafield: 'reminderDue', width: 160,
+      cellsrenderer: (_r, _c, value) =>
+        value === true || value === 'true'
+          ? `<div class="cell reminder-due">${this.i18n.tr('contract.reminderDue')}</div>`
+          : '<div class="cell"></div>',
+    },
   ];
 
   async loading(params: Params): Promise<void> {

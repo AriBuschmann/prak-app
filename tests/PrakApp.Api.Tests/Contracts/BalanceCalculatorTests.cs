@@ -7,6 +7,31 @@ public class BalanceCalculatorTests
     private static ContractRecord Contract(DateTime start, DateTime? end = null, decimal fee = 20m) =>
         new(1, "V-2026-0001", 1, "Anna Albers", 1, "Basis-Tarif", 0, 1, start, end, fee, ContractStatus.Active, null, null);
 
+    [Theory]
+    [InlineData(40.00, false)]
+    [InlineData(40.01, true)]
+    [InlineData(60.00, true)]
+    [InlineData(0.00, false)]
+    [InlineData(-10.00, false)]
+    public void Reminder_is_due_when_arrears_exceed_two_monthly_fees(decimal balance, bool expected)
+    {
+        Assert.Equal(expected, BalanceCalculator.IsReminderDue(balance, monthlyFee: 20m));
+    }
+
+    [Theory]
+    [InlineData(0, true)]
+    [InlineData(20, false)]
+    public void Balance_tells_whether_a_reminder_is_due(decimal paidTotal, bool expected)
+    {
+        var time = new FixedTimeProvider(new DateTimeOffset(2026, 5, 15, 12, 0, 0, TimeSpan.Zero));
+        var calculator = new BalanceCalculator(time);
+
+        var balance = calculator.Calculate(Contract(new DateTime(2026, 3, 15), fee: 20m), paidTotal);
+
+        Assert.Equal(3, balance.MonthsDue);
+        Assert.Equal(expected, balance.ReminderDue);
+    }
+
     [Fact]
     public void Nothing_is_due_before_the_contract_starts()
     {

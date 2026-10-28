@@ -27,7 +27,8 @@ public sealed class ContractRepository(IDbConnectionFactory db, TimeProvider tim
     public async Task<IReadOnlyList<ContractListItem>> GetByCustomerAsync(int customerId)
     {
         const string sql = """
-            SELECT c.Id, c.ContractNumber, t.Name AS TypeName, c.StartDate, c.EndDate, c.MonthlyFee, c.Status
+            SELECT c.Id, c.ContractNumber, t.Name AS TypeName, c.StartDate, c.EndDate, c.MonthlyFee, c.Status,
+                   ISNULL((SELECT SUM(p.Amount) FROM dbo.Payment p WHERE p.ContractId = c.Id), 0) AS PaidTotal
             FROM dbo.Contract c
             JOIN dbo.ContractType t ON t.Id = c.ContractTypeId
             WHERE c.CustomerId = @customerId
@@ -37,8 +38,13 @@ public sealed class ContractRepository(IDbConnectionFactory db, TimeProvider tim
         using var connection = db.Create();
         var rows = await connection.QueryAsync<ContractListItem>(sql, new { customerId });
         // Verträge mit vergangenem Vertragsende als "Ended" liefern (siehe ContractStatus.Effective)
+        // und markieren, ob eine Zahlungserinnerung fällig ist (gleiche Rechnung wie das Beitragskonto)
         var today = time.GetLocalNow().Date;
-        return rows.Select(c => c with { Status = ContractStatus.Effective(c.Status, c.EndDate, today) }).ToList();
+        return rows.Select(c => c with
+        {
+            Status = ContractStatus.Effective(c.Status, c.EndDate, today),
+            ReminderDue = BalanceCalculator.Compute(c.StartDate, c.EndDate, c.MonthlyFee, c.PaidTotal, today).ReminderDue,
+        }).ToList();
     }
 
     // Verträge, deren Nummer den Suchtext enthält (wie bei der Kundennummer), höchstens 10 Treffer.

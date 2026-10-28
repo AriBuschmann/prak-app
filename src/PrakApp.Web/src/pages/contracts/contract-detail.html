@@ -41,6 +41,8 @@
           <dt t="balance.balance"></dt>
           <dd class="${balance.balance > 0 ? 'negative' : 'positive'}" data-testid="balance">${formatMoney(balance.balance)}</dd>
         </dl>
+        <!-- Rückstand über zwei Monatsbeiträge → laut Handbuch (3.5) ist eine Zahlungserinnerung fällig -->
+        <p class="reminder-due" if.bind="balance.reminderDue" data-testid="reminder-due" t="balance.reminderDue"></p>
       </div>
     </div>
 

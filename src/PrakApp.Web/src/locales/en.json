@@ -86,6 +86,8 @@
     "expectedEndDate": "Expected end date",
     "cancelledAt": "Cancelled on",
     "cancellationReason": "Reason for cancellation",
+    "reminder": "Payment reminder",
+    "reminderDue": "due",
     "statusValues": {
       "Active": "Active",
       "Cancelled": "Cancelled",
@@ -97,7 +99,8 @@
     "monthsDue": "Months due",
     "expected": "Expected",
     "paid": "Paid",
-    "balance": "Balance"
+    "balance": "Balance",
+    "reminderDue": "Payment reminder due: arrears exceed two monthly fees"
   },
   "payment": {
     "title": "Payments",
