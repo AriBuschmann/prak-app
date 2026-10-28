@@ -26,6 +26,7 @@ export class CustomerList {
   createOpen = false;
   newCustomer = emptyCustomer();
   errors: Record<string, string[]> = {};
+  saving = false;
 
   readonly columns: GridColumn[] = [
     { text: this.i18n.tr('customer.number'), datafield: 'customerNumber', width: 120 },
@@ -56,6 +57,9 @@ export class CustomerList {
   }
 
   async create(): Promise<void> {
+    // Läuft schon eine Anfrage (z. B. zweiter Klick eines Doppelklicks), nichts tun: sonst entsteht der Kunde doppelt
+    if (this.saving) return;
+    this.saving = true;
     try {
       const created = await http.post<Customer>('/api/customers', this.newCustomer);
       this.createOpen = false;
@@ -66,6 +70,8 @@ export class CustomerList {
         return;
       }
       throw e;
+    } finally {
+      this.saving = false;
     }
   }
 }

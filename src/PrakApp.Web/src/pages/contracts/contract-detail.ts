@@ -24,6 +24,7 @@ export class ContractDetail {
   paymentOpen = false;
   payment = { amount: '' as number | string, reference: '' };
   paymentErrors: Record<string, string[]> = {};
+  savingPayment = false;
   paymentDateEl!: HTMLElement;
 
   readonly formatDate = formatDate;
@@ -64,9 +65,11 @@ export class ContractDetail {
   }
 
   async savePayment(): Promise<void> {
-    if (!this.contract) return;
+    // Läuft schon eine Anfrage (z. B. zweiter Klick eines Doppelklicks), nichts tun: sonst entsteht die Zahlung doppelt
+    if (!this.contract || this.savingPayment) return;
     // Das Datum aus dem jQWidgets-Datumsfeld holen: ein Date-Objekt oder null, wenn das Feld leer ist
     const paymentDate = $(this.paymentDateEl).jqxDateTimeInput('getDate') as Date | null;
+    this.savingPayment = true;
     try {
       await http.post(`/api/contracts/${this.contract.id}/payments`, {
         amount: Number(this.payment.amount) || 0,
@@ -83,6 +86,8 @@ export class ContractDetail {
         return;
       }
       throw e;
+    } finally {
+      this.savingPayment = false;
     }
   }
 

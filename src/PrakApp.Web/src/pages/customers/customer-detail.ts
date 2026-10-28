@@ -30,6 +30,7 @@ export class CustomerDetail {
   contractOpen = false;
   newContract: NewContract = this.emptyContract();
   contractErrors: Record<string, string[]> = {};
+  savingContract = false;
 
   readonly formatDate = formatDate;
 
@@ -92,7 +93,9 @@ export class CustomerDetail {
   }
 
   async createContract(): Promise<void> {
-    if (!this.customer) return;
+    // Läuft schon eine Anfrage (z. B. zweiter Klick eines Doppelklicks), nichts tun: sonst wird der Vertrag zweimal geschickt
+    if (!this.customer || this.savingContract) return;
+    this.savingContract = true;
     try {
       const created = await http.post<ContractDetail>('/api/contracts', {
         customerId: this.customer.id,
@@ -109,6 +112,8 @@ export class CustomerDetail {
         return;
       }
       throw e;
+    } finally {
+      this.savingContract = false;
     }
   }
 

@@ -63,7 +63,7 @@
       </div>
       <div class="dialog-actions">
         <button type="button" click.trigger="contractOpen = false" t="common.cancel"></button>
-        <button type="submit" class="primary" t="common.save"></button>
+        <button type="submit" class="primary" disabled.bind="savingContract" t="common.save"></button>
       </div>
     </form>
   </modal-dialog>
