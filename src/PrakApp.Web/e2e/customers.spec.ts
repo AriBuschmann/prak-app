@@ -51,3 +51,27 @@ test('Spalte "Verträge" zählt Verträge, nicht Zahlungen', async ({ page }) =>
   // 4. Die 5. Zelle dieser Zeile ist die Spalte "Verträge" (Zählung ab 0, also nth(4)): dort muss 3 stehen
   await expect(row.locator('[role=gridcell]').nth(4)).toHaveText('3');
 });
+
+test('Nachname mit 100 Zeichen kann gespeichert werden', async ({ page }) => {
+  // Bug aus den Logdateien: Der Validator erlaubt 100 Zeichen, die Datenbank-Spalte hatte nur Platz für 80 → Fehler 500.
+  // Der Name aus den Logs (dort auf 80 Zeichen abgeschnitten), verlängert auf genau 100 Zeichen = Höchstlänge
+  const lastName = 'Albers-Lindqvist von Hohenstein-Marquardt zu Rabenau-Westerholt und Kleinmachnow-Freiherr von Testen';
+  // Sicherheitsprüfung für den Test selbst: Hat der Name wirklich genau 100 Zeichen? Sonst würde der Test die Grenze verfehlen
+  expect(lastName).toHaveLength(100);
+
+  // Dialog "Neuer Kunde" öffnen (beforeEach oben hat schon angemeldet und die Kundenliste geöffnet)
+  await page.getByRole('button', { name: 'Neuer Kunde' }).click();
+  // Nur den sichtbaren Dialog nehmen: Auf der Seite gibt es noch weitere, versteckte Dialoge mit .dialog-body
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  // Pflichtfelder ausfüllen: Vorname und den 100 Zeichen langen Nachnamen
+  await dialog.locator('input[name=firstName]').fill('Erika');
+  await dialog.locator('input[name=lastName]').fill(lastName);
+  // Speichern schickt POST (neuen Datensatz, also Kunden, anlegen) /api/customers, vor der Korrektur antwortete der Server hier mit Fehler 500
+  await dialog.getByRole('button', { name: 'Speichern' }).click();
+
+  // Gespeichert: Die Kundenseite öffnet sich und zeigt den vollständigen Namen
+  // Die Adresse muss auf /customers/<Id des neuen Kunden> enden, \d+ steht für eine oder mehrere Ziffern
+  await expect(page).toHaveURL(/\/customers\/\d+$/);
+  // Die Überschrift zeigt "Vorname Nachname". So ist geprüft, dass alle 100 Zeichen gespeichert und nicht abgeschnitten wurden
+  await expect(page.getByTestId('customer-name')).toHaveText(`Erika ${lastName}`);
+});

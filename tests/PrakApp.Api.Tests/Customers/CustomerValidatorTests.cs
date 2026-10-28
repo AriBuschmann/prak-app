@@ -37,6 +37,30 @@ public class CustomerValidatorTests
         Assert.Contains("LastName", errors.ToDictionary().Keys);
     }
 
+    // Höchstlänge 100 Zeichen, passend zur Datenbank-Spalte LastName NVARCHAR(100) (Patch 1.1.0/0002)
+    // Grenzwert-Test: genau 100 Zeichen sind gerade noch erlaubt
+    [Fact]
+    public void Last_name_may_have_100_characters()
+    {
+        // Gültiger Kunde, nur der Nachname wird ersetzt: "with" macht eine Kopie des Records mit geändertem Feld,
+        // new string('A', 100) ergibt einen Text aus 100-mal dem Buchstaben A
+        var errors = _validator.Validate(ValidCustomer() with { LastName = new string('A', 100) });
+
+        // Keine Fehler: Der Kunde darf gespeichert werden
+        Assert.True(errors.IsValid);
+    }
+
+    // Grenzwert-Test: ein Zeichen mehr (101) muss abgelehnt werden
+    [Fact]
+    public void Last_name_longer_than_100_characters_is_rejected()
+    {
+        // Wie oben, aber mit 101 Zeichen
+        var errors = _validator.Validate(ValidCustomer() with { LastName = new string('A', 101) });
+
+        // Der Fehler muss beim Feld "LastName" stehen, damit das Frontend die Meldung am Eingabefeld anzeigt
+        Assert.Contains("LastName", errors.ToDictionary().Keys);
+    }
+
     [Theory]
     [InlineData("1234")]
     [InlineData("123456")]
