@@ -56,8 +56,9 @@ public sealed class ContractRepository(IDbConnectionFactory db) : IContractRepos
     public async Task<int> CreateAsync(ContractInput input, string createdBy)
     {
         // Vertragsnummer: V-<Jahr des Vertragsbeginns>-<laufende Nummer>
+        // Laufende Nummer aus dem Zähler ContractNumberSeq (Patch 1.1.0/0003) statt MAX(Id) + 1, siehe CustomerRepository
         const string sql = """
-            DECLARE @next INT = ISNULL((SELECT MAX(Id) FROM dbo.Contract), 0) + 1;
+            DECLARE @next INT = NEXT VALUE FOR dbo.ContractNumberSeq;
 
             INSERT INTO dbo.Contract (ContractNumber, CustomerId, ContractTypeId, StartDate, EndDate, MonthlyFee, CreatedBy)
             VALUES (CONCAT(N'V-', YEAR(@StartDate), N'-', RIGHT(CONCAT(N'0000', @next), 4)),

@@ -58,8 +58,10 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
     public async Task<int> CreateAsync(CustomerInput input, string createdBy)
     {
         // Kundennummer: "K-" + laufende Nummer ab 100001
+        // Die Nummer kommt aus dem Zähler CustomerNumberSeq (Patch 1.1.0/0003). Vorher MAX(Id) + 1: Bei gleichzeitigen
+        // Anfragen bekamen zwei Kunden dieselbe Nummer → Fehler 500. NEXT VALUE FOR vergibt jede Zahl nur einmal
         const string sql = """
-            DECLARE @next INT = 100001 + ISNULL((SELECT MAX(Id) FROM dbo.Customer), 0);
+            DECLARE @next INT = NEXT VALUE FOR dbo.CustomerNumberSeq;
 
             INSERT INTO dbo.Customer (CustomerNumber, FirstName, LastName, Email, Phone, Street, PostalCode, City, CreatedBy)
             VALUES (CONCAT(N'K-', @next), @FirstName, @LastName, @Email, @Phone, @Street, @PostalCode, @City, @CreatedBy);
