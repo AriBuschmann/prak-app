@@ -55,7 +55,14 @@ export class CustomerDetail {
   }
 
   edit(): void {
-    this.form = this.customer;
+    // Ohne geladenen Kunden gibt es nichts zu bearbeiten (gleiche Prüfung wie am Anfang von save())
+    if (!this.customer) return;
+    // Kopie statt Verweis: Sonst ändert das Formular direkt den angezeigten Kunden, auch wenn man abbricht
+    // Vorher stand hier this.form = this.customer: Beide Variablen zeigten auf dasselbe Objekt, jede Eingabe im
+    // Formular war sofort in der Überschrift und den Details zu sehen und blieb nach "Abbrechen" stehen.
+    // { ...this.customer } legt ein neues Objekt an und kopiert alle Felder hinein.
+    // Der angezeigte Kunde ändert sich jetzt erst in save(), wenn der Server die gespeicherten Daten zurückgibt.
+    this.form = { ...this.customer };
     this.errors = {};
     this.editOpen = true;
   }

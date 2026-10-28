@@ -75,3 +75,34 @@ test('Nachname mit 100 Zeichen kann gespeichert werden', async ({ page }) => {
   // Die Überschrift zeigt "Vorname Nachname". So ist geprüft, dass alle 100 Zeichen gespeichert und nicht abgeschnitten wurden
   await expect(page.getByTestId('customer-name')).toHaveText(`Erika ${lastName}`);
 });
+
+test('Bearbeiten → Abbrechen verwirft die Änderungen', async ({ page }) => {
+  // Bug: Das Formular bearbeitete direkt den angezeigten Kunden, Änderungen blieben nach "Abbrechen" auf der Seite stehen.
+  // Der Test speichert nichts, er legt also keinen Kunden an und ändert keine Daten in der Datenbank.
+
+  // Ersten Kunden der Liste öffnen: die erste Zelle, deren Text eine Kundennummer wie "K-100040" ist
+  await page.locator('.grid div[role=gridcell]').filter({ hasText: /^K-\d+$/ }).first().click();
+  // Die Kundenseite ist offen, wenn die Adresse auf /customers/<Id> endet
+  await expect(page).toHaveURL(/\/customers\/\d+$/);
+  // Die Überschrift "Vorname Nachname" merken, um sie nach dem Abbrechen zu vergleichen
+  const heading = page.getByTestId('customer-name');
+  // textContent() kann null liefern, das ! sagt TypeScript: hier ist sicher ein Text vorhanden
+  const originalName = (await heading.textContent())!;
+
+  // Dialog "Kunde bearbeiten" öffnen
+  await page.getByRole('button', { name: 'Bearbeiten' }).click();
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  // Eingabefeld für den Vornamen, dessen ursprünglichen Inhalt merken
+  const firstName = dialog.locator('input[name=firstName]');
+  const originalFirstName = await firstName.inputValue();
+  // Vornamen ändern und dann abbrechen statt speichern
+  await firstName.fill('Geändert');
+  await dialog.getByRole('button', { name: 'Abbrechen' }).click();
+
+  // Prüfung 1: Die Überschrift zeigt weiter den alten Namen (vor der Korrektur stand hier "Geändert Albers")
+  await expect(heading).toHaveText(originalName);
+  // Prüfung 2: Beim erneuten Öffnen steht wieder der alte Vorname im Feld, die Eingabe "Geändert" ist verworfen.
+  // Der Locator firstName kann weiterverwendet werden, Playwright sucht das Feld bei jeder Prüfung neu
+  await page.getByRole('button', { name: 'Bearbeiten' }).click();
+  await expect(firstName).toHaveValue(originalFirstName);
+});
