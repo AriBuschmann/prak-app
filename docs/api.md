@@ -102,7 +102,8 @@ Beispiel für das Erfassen einer Zahlung:
 }
 ```
 
-Regeln: Der Betrag muss größer als 0 sein. Das Zahlungsdatum darf nicht in der Zukunft liegen.
+Regeln: Der Betrag muss größer als 0 sein. Das Zahlungsdatum ist Pflicht, darf nicht in der Zukunft und nicht vor
+dem 01.01.2000 liegen.
 
 ## Fehlerantworten
 

@@ -52,11 +52,30 @@ export class ContractDetail {
       // Woche im Kalender beginnt am Montag (0 wäre Sonntag, die Voreinstellung von jQWidgets)
       firstDayOfWeek: 1,
     });
+    // true = Capture-Phase: Unser Handler am äußeren Element läuft vor dem von jQWidgets im Eingabefeld
+    this.paymentDateEl.addEventListener('keydown', this.clearDateOnBackspace, true);
   }
 
   detaching(): void {
+    // Beim Verlassen der Seite den Handler wieder abmelden (gleiche Funktion, gleiches true wie bei addEventListener),
+    // sonst bliebe er am Element hängen
+    this.paymentDateEl.removeEventListener('keydown', this.clearDateOnBackspace, true);
     $(this.paymentDateEl).jqxDateTimeInput('destroy');
   }
+
+  // jQWidgets setzt bei Backspace den Teil des Datums unter dem Cursor auf seinen kleinsten Wert, beim Jahr 1900.
+  // Stattdessen wie bei Entf das ganze Datum löschen; der Server meldet dann "Zahlungsdatum ist erforderlich."
+  // Pfeilfunktion, damit "this" stimmt und removeEventListener dieselbe Funktion wiederfindet
+  private readonly clearDateOnBackspace = (event: KeyboardEvent): void => {
+    // Alle anderen Tasten (Ziffern, Pfeile, Entf, ...) unverändert an jQWidgets weitergeben
+    if (event.key !== 'Backspace') return;
+    // preventDefault: der Browser macht mit der Taste nichts selbst.
+    // stopPropagation: das Ereignis wandert nicht weiter zum Eingabefeld, jQWidgets bekommt es also nicht mehr
+    event.preventDefault();
+    event.stopPropagation();
+    // null = leeres Feld (wie bei Entf); savePayment() schickt dann paymentDate: null an den Server
+    $(this.paymentDateEl).jqxDateTimeInput('setDate', null);
+  };
 
   showPayment(): void {
     if (!this.contract) return;
