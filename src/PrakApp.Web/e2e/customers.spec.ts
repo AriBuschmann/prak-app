@@ -138,3 +138,29 @@ test('zu lange Eingaben bei E-Mail, Telefon, Straße und Ort werden gemeldet', a
   // Nicht gespeichert: Die Adresse endet weiter auf /customers (Kundenliste), es wurde keine Kundenseite /customers/<Id> geöffnet
   await expect(page).toHaveURL(/\/customers$/);
 });
+
+test('zweistellig getipptes Jahr beim Vertragsbeginn wird gemeldet', async ({ page }) => {
+  // Bug: Tippt man im Datumsfeld beim Jahr nur "26", macht der Browser daraus das Jahr 0026. Der Server stürzte
+  // beim Speichern mit Fehler 500 ab. Jetzt antwortet er mit 400 und einer Meldung am Feld, es wird nichts gespeichert.
+
+  // Kundenseite von Kunde 2 aus den Demo-Daten öffnen und den Dialog "Neuer Vertrag" aufmachen
+  await page.goto('/customers/2');
+  await page.getByRole('button', { name: 'Neuer Vertrag' }).click();
+  // Nur den sichtbaren Dialog nehmen (der Dialog "Kunde bearbeiten" ist versteckt auch auf der Seite)
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  // Die übrigen Pflichtfelder gültig ausfüllen, damit nur der Fehler beim Datum übrig bleibt:
+  // index: 1 ist die erste echte Vertragsart (index 0 ist "Bitte wählen")
+  await dialog.locator('select[name=contractTypeId]').selectOption({ index: 1 });
+  await dialog.locator('input[name=monthlyFee]').fill('9.90');
+  // Genau den Wert setzen, der beim Tippen von "01 10 26" entsteht. fill() statt Eintippen, weil das Tippen
+  // in das Datumsfeld vom Timing abhängt und der Test sonst mal grün, mal rot wäre.
+  // Das Datumsfeld erwartet den Wert immer im Format JJJJ-MM-TT, egal wie es im Browser angezeigt wird
+  await dialog.locator('input[name=startDate]').fill('0026-10-01');
+  // Speichern schickt POST /api/contracts; vor der Korrektur kam hier Fehler 500 ohne Meldung im Dialog
+  await dialog.getByRole('button', { name: 'Speichern' }).click();
+
+  // Die Meldung vom Server steht im Dialog am Feld "Vertragsbeginn"
+  await expect(dialog.getByText('Vertragsbeginn muss zwischen 01.01.2000 und 31.12.2099 liegen.')).toBeVisible();
+  // Nicht gespeichert: Wir sind noch auf der Kundenseite, es wurde keine Vertragsseite /contracts/<Id> geöffnet
+  await expect(page).toHaveURL(/\/customers\/2$/);
+});

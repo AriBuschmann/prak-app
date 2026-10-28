@@ -51,6 +51,10 @@ Telefon 30, Straße 100, Ort 80 Zeichen.
 | GET     | `/api/contracts/{id}/cancellation-preview` | Voraussichtliches Vertragsende bei Kündigung heute (speichert nichts) |
 | POST    | `/api/contracts/{id}/cancel`  | Vertrag kündigen, Body: `{ "reason": "..." }`  |
 
+Regeln für `POST /api/contracts`: Kunde, Vertragsart und Vertragsbeginn sind Pflicht, der Monatsbeitrag ist größer
+als 0 und höchstens 9999,99. Vertragsbeginn und Vertragsende liegen zwischen 01.01.2000 und 31.12.2099, das
+Vertragsende nicht vor dem Vertragsbeginn.
+
 ### Kündigung
 
 Fachliche Regeln: [docs/features/kuendigung.md](features/kuendigung.md).
