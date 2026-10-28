@@ -6,6 +6,30 @@
     "customers": "Customers",
     "logout": "Sign out"
   },
+  "pageTitle": {
+    "login": "Sign in",
+    "customers": "Customers",
+    "customer": "Customer",
+    "contract": "Contract"
+  },
+  "grid": {
+    "showRows": "Show rows:",
+    "goToPage": "Go to page:",
+    "range": " of ",
+    "empty": "No data to display",
+    "loading": "Loading …"
+  },
+  "calendar": {
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "monthsShort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "daysShort": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+  },
+  "httpStatus": {
+    "403": "Access denied",
+    "404": "Not found",
+    "500": "Internal server error"
+  },
   "login": {
     "title": "Sign in",
     "hint": "Practice environment: pick a user. There is no password."

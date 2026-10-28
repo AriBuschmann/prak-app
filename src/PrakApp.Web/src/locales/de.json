@@ -6,6 +6,30 @@
     "customers": "Kunden",
     "logout": "Abmelden"
   },
+  "pageTitle": {
+    "login": "Anmeldung",
+    "customers": "Kunden",
+    "customer": "Kunde",
+    "contract": "Vertrag"
+  },
+  "grid": {
+    "showRows": "Zeilen anzeigen:",
+    "goToPage": "Gehe zu Seite:",
+    "range": " von ",
+    "empty": "Keine Daten vorhanden",
+    "loading": "Wird geladen …"
+  },
+  "calendar": {
+    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+    "monthsShort": ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+    "days": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+    "daysShort": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
+  },
+  "httpStatus": {
+    "403": "Keine Berechtigung",
+    "404": "Nicht gefunden",
+    "500": "Interner Serverfehler"
+  },
   "login": {
     "title": "Anmeldung",
     "hint": "Übungsumgebung: Wähle einen Benutzer aus. Es gibt kein Passwort."

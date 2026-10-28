@@ -1,5 +1,6 @@
 import { bindable } from 'aurelia';
 import { $, JQX_THEME } from '../jqx';
+import { gridLocalization } from '../jqx/localization';
 
 export interface GridColumn {
   text: string;
@@ -37,6 +38,7 @@ export class JqxGrid<T = unknown> {
       columnsresize: true,
       altrows: true,
       selectionmode: 'singlerow',
+      localization: gridLocalization(),
       source: this.createAdapter(),
       columns: this.columns.map(({ type: _type, ...column }) => column),
     });

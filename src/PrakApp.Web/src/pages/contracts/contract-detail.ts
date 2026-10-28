@@ -2,6 +2,7 @@ import { resolve } from 'aurelia';
 import type { Params } from '@aurelia/router';
 import { I18N } from '@aurelia/i18n';
 import { $, JQX_THEME } from '../../jqx';
+import { calendarLocalization } from '../../jqx/localization';
 import { http, ApiError } from '../../services/http';
 // Neu in dieser Zeile: toIsoDate, die Hilfsfunktion aus format.ts, die ein Date in "JJJJ-MM-TT" umwandelt
 import { dateCell, formatDate, formatMoney, moneyCell, toIsoDate } from '../../services/format';
@@ -47,6 +48,9 @@ export class ContractDetail {
       width: '100%',
       height: 32,
       formatString: 'dd.MM.yyyy',
+      localization: calendarLocalization(),
+      // Woche im Kalender beginnt am Montag (0 wäre Sonntag, die Voreinstellung von jQWidgets)
+      firstDayOfWeek: 1,
     });
   }
 
