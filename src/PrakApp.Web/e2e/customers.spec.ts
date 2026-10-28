@@ -106,3 +106,35 @@ test('Bearbeiten → Abbrechen verwirft die Änderungen', async ({ page }) => {
   await page.getByRole('button', { name: 'Bearbeiten' }).click();
   await expect(firstName).toHaveValue(originalFirstName);
 });
+
+test('zu lange Eingaben bei E-Mail, Telefon, Straße und Ort werden gemeldet', async ({ page }) => {
+  // Bug: Der Validator prüfte die Länge dieser vier Felder nicht, zu lange Werte führten in der Datenbank zu Fehler 500.
+  // Jetzt antwortet der Server mit 400 und je einer Meldung pro Feld. Weil das Speichern abgelehnt wird, legt der Test keinen Kunden an.
+
+  // Dialog "Neuer Kunde" öffnen; nur den sichtbaren Dialog nehmen (auf der Seite gibt es weitere, versteckte Dialoge)
+  await page.getByRole('button', { name: 'Neuer Kunde' }).click();
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  // Pflichtfelder gültig ausfüllen, damit nur die vier Längenfehler übrig bleiben
+  await dialog.locator('input[name=firstName]').fill('Erika');
+  await dialog.locator('input[name=lastName]').fill('Laengentest');
+  // Jedes Feld genau ein Zeichen länger als erlaubt. 'x'.repeat(n) ergibt einen Text aus n-mal x
+  // E-Mail: 189 + 12 ("@example.org") = 201 Zeichen; gültiges Format, damit die Längen-Meldung kommt und nicht "ungültig"
+  await dialog.locator('input[name=email]').fill('a'.repeat(189) + '@example.org');
+  // Telefon: 31 Zeichen (erlaubt sind 30)
+  await dialog.locator('input[name=phone]').fill('1'.repeat(31));
+  // Straße: 101 Zeichen (erlaubt sind 100)
+  await dialog.locator('input[name=street]').fill('S'.repeat(101));
+  // Ort: 81 Zeichen (erlaubt sind 80)
+  await dialog.locator('input[name=city]').fill('O'.repeat(81));
+  // Speichern schickt POST /api/customers; vor der Korrektur kam hier Fehler 500 und keine Meldung an den Feldern
+  await dialog.getByRole('button', { name: 'Speichern' }).click();
+
+  // Alle vier Meldungen vom Server müssen im Dialog sichtbar sein.
+  // Für Telefon, Straße und Ort gab es im Formular (customer-form.html) vorher gar keine Zeile für Fehlermeldungen
+  await expect(dialog.getByText('E-Mail-Adresse darf höchstens 200 Zeichen lang sein.')).toBeVisible();
+  await expect(dialog.getByText('Telefon darf höchstens 30 Zeichen lang sein.')).toBeVisible();
+  await expect(dialog.getByText('Straße darf höchstens 100 Zeichen lang sein.')).toBeVisible();
+  await expect(dialog.getByText('Ort darf höchstens 80 Zeichen lang sein.')).toBeVisible();
+  // Nicht gespeichert: Die Adresse endet weiter auf /customers (Kundenliste), es wurde keine Kundenseite /customers/<Id> geöffnet
+  await expect(page).toHaveURL(/\/customers$/);
+});

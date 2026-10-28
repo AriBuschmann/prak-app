@@ -38,6 +38,8 @@ Beispiel für `POST /api/customers`:
 ```
 
 Regeln: Vor- und Nachname sind Pflicht, die PLZ hat 5 Ziffern, die E-Mail-Adresse muss gültig sein.
+Höchstlängen (Leerzeichen am Anfang und Ende zählen nicht): Vorname 50, Nachname 100, E-Mail 200,
+Telefon 30, Straße 100, Ort 80 Zeichen.
 
 ## Verträge
 

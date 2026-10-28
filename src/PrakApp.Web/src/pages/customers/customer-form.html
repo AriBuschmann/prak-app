@@ -17,10 +17,12 @@
   <label class="wide">
     <span t="customer.phone"></span>
     <input name="phone" value.bind="customer.phone" autocomplete="off">
+    <small class="error" repeat.for="message of errors.phone">${message}</small>
   </label>
   <label class="wide">
     <span t="customer.street"></span>
     <input name="street" value.bind="customer.street" autocomplete="off">
+    <small class="error" repeat.for="message of errors.street">${message}</small>
   </label>
   <label>
     <span t="customer.postalCode"></span>
@@ -30,5 +32,6 @@
   <label>
     <span t="customer.city"></span>
     <input name="city" value.bind="customer.city" autocomplete="off">
+    <small class="error" repeat.for="message of errors.city">${message}</small>
   </label>
 </div>

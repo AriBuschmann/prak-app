@@ -61,6 +61,58 @@ public class CustomerValidatorTests
         Assert.Contains("LastName", errors.ToDictionary().Keys);
     }
 
+    // Höchstlängen von E-Mail, Telefon, Straße und Ort = Spaltenlängen in dbo.Customer.
+    // Vorher prüfte der Validator diese Längen nicht: zu lange Werte führten in der Datenbank zu Fehler 500.
+    // Die Zahlen stehen hier absichtlich als feste Werte und nicht als CustomerValidator.PhoneMaxLength usw.:
+    // So fällt der Test auf, wenn jemand die Konstanten im Validator ändert, ohne an die Datenbank zu denken.
+
+    // Grenzwert-Test: genau die Höchstlänge ist gerade noch erlaubt.
+    // [Theory] mit [InlineData] heißt: derselbe Test läuft viermal, einmal pro Zeile mit diesen Werten
+    // für die Parameter field und maxLength (z. B. field = "Phone", maxLength = 30)
+    [Theory]
+    [InlineData("Email", 200)]
+    [InlineData("Phone", 30)]
+    [InlineData("Street", 100)]
+    [InlineData("City", 80)]
+    public void Optional_fields_may_have_their_maximum_length(string field, int maxLength)
+    {
+        // Gültiger Kunde, bei dem nur das Feld "field" genau maxLength Zeichen lang ist (Hilfsmethode unten)
+        var errors = _validator.Validate(WithLength(field, maxLength));
+
+        // Keine Fehler: Der Kunde darf so gespeichert werden
+        Assert.True(errors.IsValid);
+    }
+
+    // Grenzwert-Test: ein Zeichen mehr als die Höchstlänge muss abgelehnt werden (gleiche vier Fälle wie oben)
+    [Theory]
+    [InlineData("Email", 200)]
+    [InlineData("Phone", 30)]
+    [InlineData("Street", 100)]
+    [InlineData("City", 80)]
+    public void Optional_fields_longer_than_maximum_are_rejected(string field, int maxLength)
+    {
+        // Wie oben, aber mit maxLength + 1 Zeichen (z. B. 31 Zeichen beim Telefon)
+        var errors = _validator.Validate(WithLength(field, maxLength + 1));
+
+        // Der Fehler muss genau beim betroffenen Feld stehen, damit das Frontend die Meldung an diesem Eingabefeld anzeigt
+        Assert.Contains(field, errors.ToDictionary().Keys);
+    }
+
+    // Hilfsmethode: liefert einen gültigen Kunden, bei dem nur das genannte Feld "length" Zeichen lang ist.
+    // "field switch { ... }" wählt je nach Feldname die passende Zeile aus.
+    private static CustomerInput WithLength(string field, int length) => field switch
+    {
+        // Die E-Mail muss trotz Länge gültig aussehen, sonst käme die Meldung "ungültig" statt der Längen-Meldung.
+        // Darum: so viele 'a' wie nötig, dann "@example.org" (12 Zeichen), zusammen genau "length" Zeichen
+        "Email" => ValidCustomer() with { Email = new string('a', length - "@example.org".Length) + "@example.org" },
+        // Bei den anderen Feldern reicht ein Zeichen, "length"-mal wiederholt
+        "Phone" => ValidCustomer() with { Phone = new string('1', length) },
+        "Street" => ValidCustomer() with { Street = new string('S', length) },
+        "City" => ValidCustomer() with { City = new string('O', length) },
+        // _ steht für "alle anderen Werte": Ein Tippfehler im Feldnamen bei [InlineData] fällt so sofort auf
+        _ => throw new ArgumentException($"Unbekanntes Feld: {field}"),
+    };
+
     [Theory]
     [InlineData("1234")]
     [InlineData("123456")]
