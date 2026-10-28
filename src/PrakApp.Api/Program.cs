@@ -66,6 +66,10 @@ app.UseAuthorization();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapControllers().RequireAuthorization();
+// Unbekannte API-Adressen: 404 statt der Startseite. Gilt für alle HTTP-Methoden (GET, POST, ...).
+// Die Route /api/... ist genauer als der Fallback darunter und gewinnt deshalb bei allen Adressen, die mit /api/ beginnen
+app.MapFallback("/api/{**path}", () => Results.NotFound());
+// Alle anderen unbekannten Adressen (z. B. /customers/40 nach F5) bekommen index.html, den Rest erledigt der Aurelia-Router
 app.MapFallbackToFile("index.html");
 
 app.Run();
