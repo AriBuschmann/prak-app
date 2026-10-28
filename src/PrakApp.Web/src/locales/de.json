@@ -24,7 +24,7 @@
     "new": "Neuer Kunde",
     "edit": "Kunde bearbeiten",
     "found": "Kunden",
-    "searchPlaceholder": "Suche nach Name oder Kundennummer"
+    "searchPlaceholder": "Suche nach Name, Ort oder Kundennummer"
   },
   "customer": {
     "number": "Kundennr.",

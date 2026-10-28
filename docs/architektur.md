@@ -64,4 +64,5 @@ bevor die jqx-Module geladen werden.
 ## Kundensuche
 
 Die Suche in der Kundenliste findet Kunden über Nachname, Vorname, Ort und Kundennummer.
-Bei Namen wird nach dem Anfang gesucht („Schu“ findet „Schulz“), bei der Kundennummer überall.
+Bei Namen und Ort wird nach dem Anfang gesucht („Schu“ findet „Schulz“, „Würz“ findet „Würzburg“), bei der
+Kundennummer überall.

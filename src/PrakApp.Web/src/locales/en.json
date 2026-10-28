@@ -24,7 +24,7 @@
     "new": "New customer",
     "edit": "Edit customer",
     "found": "customers",
-    "searchPlaceholder": "Search by name or customer number"
+    "searchPlaceholder": "Search by name, city or customer number"
   },
   "customer": {
     "number": "Customer no.",

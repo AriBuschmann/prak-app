@@ -229,3 +229,16 @@ for (const { timezoneId, expected } of createdAtByTimezone) {
     });
   });
 }
+
+// Bug: Die Suche fand keinen Ort, obwohl docs/architektur.md das verspricht (in der SQL-Abfrage fehlte City).
+// In den Demo-Daten wohnen genau 6 Kunden in Würzburg; die anderen Tests legen dort keine Kunden an, die Zahl bleibt also gleich
+test('Suche findet Kunden über den Ort', async ({ page }) => {
+  // Nur den Anfang des Orts eingeben: Wie bei den Namen wird nach dem Anfang gesucht, "Würz" muss "Würzburg" finden.
+  // fill() reicht, die Suche startet bei jeder Änderung im Feld (Ereignis input) nach 300 ms
+  await page.getByTestId('customer-search').fill('Würz');
+
+  // Die Trefferanzeige neben dem Suchfeld zeigt die 6 Würzburger Kunden (vor der Korrektur: "0 Kunden")
+  await expect(page.locator('.toolbar .muted')).toHaveText('6 Kunden');
+  // In der Tabelle stehen 6 Zeilen, die "Würzburg" enthalten, also wirklich die Kunden aus diesem Ort
+  await expect(page.locator('.grid [role=row]').filter({ hasText: 'Würzburg' })).toHaveCount(6);
+});

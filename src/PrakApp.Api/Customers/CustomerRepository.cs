@@ -27,6 +27,7 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
             WHERE @Query IS NULL
                OR cu.LastName LIKE @Query + '%'
                OR cu.FirstName LIKE @Query + '%'
+               OR cu.City LIKE @Query + '%'
                OR cu.CustomerNumber LIKE '%' + @Query + '%'
             GROUP BY cu.Id, cu.CustomerNumber, cu.FirstName, cu.LastName, cu.City
             ORDER BY cu.LastName, cu.FirstName;

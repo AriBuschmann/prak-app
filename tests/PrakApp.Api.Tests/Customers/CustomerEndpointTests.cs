@@ -27,4 +27,30 @@ public class CustomerEndpointTests(WebApplicationFactory<Program> factory) : ICl
         // Das Feld createdAt als Text holen und prüfen, dass es mit "Z" endet: bei Kunde 1 "2023-01-29T10:15:00Z"
         Assert.EndsWith("Z", customer.GetProperty("createdAt").GetString());
     }
+
+    // Bug: Die Suche fand keinen Ort, obwohl docs/architektur.md das verspricht. In der SQL-Abfrage im
+    // CustomerRepository fehlte die Bedingung für City. Wie bei den Namen wird nach dem Anfang gesucht.
+    // Würzburg passt gut: In den Demo-Daten gibt es dort Kunden, aber kein Name und keine Kundennummer beginnt
+    // mit "Würz". Ein Treffer kann also nur über den Ort kommen. Der Test liest nur, er ändert nichts.
+    // Der Test läuft zweimal: mit dem ganzen Ort und nur mit dem Anfang ("Würz" muss "Würzburg" finden)
+    [Theory]
+    [InlineData("Würzburg")]
+    [InlineData("Würz")]
+    public async Task Search_finds_customers_by_city(string query)
+    {
+        // Anmelden wie im Test oben, sonst antwortet die API mit 401
+        var client = factory.CreateClient(new WebApplicationFactoryClientOptions { HandleCookies = true });
+        (await client.PostAsJsonAsync("/api/auth/login", new { userName = "praktikum" })).EnsureSuccessStatusCode();
+
+        // Suche über die API, wie das Suchfeld sie schickt: GET /api/customers?q=...
+        // Uri.EscapeDataString macht den Suchtext für die Adresse sicher, z. B. wird "ü" zu "%C3%BC".
+        // Die Antwort ist eine Liste von Kunden, hier als JsonElement[] (ein JSON-Objekt pro Kunde)
+        var customers = await client.GetFromJsonAsync<JsonElement[]>($"/api/customers?q={Uri.EscapeDataString(query)}");
+
+        // Es muss Treffer geben (vor der Korrektur war die Liste leer).
+        // Das ! sagt dem Compiler: Die Antwort ist hier nicht null
+        Assert.NotEmpty(customers!);
+        // Assert.All prüft jeden Kunden in der Liste: Alle Treffer müssen aus Würzburg sein, keine anderen
+        Assert.All(customers!, c => Assert.Equal("Würzburg", c.GetProperty("city").GetString()));
+    }
 }
