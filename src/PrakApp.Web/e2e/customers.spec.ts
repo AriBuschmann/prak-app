@@ -164,3 +164,37 @@ test('zweistellig getipptes Jahr beim Vertragsbeginn wird gemeldet', async ({ pa
   // Nicht gespeichert: Wir sind noch auf der Kundenseite, es wurde keine Vertragsseite /contracts/<Id> geöffnet
   await expect(page).toHaveURL(/\/customers\/2$/);
 });
+
+// Bug: Die Suche startete nur beim Loslassen einer Taste (keyup). Leeren mit dem X und Einfügen mit der Maus
+// drücken keine Taste, darum passierte nichts. Jetzt startet sie beim Ereignis "input", das bei jeder Änderung kommt.
+// Beide Tests prüfen auf "1 Kunden" statt auf die Gesamtzahl: Andere Tests legen gleichzeitig Kunden an,
+// die Gesamtzahl kann sich also während des Tests ändern, die Zahl der Treffer für K-100063 nicht.
+
+test('Suchfeld mit dem X leeren zeigt wieder alle Kunden', async ({ page }) => {
+  // Das Suchfeld und die Trefferanzeige rechts daneben ("106 Kunden"); beforeEach hat die Kundenliste schon geöffnet
+  const search = page.getByTestId('customer-search');
+  const found = page.locator('.toolbar .muted');
+  // Zuerst eine Suche mit genau einem Treffer: pressSequentially() tippt Buchstabe für Buchstabe mit echten Tastendrücken
+  await search.pressSequentially('K-100063');
+  await expect(found).toHaveText('1 Kunden');
+
+  // Position und Größe des Suchfelds holen (das ! sagt TypeScript: das Feld ist sicher sichtbar, also nicht null)
+  const box = (await search.boundingBox())!;
+  // Mit der Maus auf das X klicken. Das X ist kein eigenes Element, das man suchen kann, sondern wird vom Browser
+  // im Feld gezeichnet: Es sitzt (in Chromium) 16 Pixel vom rechten Rand, senkrecht in der Mitte des Felds
+  await search.click({ position: { x: box.width - 16, y: box.height / 2 } });
+
+  // Das X hat das Feld geleert (sonst hätte der Klick das X verfehlt) ...
+  await expect(search).toHaveValue('');
+  // ... und die Suche wurde neu gestartet: Es wird nicht mehr nur der eine Treffer angezeigt (vor der Korrektur blieb "1 Kunden" stehen)
+  await expect(found).not.toHaveText('1 Kunden');
+});
+
+test('Einfügen ohne Tastendruck startet die Suche', async ({ page }) => {
+  // fill() setzt den Text auf einmal ein, ohne eine Taste zu drücken, genau wie Einfügen mit der Maus (Rechtsklick → Einfügen).
+  // Das Rechtsklick-Menü des Browsers selbst kann Playwright nicht bedienen
+  await page.getByTestId('customer-search').fill('K-100063');
+
+  // Die Suche ist gestartet und hat genau einen Kunden gefunden (vor der Korrektur blieb die Gesamtzahl, z. B. "106 Kunden", stehen)
+  await expect(page.locator('.toolbar .muted')).toHaveText('1 Kunden');
+});

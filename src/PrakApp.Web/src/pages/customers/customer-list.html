@@ -5,7 +5,7 @@
   </div>
 
   <div class="toolbar">
-    <input type="search" class="search" value.bind="search" keyup.trigger="load() & debounce:300"
+    <input type="search" class="search" value.bind="search" input.trigger="load() & debounce:300"
            t="[placeholder]customers.searchPlaceholder" data-testid="customer-search">
     <span class="muted">${customers.length} ${'customers.found' | t}</span>
   </div>
