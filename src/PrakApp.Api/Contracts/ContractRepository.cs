@@ -12,7 +12,8 @@ public interface IContractRepository
     Task CancelAsync(int id, DateTime cancelledAt, DateTime endDate, string reason);
 }
 
-public sealed class ContractRepository(IDbConnectionFactory db) : IContractRepository
+// TimeProvider liefert "heute" für den Status "Beendet" (ContractStatus.Effective)
+public sealed class ContractRepository(IDbConnectionFactory db, TimeProvider time) : IContractRepository
 {
     public async Task<IReadOnlyList<ContractType>> GetTypesAsync()
     {
@@ -34,7 +35,9 @@ public sealed class ContractRepository(IDbConnectionFactory db) : IContractRepos
 
         using var connection = db.Create();
         var rows = await connection.QueryAsync<ContractListItem>(sql, new { customerId });
-        return rows.AsList();
+        // Verträge mit vergangenem Vertragsende als "Ended" liefern (siehe ContractStatus.Effective)
+        var today = time.GetLocalNow().Date;
+        return rows.Select(c => c with { Status = ContractStatus.Effective(c.Status, c.EndDate, today) }).ToList();
     }
 
     public async Task<ContractRecord?> GetAsync(int id)
@@ -50,7 +53,12 @@ public sealed class ContractRepository(IDbConnectionFactory db) : IContractRepos
             """;
 
         using var connection = db.Create();
-        return await connection.QuerySingleOrDefaultAsync<ContractRecord>(sql, new { id });
+        var contract = await connection.QuerySingleOrDefaultAsync<ContractRecord>(sql, new { id });
+        // Wie oben: nach dem Vertragsende "Ended". Weil auch Kündigung und Kündigungsvorschau den Vertrag hierüber
+        // lesen, lehnt der ContractService das Kündigen eines beendeten Vertrags automatisch ab (409)
+        return contract is null
+            ? null
+            : contract with { Status = ContractStatus.Effective(contract.Status, contract.EndDate, time.GetLocalNow().Date) };
     }
 
     public async Task<int> CreateAsync(ContractInput input, string createdBy)

@@ -55,6 +55,10 @@ Regeln für `POST /api/contracts`: Kunde, Vertragsart und Vertragsbeginn sind Pf
 als 0 und höchstens 9999,99. Vertragsbeginn und Vertragsende liegen zwischen 01.01.2000 und 31.12.2099, das
 Vertragsende nicht vor dem Vertragsbeginn.
 
+Status eines Vertrags (`status`): `Active`, `Cancelled` (gekündigt) oder `Ended` (beendet). Ab dem Tag nach dem
+Vertragsende liefert die API immer `Ended`, auch für aktive und gekündigte Verträge. Der Status wird dafür beim Lesen
+berechnet, in der Datenbank-Spalte `Status` bleibt der gespeicherte Wert stehen.
+
 ### Kündigung
 
 Fachliche Regeln: [docs/features/kuendigung.md](features/kuendigung.md).

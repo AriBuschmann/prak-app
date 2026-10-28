@@ -5,6 +5,14 @@ public static class ContractStatus
     public const string Active = "Active";
     public const string Cancelled = "Cancelled";
     public const string Ended = "Ended";
+
+    /// <summary>
+    /// Status, mit dem die App arbeitet: Ist das Vertragsende vorbei, ist der Vertrag "Ended", egal was gespeichert ist.
+    /// Das Vertragsende ist der letzte Tag des Vertrags, beendet ist er also erst ab dem Tag danach.
+    /// Wird beim Lesen berechnet (ContractRepository), damit es ohne zeitgesteuerten Job immer stimmt.
+    /// </summary>
+    public static string Effective(string storedStatus, DateTime? endDate, DateTime today) =>
+        endDate is { } end && end.Date < today.Date ? Ended : storedStatus;
 }
 
 public sealed record ContractType(int Id, string Code, string Name, int MinTermMonths, int NoticePeriodMonths);
