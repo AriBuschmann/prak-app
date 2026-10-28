@@ -10,6 +10,17 @@
     <span class="muted">${customers.length} ${'customers.found' | t}</span>
   </div>
 
+  <!-- Passende Verträge zur Vertragsnummer im Suchfeld; jeder Eintrag führt direkt zur Vertragsseite ("/" am Anfang) -->
+  <div class="card contract-hits" if.bind="contractHits.length" data-testid="contract-hits">
+    <h2 t="contracts.searchResults"></h2>
+    <ul>
+      <li repeat.for="hit of contractHits">
+        <a load="/contracts/${hit.id}">${hit.contractNumber}</a> · ${hit.customerName} ·
+        ${'contract.statusValues.' + hit.status | t}
+      </li>
+    </ul>
+  </div>
+
   <jqx-grid columns.bind="columns" rows.bind="customers" row-click.bind="row => open(row)"></jqx-grid>
 
   <modal-dialog heading.bind="'customers.new' | t" open.bind="createOpen">

@@ -139,6 +139,7 @@ public class ContractServiceCancelTests
         // Würde der Service sie doch aufrufen, bricht der Test mit NotSupportedException ab und wir merken es sofort
         public Task<IReadOnlyList<ContractType>> GetTypesAsync() => throw new NotSupportedException();
         public Task<IReadOnlyList<ContractListItem>> GetByCustomerAsync(int customerId) => throw new NotSupportedException();
+        public Task<IReadOnlyList<ContractSearchItem>> SearchByNumberAsync(string query) => throw new NotSupportedException();
         public Task<int> CreateAsync(ContractInput input, string createdBy) => throw new NotSupportedException();
     }
 

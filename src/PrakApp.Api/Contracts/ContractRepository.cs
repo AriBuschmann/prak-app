@@ -7,6 +7,7 @@ public interface IContractRepository
 {
     Task<IReadOnlyList<ContractType>> GetTypesAsync();
     Task<IReadOnlyList<ContractListItem>> GetByCustomerAsync(int customerId);
+    Task<IReadOnlyList<ContractSearchItem>> SearchByNumberAsync(string query);
     Task<ContractRecord?> GetAsync(int id);
     Task<int> CreateAsync(ContractInput input, string createdBy);
     Task CancelAsync(int id, DateTime cancelledAt, DateTime endDate, string reason);
@@ -36,6 +37,24 @@ public sealed class ContractRepository(IDbConnectionFactory db, TimeProvider tim
         using var connection = db.Create();
         var rows = await connection.QueryAsync<ContractListItem>(sql, new { customerId });
         // Verträge mit vergangenem Vertragsende als "Ended" liefern (siehe ContractStatus.Effective)
+        var today = time.GetLocalNow().Date;
+        return rows.Select(c => c with { Status = ContractStatus.Effective(c.Status, c.EndDate, today) }).ToList();
+    }
+
+    // Verträge, deren Nummer den Suchtext enthält (wie bei der Kundennummer), höchstens 10 Treffer.
+    // Groß-/Kleinschreibung spielt keine Rolle, weil die Datenbank Texte so vergleicht (Sortierfolge "CI")
+    public async Task<IReadOnlyList<ContractSearchItem>> SearchByNumberAsync(string query)
+    {
+        const string sql = """
+            SELECT TOP 10 c.Id, c.ContractNumber, CONCAT(cu.FirstName, N' ', cu.LastName) AS CustomerName, c.EndDate, c.Status
+            FROM dbo.Contract c
+            JOIN dbo.Customer cu ON cu.Id = c.CustomerId
+            WHERE c.ContractNumber LIKE '%' + @Query + '%'
+            ORDER BY c.ContractNumber;
+            """;
+
+        using var connection = db.Create();
+        var rows = await connection.QueryAsync<ContractSearchItem>(sql, new { Query = SqlLike.Escape(query.Trim()) });
         var today = time.GetLocalNow().Date;
         return rows.Select(c => c with { Status = ContractStatus.Effective(c.Status, c.EndDate, today) }).ToList();
     }

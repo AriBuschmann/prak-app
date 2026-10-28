@@ -48,7 +48,7 @@
     "new": "Neuer Kunde",
     "edit": "Kunde bearbeiten",
     "found": "Kunden",
-    "searchPlaceholder": "Suche nach Name, Ort oder Kundennummer"
+    "searchPlaceholder": "Suche nach Name, Ort, Kunden- oder Vertragsnummer"
   },
   "customer": {
     "number": "Kundennr.",
@@ -66,7 +66,8 @@
   "contracts": {
     "title": "Verträge",
     "new": "Neuer Vertrag",
-    "none": "Für diesen Kunden gibt es noch keine Verträge."
+    "none": "Für diesen Kunden gibt es noch keine Verträge.",
+    "searchResults": "Passende Verträge"
   },
   "contract": {
     "number": "Vertragsnr.",

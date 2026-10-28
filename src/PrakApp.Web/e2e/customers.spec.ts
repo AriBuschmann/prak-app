@@ -288,3 +288,15 @@ test.describe('Pfadzeile', () => {
     await expect(page.locator('.error-banner')).toHaveCount(0);
   });
 });
+
+test('Suche nach Vertragsnummer führt direkt zum Vertrag', async ({ page }) => {
+  await page.getByTestId('customer-search').fill('V-2023-0077');
+
+  const hits = page.getByTestId('contract-hits');
+  await expect(hits).toContainText('Clara Quast');
+  await hits.getByRole('link', { name: 'V-2023-0077' }).click();
+
+  await expect(page).toHaveURL(/\/contracts\/77$/);
+  await expect(page.getByRole('heading', { name: /V-2023-0077/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Zahlung erfassen' })).toBeVisible();
+});

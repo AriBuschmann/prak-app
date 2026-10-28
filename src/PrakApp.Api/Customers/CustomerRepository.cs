@@ -34,7 +34,7 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
             """;
 
         using var connection = db.Create();
-        var rows = await connection.QueryAsync<CustomerListItem>(sql, new { Query = EscapeLike(Normalize(query)) });
+        var rows = await connection.QueryAsync<CustomerListItem>(sql, new { Query = SqlLike.Escape(Normalize(query)) });
         return rows.AsList();
     }
 
@@ -104,9 +104,4 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
 
     private static string? Normalize(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : value.Trim();
-
-    // %, _ und [ sind bei LIKE Platzhalter (z. B. findet "%" sonst alle Kunden). In eckigen Klammern gelten sie als
-    // normales Zeichen. "[" zuerst ersetzen, sonst würden die Klammern aus den beiden anderen Ersetzungen mit ersetzt
-    private static string? EscapeLike(string? value) =>
-        value?.Replace("[", "[[]").Replace("%", "[%]").Replace("_", "[_]");
 }

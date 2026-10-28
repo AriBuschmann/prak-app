@@ -46,6 +46,15 @@ export interface ContractListItem {
 
 export type ContractStatus = 'Active' | 'Cancelled' | 'Ended';
 
+/** Treffer der Suche nach Vertragsnummer (GET /api/contracts?q=...) */
+export interface ContractSearchItem {
+  id: number;
+  contractNumber: string;
+  customerName: string;
+  endDate: string | null;
+  status: ContractStatus;
+}
+
 export interface ContractRecord {
   id: number;
   contractNumber: string;

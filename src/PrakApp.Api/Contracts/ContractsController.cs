@@ -10,6 +10,12 @@ public sealed class ContractsController(ContractService service, IContractReposi
     [HttpGet("/api/contract-types")]
     public Task<IReadOnlyList<ContractType>> GetTypes() => contracts.GetTypesAsync();
 
+    // Suche nach Vertragsnummer, z. B. aus dem Verwendungszweck einer Überweisung. Ohne Suchtext keine Treffer,
+    // damit nicht versehentlich alle Verträge geladen werden
+    [HttpGet]
+    public async Task<IReadOnlyList<ContractSearchItem>> Search([FromQuery] string? q) =>
+        string.IsNullOrWhiteSpace(q) ? [] : await contracts.SearchByNumberAsync(q);
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ContractDetail>> Get(int id) =>
         await service.GetDetailAsync(id) is { } detail ? detail : NotFound();

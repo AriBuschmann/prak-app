@@ -66,3 +66,7 @@ bevor die jqx-Module geladen werden.
 Die Suche in der Kundenliste findet Kunden über Nachname, Vorname, Ort und Kundennummer.
 Bei Namen und Ort wird nach dem Anfang gesucht („Schu“ findet „Schulz“, „Würz“ findet „Würzburg“), bei der
 Kundennummer überall.
+
+Zusätzlich sucht dasselbe Suchfeld nach Vertragsnummern (`GET /api/contracts?q=`, Nummer enthält den Text). Treffer
+stehen über der Kundentabelle unter „Passende Verträge“ und führen direkt zur Vertragsseite, z. B. um eine Zahlung
+mit Vertragsnummer im Verwendungszweck zu erfassen.

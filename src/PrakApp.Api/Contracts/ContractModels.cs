@@ -26,6 +26,14 @@ public sealed record ContractListItem(
     decimal MonthlyFee,
     string Status);
 
+/// <summary>Treffer der Suche nach Vertragsnummer (GET /api/contracts?q=...).</summary>
+public sealed record ContractSearchItem(
+    int Id,
+    string ContractNumber,
+    string CustomerName,
+    DateTime? EndDate,
+    string Status);
+
 public sealed record ContractRecord(
     int Id,
     string ContractNumber,

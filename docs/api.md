@@ -46,6 +46,7 @@ Telefon 30, Straße 100, Ort 80 Zeichen.
 | Methode | Pfad                          | Beschreibung                                   |
 |---------|-------------------------------|------------------------------------------------|
 | GET     | `/api/contract-types`         | Tarife                                         |
+| GET     | `/api/contracts?q=<text>`     | Verträge suchen, deren Nummer den Text enthält (max. 10; ohne Text: keine) |
 | GET     | `/api/contracts/{id}`         | Vertrag mit Beitragskonto (`balance`)          |
 | POST    | `/api/contracts`              | Vertrag anlegen                                |
 | GET     | `/api/contracts/{id}/cancellation-preview` | Voraussichtliches Vertragsende bei Kündigung heute (speichert nichts) |

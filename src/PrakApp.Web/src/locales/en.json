@@ -48,7 +48,7 @@
     "new": "New customer",
     "edit": "Edit customer",
     "found": "customers",
-    "searchPlaceholder": "Search by name, city or customer number"
+    "searchPlaceholder": "Search by name, city, customer or contract number"
   },
   "customer": {
     "number": "Customer no.",
@@ -66,7 +66,8 @@
   "contracts": {
     "title": "Contracts",
     "new": "New contract",
-    "none": "This customer has no contracts yet."
+    "none": "This customer has no contracts yet.",
+    "searchResults": "Matching contracts"
   },
   "contract": {
     "number": "Contract no.",

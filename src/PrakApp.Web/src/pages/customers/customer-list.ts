@@ -3,7 +3,7 @@ import { IRouter } from '@aurelia/router';
 import { I18N } from '@aurelia/i18n';
 import { http, ApiError } from '../../services/http';
 import { moneyCell } from '../../services/format';
-import type { Customer, CustomerInput, CustomerListItem } from '../../services/models';
+import type { ContractSearchItem, Customer, CustomerInput, CustomerListItem } from '../../services/models';
 import type { GridColumn } from '../../components/jqx-grid';
 
 const emptyCustomer = (): CustomerInput => ({
@@ -21,6 +21,8 @@ export class CustomerList {
   private readonly i18n = resolve(I18N);
 
   customers: CustomerListItem[] = [];
+  // Verträge, deren Nummer den Suchtext enthält (z. B. aus dem Verwendungszweck einer Überweisung)
+  contractHits: ContractSearchItem[] = [];
   search = '';
 
   createOpen = false;
@@ -43,7 +45,11 @@ export class CustomerList {
 
   async load(): Promise<void> {
     const q = this.search.trim();
-    this.customers = await http.get<CustomerListItem[]>(`/api/customers${q ? `?q=${encodeURIComponent(q)}` : ''}`);
+    // Kunden und passende Verträge gleichzeitig laden. Ohne Suchtext gibt es keine Vertragstreffer (leere Liste)
+    [this.customers, this.contractHits] = await Promise.all([
+      http.get<CustomerListItem[]>(`/api/customers${q ? `?q=${encodeURIComponent(q)}` : ''}`),
+      q ? http.get<ContractSearchItem[]>(`/api/contracts?q=${encodeURIComponent(q)}`) : Promise.resolve([]),
+    ]);
   }
 
   open(row: CustomerListItem): void {
