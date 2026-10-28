@@ -46,7 +46,12 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
             """;
 
         using var connection = db.Create();
-        return await connection.QuerySingleOrDefaultAsync<Customer>(sql, new { id });
+        var customer = await connection.QuerySingleOrDefaultAsync<Customer>(sql, new { id });
+        // CreatedAt wird in UTC gespeichert (SYSUTCDATETIME), Dapper weiß das aber nicht. Ohne Kennzeichnung fehlt im JSON
+        // das "Z", der Browser liest den Wert als Ortszeit und zeigt nachts zwischen 0 und 2 Uhr das Datum vom Vortag
+        return customer is null
+            ? null
+            : customer with { CreatedAt = DateTime.SpecifyKind(customer.CreatedAt, DateTimeKind.Utc) };
     }
 
     public async Task<int> CreateAsync(CustomerInput input, string createdBy)

@@ -13,7 +13,7 @@
       <dt t="customer.phone"></dt><dd>${customer.phone || '–'}</dd>
       <dt t="customer.address"></dt>
       <dd>${customer.street || ''}<br if.bind="customer.street">${customer.postalCode || ''} ${customer.city || ''}</dd>
-      <dt t="common.createdAt"></dt><dd>${formatDate(customer.createdAt)} (${customer.createdBy})</dd>
+      <dt t="common.createdAt"></dt><dd data-testid="customer-created-at">${formatDate(customer.createdAt)} (${customer.createdBy})</dd>
     </dl>
   </div>
 

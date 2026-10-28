@@ -198,3 +198,34 @@ test('Einfügen ohne Tastendruck startet die Suche', async ({ page }) => {
   // Die Suche ist gestartet und hat genau einen Kunden gefunden (vor der Korrektur blieb die Gesamtzahl, z. B. "106 Kunden", stehen)
   await expect(page.locator('.toolbar .muted')).toHaveText('1 Kunden');
 });
+
+// Bug: "Angelegt am" zeigte nachts (0 bis 2 Uhr) das Datum vom Vortag, weil der Browser den UTC-Zeitpunkt
+// aus der Datenbank als Ortszeit gelesen hat. Nachts um 1 Uhr können wir den Test nicht laufen lassen, darum geben wir
+// dem Browser andere Zeitzonen: Dort tritt derselbe Fehler zu jeder Tageszeit auf.
+// Kunde 40 aus den Demo-Daten wurde am 28.03.2023 um 10:15 Uhr UTC angelegt. Das ist in jeder Zeitzone ein anderes Datum:
+const createdAtByTimezone = [
+  // Berlin (Sommerzeit, UTC+2): 12:15 Uhr am 28.03. Hier stimmte die Anzeige auch vorher, der Fall prüft den Normalfall
+  { timezoneId: 'Europe/Berlin', expected: '28.03.2023' },
+  // Kiritimati (UTC+14): 00:15 Uhr am 29.03. Genau der Bug: kurz nach Mitternacht wurde vorher der Vortag (28.03.) angezeigt
+  { timezoneId: 'Pacific/Kiritimati', expected: '29.03.2023' },
+  // Pago Pago (UTC-11): 23:15 Uhr am 27.03. Der umgekehrte Fall, vorher wurde der Folgetag (28.03.) angezeigt
+  { timezoneId: 'Pacific/Pago_Pago', expected: '27.03.2023' },
+];
+
+// Für jeden Eintrag der Liste einen eigenen Test anlegen. { timezoneId, expected } holt die beiden Werte aus dem Eintrag
+for (const { timezoneId, expected } of createdAtByTimezone) {
+  // describe fasst Tests zu einer Gruppe zusammen, der Name erscheint in der Ausgabe, z. B. "Zeitzone Pacific/Kiritimati"
+  test.describe(`Zeitzone ${timezoneId}`, () => {
+    // test.use gilt nur in dieser Gruppe: Der Browser läuft in dieser Zeitzone statt in Europe/Berlin aus playwright.config.ts
+    test.use({ timezoneId });
+
+    test('"Angelegt am" zeigt das Datum in Ortszeit', async ({ page }) => {
+      // Kundenseite von Kunde 40 öffnen (angemeldet ist der Test schon durch beforeEach oben in der Datei)
+      await page.goto('/customers/40');
+
+      // Das Feld "Angelegt am" (data-testid in customer-detail.html) zeigt "Datum (angelegt von)".
+      // Das Datum muss das Datum in der Zeitzone des Browsers sein; m.berger hat Kunde 40 in den Demo-Daten angelegt
+      await expect(page.getByTestId('customer-created-at')).toHaveText(`${expected} (m.berger)`);
+    });
+  });
+}
