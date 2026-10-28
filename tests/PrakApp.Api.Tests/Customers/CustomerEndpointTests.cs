@@ -53,4 +53,32 @@ public class CustomerEndpointTests(WebApplicationFactory<Program> factory) : ICl
         // Assert.All prüft jeden Kunden in der Liste: Alle Treffer müssen aus Würzburg sein, keine anderen
         Assert.All(customers!, c => Assert.Equal("Würzburg", c.GetProperty("city").GetString()));
     }
+
+    // Bug: Die Suche setzt den Text in SQL "LIKE" ein. Dort sind %, _ und [ ] Platzhalter (% = beliebig viele Zeichen,
+    // _ = genau ein Zeichen, [a-z] = ein Zeichen von a bis z). Wer "%" eingab, fand deshalb alle Kunden.
+    // Jetzt maskiert EscapeLike im CustomerRepository diese Zeichen, sie werden als normale Zeichen gesucht.
+    // Kein Kunde in den Demo-Daten enthält eines dieser Zeichen (in der Datenbank geprüft), also muss die Suche
+    // jeweils 0 Treffer liefern. Der Test liest nur, er ändert nichts.
+    [Theory]
+    // vorher: alle Kunden, weil % für "beliebig viele Zeichen" stand
+    [InlineData("%")]
+    // vorher: alle Kunden, weil _ für "genau ein Zeichen" stand
+    [InlineData("_")]
+    // vorher: alle Kunden, weil [a-z] für "ein Buchstabe von a bis z" stand
+    [InlineData("[a-z]")]
+    // vorher: alle "Albers", weil _ das "e" ersetzt hat. Zeigt, dass der Platzhalter auch mitten im Text wirkte
+    [InlineData("Alb_rs")]
+    public async Task Search_treats_like_wildcards_as_normal_characters(string query)
+    {
+        // Anmelden wie in den Tests oben, sonst antwortet die API mit 401
+        var client = factory.CreateClient(new WebApplicationFactoryClientOptions { HandleCookies = true });
+        (await client.PostAsJsonAsync("/api/auth/login", new { userName = "praktikum" })).EnsureSuccessStatusCode();
+
+        // Suche über die API. Uri.EscapeDataString ist hier besonders wichtig: Ein "%" in einer Adresse hat selbst
+        // eine Sonderbedeutung (z. B. %C3%BC für "ü"), darum wird es zu "%25" umgeschrieben und kommt als "%" beim Server an
+        var customers = await client.GetFromJsonAsync<JsonElement[]>($"/api/customers?q={Uri.EscapeDataString(query)}");
+
+        // Keine Treffer: Das Zeichen wurde als normales Zeichen gesucht und kommt bei keinem Kunden vor
+        Assert.Empty(customers!);
+    }
 }
