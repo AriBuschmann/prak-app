@@ -12,6 +12,13 @@ export class ApiError extends Error {
   }
 }
 
+// Wird aufgerufen, wenn der Server mit 401 antwortet, d. h. die Sitzung ist abgelaufen. MyApp setzt die Funktion beim Start.
+let onUnauthorized: (() => void) | null = null;
+
+export function setUnauthorizedHandler(handler: () => void): void {
+  onUnauthorized = handler;
+}
+
 async function request<T>(method: string, url: string, body?: unknown): Promise<T> {
   const response = await fetch(url, {
     method,
@@ -21,6 +28,10 @@ async function request<T>(method: string, url: string, body?: unknown): Promise<
   });
 
   if (!response.ok) {
+    // Bei /api/auth/... ist 401 normal (noch nicht angemeldet, unbekannter Benutzer), das behandelt AuthService selbst
+    if (response.status === 401 && !url.startsWith('/api/auth/')) {
+      onUnauthorized?.();
+    }
     let problem: { title?: string; errors?: Record<string, string[]> } = {};
     try {
       problem = await response.json();
