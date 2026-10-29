@@ -331,3 +331,52 @@ test('Suche nach Vertragsnummer führt direkt zum Vertrag', async ({ page }) => 
   await expect(page.getByRole('heading', { name: /V-2023-0077/ })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Zahlung erfassen' })).toBeVisible();
 });
+
+test('Bearbeiten → Speichern übernimmt die Änderungen und speichert sie in der Datenbank', async ({ page }) => {
+  // Eigenen Kunden anlegen, damit die Demo-Kunden nicht verändert werden
+  const lastName = `Bearbeiten${Date.now()}`;
+  const created = await page.request.post('/api/customers', {
+    data: { firstName: 'Erika', lastName, postalCode: '24103', city: 'Kiel' },
+  });
+  expect(created.status()).toBe(201);
+  const { id } = await created.json();
+
+  await page.goto(`/customers/${id}`);
+  await page.getByRole('button', { name: 'Bearbeiten' }).click();
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  // Vorname und Ort ändern, dann speichern (PUT /api/customers/{id})
+  await dialog.locator('input[name=firstName]').fill('Erik');
+  await dialog.locator('input[name=city]').fill('Lübeck');
+  await dialog.getByRole('button', { name: 'Speichern' }).click();
+
+  // Der Dialog schließt sich und die Seite zeigt sofort die neuen Daten
+  await expect(dialog).toBeHidden();
+  await expect(page.getByTestId('customer-name')).toHaveText(`Erik ${lastName}`);
+  await expect(page.locator('.details')).toContainText('24103 Lübeck');
+
+  // Nach dem Neuladen kommen die Daten frisch vom Server, also aus der Datenbank
+  await page.reload();
+  await expect(page.getByTestId('customer-name')).toHaveText(`Erik ${lastName}`);
+  await expect(page.locator('.details')).toContainText('24103 Lübeck');
+  // Zusätzlich direkt über die API: gespeichert sind die neuen Werte, unverändert die übrigen
+  const saved = await (await page.request.get(`/api/customers/${id}`)).json();
+  expect(saved).toMatchObject({ firstName: 'Erik', lastName, postalCode: '24103', city: 'Lübeck' });
+});
+
+test('Bearbeiten mit leerem Nachnamen zeigt eine Fehlermeldung und speichert nichts', async ({ page }) => {
+  // Der Server lehnt mit 400 ab, deshalb ändert der Test keine Daten und kann einen Demo-Kunden nehmen
+  await page.locator('.grid div[role=gridcell]').filter({ hasText: /^K-\d+$/ }).first().click();
+  await expect(page).toHaveURL(/\/customers\/\d+$/);
+  const heading = page.getByTestId('customer-name');
+  const originalName = (await heading.textContent())!;
+
+  await page.getByRole('button', { name: 'Bearbeiten' }).click();
+  const dialog = page.locator('.dialog-body').filter({ visible: true });
+  await dialog.locator('input[name=lastName]').fill('');
+  await dialog.getByRole('button', { name: 'Speichern' }).click();
+
+  // Die Meldung vom Server steht am Feld, der Dialog bleibt offen, die Überschrift ist unverändert
+  await expect(dialog.getByText('Nachname ist erforderlich.')).toBeVisible();
+  await expect(dialog).toBeVisible();
+  await expect(heading).toHaveText(originalName);
+});
