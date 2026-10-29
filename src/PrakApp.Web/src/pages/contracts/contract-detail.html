@@ -50,7 +50,13 @@
       </div>
     </div>
 
-    <h2 t="payment.title"></h2>
+    <div class="section-header">
+      <h2 t="payment.title"></h2>
+      <!-- Ein Link statt Knopf: Der Browser lädt die Datei selbst herunter und schickt dabei das Anmelde-Cookie mit.
+           "external": Der Aurelia-Router soll den Klick nicht abfangen, sonst sucht er eine Seite "api/..." (AUR3401) -->
+      <a class="button" if.bind="payments.length" href="/api/contracts/${contract.id}/payments/export" download external
+         t="payment.exportCsv"></a>
+    </div>
     <p class="muted" if.bind="!payments.length" t="payment.none"></p>
     <jqx-grid else columns.bind="columns" rows.bind="payments" page-size.bind="10"></jqx-grid>
   </template>

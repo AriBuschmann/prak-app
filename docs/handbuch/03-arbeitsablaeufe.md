@@ -30,6 +30,9 @@ des Vortags weiter.
 Das Zahlungsdatum ist wichtig für Mahnungen und für Rückfragen von Kunden. Es muss exakt mit dem
 Kontoauszug übereinstimmen.
 
+Für Rückfragen (z. B. von der Buchhaltung) lassen sich die Zahlungen eines Vertrags auf der Vertragsseite mit
+„Als CSV exportieren“ als Datei speichern und in Excel öffnen.
+
 ## 3.4 Kündigungen
 
 1. Kündigungen kommen schriftlich, per E-Mail oder telefonisch (dann Rückruf zur Bestätigung).

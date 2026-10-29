@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using PrakApp.Api.Common;
 using PrakApp.Api.Contracts;
@@ -19,6 +20,21 @@ public sealed class PaymentsController(
             return NotFound();
         }
         return Ok(await payments.GetByContractAsync(contractId));
+    }
+
+    [HttpGet("export")]
+    public async Task<IActionResult> Export(int contractId)
+    {
+        var contract = await contracts.GetAsync(contractId);
+        if (contract is null)
+        {
+            return NotFound();
+        }
+
+        var csv = PaymentCsv.Build(contract.ContractNumber, await payments.GetByContractAsync(contractId));
+        // Mit BOM (unsichtbare Kennung am Dateianfang), sonst liest Excel die Datei nicht als UTF-8 und zeigt Umlaute falsch
+        var bytes = Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(csv)).ToArray();
+        return File(bytes, "text/csv; charset=utf-8", $"zahlungen-{contract.ContractNumber}.csv");
     }
 
     [HttpPost]

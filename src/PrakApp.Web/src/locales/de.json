@@ -116,6 +116,7 @@
     "date": "Zahlungsdatum",
     "amount": "Betrag",
     "reference": "Verwendungszweck",
-    "recordedBy": "Erfasst von"
+    "recordedBy": "Erfasst von",
+    "exportCsv": "Als CSV exportieren"
   }
 }

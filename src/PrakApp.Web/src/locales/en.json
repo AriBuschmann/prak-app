@@ -116,6 +116,7 @@
     "date": "Payment date",
     "amount": "Amount",
     "reference": "Reference",
-    "recordedBy": "Recorded by"
+    "recordedBy": "Recorded by",
+    "exportCsv": "Export as CSV"
   }
 }

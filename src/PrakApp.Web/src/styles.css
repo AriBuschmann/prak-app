@@ -53,11 +53,13 @@ dd { margin: 0; }
 p.reminder-due { margin: .75rem 0 0; }
 .positive { color: var(--success); font-weight: 600; }
 
-button {
+/* a.button: Link, der wie ein Knopf aussieht (z. B. Download "Als CSV exportieren") */
+button, a.button {
   font: inherit; padding: .45rem .9rem; border-radius: 6px;
   border: 1px solid var(--border); background: var(--surface); cursor: pointer;
 }
-button:hover { border-color: var(--primary); }
+a.button { color: inherit; text-decoration: none; }
+button:hover, a.button:hover { border-color: var(--primary); }
 button:disabled { opacity: .5; cursor: not-allowed; }
 button.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
 button.primary:hover { background: var(--primary-hover); }

@@ -107,16 +107,16 @@ danach steht in `endDateBeforeCancellation`.
 
 ## Zahlungen
 
-| Methode | Pfad                              | Beschreibung                       |
-|---------|-----------------------------------|------------------------------------|
-| GET     | `/api/payments?contractId={id}`   | Zahlungen zu einem Vertrag         |
-| POST    | `/api/payments`                   | Zahlung erfassen                   |
+| Methode | Pfad                                   | Beschreibung                       |
+|---------|----------------------------------------|------------------------------------|
+| GET     | `/api/contracts/{id}/payments`         | Zahlungen zu einem Vertrag (neueste zuerst) |
+| POST    | `/api/contracts/{id}/payments`         | Zahlung erfassen                   |
+| GET     | `/api/contracts/{id}/payments/export`  | Zahlungen zu einem Vertrag als CSV-Datei |
 
-Beispiel für das Erfassen einer Zahlung:
+Beispiel für das Erfassen einer Zahlung (`POST /api/contracts/12/payments`):
 
 ```json
 {
-  "contractId": 12,
   "amount": 24.90,
   "paymentDate": "2026-10-06",
   "reference": "Beitrag 10/2026"
@@ -125,6 +125,18 @@ Beispiel für das Erfassen einer Zahlung:
 
 Regeln: Der Betrag muss größer als 0 sein. Das Zahlungsdatum ist Pflicht, darf nicht in der Zukunft und nicht vor
 dem 01.01.2000 liegen.
+
+**CSV-Export** – `GET /api/contracts/{id}/payments/export` liefert die Datei `zahlungen-<Vertragsnummer>.csv`
+(404, wenn es den Vertrag nicht gibt). Format für ein deutsches Excel: UTF-8 mit BOM, Semikolon als Trennzeichen,
+Zeilenende CRLF, Reihenfolge wie in der Tabelle (neueste Zahlung zuerst).
+
+```
+Vertragsnummer;Zahlungsdatum;Betrag;Verwendungszweck;Erfasst von
+V-2023-0077;06.09.2026;24,90;Beitrag 09/2026;s.okafor
+```
+
+Texte mit `;`, `"` oder Zeilenumbruch stehen in Anführungszeichen (`"` darin verdoppelt). Beginnt ein Text mit
+`=`, `+`, `-` oder `@`, steht ein `'` davor, damit Excel ihn nicht als Formel ausführt (CSV-Injection).
 
 ## Fehlerantworten
 
