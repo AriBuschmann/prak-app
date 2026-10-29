@@ -74,3 +74,24 @@ test('abgelaufene Sitzung beim Öffnen eines Kunden führt zur Anmeldung', async
   // also sind 3 Antworten mit 401 normal; 5 lässt etwas Spielraum
   expect(unauthorized).toBeLessThanOrEqual(5);
 });
+
+// Fehlender Test: Abmelden. Danach muss man auf der Anmeldeseite sein, und die API darf keine Kundendaten mehr liefern
+test('Abmelden führt zur Anmeldeseite, danach liefert die API keine Kundendaten mehr', async ({ page }) => {
+  await page.goto('/login');
+  await page.locator('button[data-user="praktikum"]').click();
+  await expect(page).toHaveURL(/\/customers$/);
+  // Vorher: angemeldet, die API liefert die Kundenliste
+  expect((await page.request.get('/api/customers')).status()).toBe(200);
+
+  await page.getByRole('button', { name: 'Abmelden' }).click();
+
+  // Anmeldeseite, oben steht kein angemeldeter Benutzer mehr
+  await expect(page).toHaveURL(/\/login$/);
+  await expect(page.getByRole('heading', { name: 'Anmeldung' })).toBeVisible();
+  await expect(page.getByTestId('current-user')).toHaveCount(0);
+  // page.request schickt die Cookies des Browserfensters mit. Nach dem Abmelden ist das Anmelde-Cookie weg → 401
+  expect((await page.request.get('/api/customers')).status()).toBe(401);
+  // Auch die Kundenliste im Browser ist nicht mehr erreichbar, man landet wieder auf der Anmeldeseite
+  await page.goto('/customers');
+  await expect(page).toHaveURL(/\/login$/);
+});
