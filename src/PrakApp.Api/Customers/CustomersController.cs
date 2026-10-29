@@ -64,4 +64,19 @@ public sealed class CustomersController(
         }
         return await customers.GetAsync(id) is { } customer ? customer : NotFound();
     }
+
+    // Nur Kunden ohne Verträge, denn Verträge und Zahlungen müssen erhalten bleiben (siehe api.md)
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (await customers.GetAsync(id) is null)
+        {
+            return NotFound();
+        }
+        if (!await customers.DeleteAsync(id))
+        {
+            return Conflict(new ProblemDetails { Title = "Kunden mit Verträgen können nicht gelöscht werden." });
+        }
+        return NoContent();
+    }
 }

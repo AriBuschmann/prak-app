@@ -27,6 +27,11 @@ export class CustomerDetail {
   form: Customer | null = null;
   errors: Record<string, string[]> = {};
 
+  // Zustand des Dialogs "Kunde löschen"
+  deleteOpen = false;
+  deleteError = '';
+  deleting = false;
+
   contractOpen = false;
   newContract: NewContract = this.emptyContract();
   contractErrors: Record<string, string[]> = {};
@@ -88,6 +93,37 @@ export class CustomerDetail {
         return;
       }
       throw e;
+    }
+  }
+
+  // Hinweis am ausgegrauten Knopf "Löschen". Als Getter, weil "| t" im HTML nicht in einer Bedingung stehen darf (AUR0167)
+  get deleteTooltip(): string {
+    return this.contracts.length ? this.i18n.tr('customers.deleteNotPossible') : '';
+  }
+
+  showDelete(): void {
+    this.deleteError = '';
+    this.deleteOpen = true;
+  }
+
+  // Kunde löschen und zurück zur Kundenliste. Lehnt der Server ab (409, inzwischen gibt es einen Vertrag),
+  // steht der Grund im Dialog
+  async deleteCustomer(): Promise<void> {
+    // Zweiten Klick eines Doppelklicks ignorieren
+    if (!this.customer || this.deleting) return;
+    this.deleting = true;
+    try {
+      await http.delete(`/api/customers/${this.customer.id}`);
+      this.deleteOpen = false;
+      await this.router.load('customers');
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 409) {
+        this.deleteError = e.message;
+        return;
+      }
+      throw e;
+    } finally {
+      this.deleting = false;
     }
   }
 

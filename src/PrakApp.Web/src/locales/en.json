@@ -38,6 +38,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "edit": "Edit",
+    "delete": "Delete",
     "createdAt": "Created",
     "months": "month(s)",
     "unexpectedError": "Unexpected error",
@@ -50,7 +51,10 @@
     "found": "customers",
     "searchPlaceholder": "Search by name, city, customer or contract number",
     "duplicateWarning": "There are already customers with this name and postal code. Please check whether it is the same person:",
-    "createAnyway": "Create anyway"
+    "createAnyway": "Create anyway",
+    "deleteTitle": "Delete customer",
+    "deleteHint": "The customer will be deleted permanently. This cannot be undone.",
+    "deleteNotPossible": "Customers with contracts cannot be deleted."
   },
   "customer": {
     "number": "Customer no.",

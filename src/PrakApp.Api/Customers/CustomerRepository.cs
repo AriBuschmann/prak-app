@@ -10,6 +10,7 @@ public interface ICustomerRepository
     Task<Customer?> GetAsync(int id);
     Task<int> CreateAsync(CustomerInput input, string createdBy);
     Task<bool> UpdateAsync(int id, CustomerInput input);
+    Task<bool> DeleteAsync(int id);
 }
 
 public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepository
@@ -111,6 +112,19 @@ public sealed class CustomerRepository(IDbConnectionFactory db) : ICustomerRepos
         var parameters = Parameters(input, createdBy: null);
         parameters.Add("Id", id);
         return await connection.ExecuteAsync(sql, parameters) == 1;
+    }
+
+    // Löscht nur Kunden ohne Verträge. Die Bedingung steht mit im DELETE, damit ein Vertrag, der gerade erst angelegt
+    // wurde, nicht zu einem Datenbankfehler (Fremdschlüssel FK_Contract_Customer) führt, sondern zu false
+    public async Task<bool> DeleteAsync(int id)
+    {
+        const string sql = """
+            DELETE FROM dbo.Customer
+            WHERE Id = @id AND NOT EXISTS (SELECT 1 FROM dbo.Contract WHERE CustomerId = @id);
+            """;
+
+        using var connection = db.Create();
+        return await connection.ExecuteAsync(sql, new { id }) == 1;
     }
 
     private static DynamicParameters Parameters(CustomerInput input, string? createdBy)

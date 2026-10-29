@@ -38,6 +38,7 @@
     "save": "Speichern",
     "cancel": "Abbrechen",
     "edit": "Bearbeiten",
+    "delete": "Löschen",
     "createdAt": "Angelegt am",
     "months": "Monat(e)",
     "unexpectedError": "Unerwarteter Fehler",
@@ -50,7 +51,10 @@
     "found": "Kunden",
     "searchPlaceholder": "Suche nach Name, Ort, Kunden- oder Vertragsnummer",
     "duplicateWarning": "Es gibt schon Kunden mit diesem Namen und dieser PLZ. Bitte prüfen, ob es derselbe Kunde ist:",
-    "createAnyway": "Trotzdem anlegen"
+    "createAnyway": "Trotzdem anlegen",
+    "deleteTitle": "Kunde löschen",
+    "deleteHint": "Der Kunde wird endgültig gelöscht. Das kann nicht rückgängig gemacht werden.",
+    "deleteNotPossible": "Kunden mit Verträgen können nicht gelöscht werden."
   },
   "customer": {
     "number": "Kundennr.",

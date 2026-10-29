@@ -4,7 +4,12 @@
 
   <div class="page-header">
     <h1 data-testid="customer-name">${customer.firstName} ${customer.lastName}</h1>
-    <button type="button" click.trigger="edit()" t="common.edit"></button>
+    <div class="actions">
+      <button type="button" click.trigger="edit()" t="common.edit"></button>
+      <!-- Nur Kunden ohne Verträge können gelöscht werden; sonst ausgegraut mit Hinweis als Tooltip -->
+      <button type="button" click.trigger="showDelete()" disabled.bind="contracts.length > 0"
+              title.bind="deleteTooltip" t="common.delete"></button>
+    </div>
   </div>
 
   <div class="card details">
@@ -31,6 +36,19 @@
       <div class="dialog-actions">
         <button type="button" click.trigger="editOpen = false" t="common.cancel"></button>
         <button type="submit" class="primary" t="common.save"></button>
+      </div>
+    </form>
+  </modal-dialog>
+
+  <!-- Kunde löschen: Bestätigung, weil Löschen nicht rückgängig gemacht werden kann -->
+  <modal-dialog heading.bind="'customers.deleteTitle' | t" open.bind="deleteOpen">
+    <form submit.trigger:prevent="deleteCustomer()">
+      <p><strong>${customer.firstName} ${customer.lastName} (${customer.customerNumber})</strong></p>
+      <p t="customers.deleteHint"></p>
+      <p class="error" if.bind="deleteError">${deleteError}</p>
+      <div class="dialog-actions">
+        <button type="button" click.trigger="deleteOpen = false" t="common.cancel"></button>
+        <button type="submit" class="danger" disabled.bind="deleting" t="common.delete"></button>
       </div>
     </form>
   </modal-dialog>

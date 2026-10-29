@@ -42,6 +42,15 @@ Regeln: Vor- und Nachname sind Pflicht, die PLZ hat 5 Ziffern, die E-Mail-Adress
 Höchstlängen (Leerzeichen am Anfang und Ende zählen nicht): Vorname 50, Nachname 100, E-Mail 200,
 Telefon 30, Straße 100, Ort 80 Zeichen.
 
+**Kunde löschen** – `DELETE /api/customers/{id}` löscht den Kunden endgültig. Kunden mit Verträgen werden nicht
+gelöscht, damit Verträge und Zahlungen erhalten bleiben.
+
+| Status | Bedeutung |
+|--------|-----------|
+| 204    | Gelöscht (ohne Inhalt) |
+| 404    | Kunde nicht gefunden |
+| 409    | Kunde hat Verträge und kann nicht gelöscht werden (Grund steht in `title`) |
+
 ## Verträge
 
 | Methode | Pfad                          | Beschreibung                                   |

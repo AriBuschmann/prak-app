@@ -8,6 +8,9 @@
 2. „Neuer Kunde“ → Vorname, Nachname (Pflicht), Anschrift, E-Mail, Telefon erfassen.
 3. Die Kundennummer (`K-…`) vergibt das System automatisch. Sie wird dem Kunden mitgeteilt.
 4. Doppelnamen und Namenszusätze vollständig übernehmen (z. B. „von Albers-Lindqvist“).
+5. Versehentlich angelegte Kunden (z. B. doppelt angelegt) ohne Verträge: Kunde öffnen → „Löschen“ → bestätigen.
+   Kunden mit Verträgen können nicht gelöscht werden. Löschwünsche von Kunden gehen weiterhin an das Team
+   Datenschutz (siehe 3.6).
 
 ## 3.2 Vertrag abschließen
 
