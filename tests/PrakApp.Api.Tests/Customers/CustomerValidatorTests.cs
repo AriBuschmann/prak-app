@@ -61,6 +61,25 @@ public class CustomerValidatorTests
         Assert.Contains("LastName", errors.ToDictionary().Keys);
     }
 
+    // Fehlender Test: Höchstlänge Vorname 50 Zeichen, passend zur Datenbank-Spalte FirstName NVARCHAR(50) (Patch 1.0.0/0002).
+    // Grenzwert-Test: genau 50 Zeichen sind gerade noch erlaubt
+    [Fact]
+    public void First_name_may_have_50_characters()
+    {
+        var errors = _validator.Validate(ValidCustomer() with { FirstName = new string('A', 50) });
+
+        Assert.True(errors.IsValid);
+    }
+
+    // Grenzwert-Test: ein Zeichen mehr (51) muss abgelehnt werden, mit genau dieser Meldung beim Feld FirstName
+    [Fact]
+    public void First_name_longer_than_50_characters_is_rejected()
+    {
+        var errors = _validator.Validate(ValidCustomer() with { FirstName = new string('A', 51) });
+
+        Assert.Equal(["Vorname darf höchstens 50 Zeichen lang sein."], errors.ToDictionary()["FirstName"]);
+    }
+
     // Höchstlängen von E-Mail, Telefon, Straße und Ort = Spaltenlängen in dbo.Customer.
     // Vorher prüfte der Validator diese Längen nicht: zu lange Werte führten in der Datenbank zu Fehler 500.
     // Die Zahlen stehen hier absichtlich als feste Werte und nicht als CustomerValidator.PhoneMaxLength usw.:
