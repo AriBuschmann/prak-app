@@ -33,6 +33,41 @@ public class ContractValidatorTests
         Assert.Contains("MonthlyFee", errors.ToDictionary().Keys);
     }
 
+    // Fehlender Test: Kunde und Vertragsart sind Pflicht. 0 heißt "nichts ausgewählt", so schickt es die Oberfläche
+    [Fact]
+    public void Customer_is_required()
+    {
+        var errors = _validator.Validate(ValidContract() with { CustomerId = 0 });
+
+        Assert.Equal(["Kunde ist erforderlich."], errors.ToDictionary()["CustomerId"]);
+    }
+
+    [Fact]
+    public void Contract_type_is_required()
+    {
+        var errors = _validator.Validate(ValidContract() with { ContractTypeId = 0 });
+
+        Assert.Equal(["Vertragsart ist erforderlich."], errors.ToDictionary()["ContractTypeId"]);
+    }
+
+    // Fehlender Test: Monatsbeitrag höchstens 9999,99. Genau an der Grenze erlaubt, einen Cent darüber nicht.
+    // Nur der Anfang der Meldung wird geprüft: Die Zahl darin wird mit der Spracheinstellung des Rechners formatiert
+    // ("9999,99" auf deutschem, "9999.99" auf englischem Windows)
+    [Fact]
+    public void Monthly_fee_at_the_maximum_is_allowed()
+    {
+        Assert.True(_validator.Validate(ValidContract() with { MonthlyFee = 9999.99m }).IsValid);
+    }
+
+    [Fact]
+    public void Monthly_fee_above_the_maximum_is_rejected()
+    {
+        var errors = _validator.Validate(ValidContract() with { MonthlyFee = 10000.00m });
+
+        var message = Assert.Single(errors.ToDictionary()["MonthlyFee"]);
+        Assert.StartsWith("Monatsbeitrag darf höchstens 9999", message);
+    }
+
     [Fact]
     public void Start_date_is_required()
     {
