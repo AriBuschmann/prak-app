@@ -50,6 +50,53 @@ public class PaymentValidatorTests
         Assert.Equal(["Zahlungsdatum ist erforderlich."], errors.ToDictionary()["PaymentDate"]);
     }
 
+    // Fehlender Test: Der Betrag muss größer als 0 sein
+    [Theory]
+    [InlineData("0")]
+    [InlineData("-0.01")]
+    [InlineData("-24.90")]
+    public void Amount_of_zero_or_less_is_rejected(string amount)
+    {
+        var errors = _validator.Validate(Payment(Date("2026-10-28")) with { Amount = Amount(amount) });
+
+        Assert.Equal(["Betrag muss größer als 0 sein."], errors.ToDictionary()["Amount"]);
+    }
+
+    // Fehlender Test: höchstens 99.999,99. Genau an der Grenze erlaubt, einen Cent darüber nicht.
+    // Nur der Anfang der Meldung wird geprüft: Die Zahl darin hängt von der Spracheinstellung des Rechners ab
+    [Fact]
+    public void Amount_at_the_maximum_is_allowed()
+    {
+        Assert.True(_validator.Validate(Payment(Date("2026-10-28")) with { Amount = 99_999.99m }).IsValid);
+    }
+
+    [Fact]
+    public void Amount_above_the_maximum_is_rejected()
+    {
+        var errors = _validator.Validate(Payment(Date("2026-10-28")) with { Amount = 100_000.00m });
+
+        var message = Assert.Single(errors.ToDictionary()["Amount"]);
+        Assert.StartsWith("Betrag darf höchstens 99999", message);
+    }
+
+    // Fehlender Test: Verwendungszweck höchstens 100 Zeichen ("".PadRight(n, 'x') ergibt einen Text aus n-mal x)
+    [Fact]
+    public void Reference_with_100_characters_is_allowed()
+    {
+        Assert.True(_validator.Validate(Payment(Date("2026-10-28")) with { Reference = "".PadRight(100, 'x') }).IsValid);
+    }
+
+    [Fact]
+    public void Reference_with_101_characters_is_rejected()
+    {
+        var errors = _validator.Validate(Payment(Date("2026-10-28")) with { Reference = "".PadRight(101, 'x') });
+
+        Assert.Equal(["Verwendungszweck darf höchstens 100 Zeichen lang sein."], errors.ToDictionary()["Reference"]);
+    }
+
+    // Macht aus einem Text wie "-0.01" einen decimal ([InlineData] erlaubt kein decimal), unabhängig von der Spracheinstellung
+    private static decimal Amount(string value) => decimal.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
+
     // Macht aus einem Text wie "2026-10-28" ein DateTime ([InlineData] erlaubt kein DateTime).
     // InvariantCulture: Das Format JJJJ-MM-TT wird unabhängig von der Spracheinstellung des Rechners gelesen
     private static DateTime Date(string value) => DateTime.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
