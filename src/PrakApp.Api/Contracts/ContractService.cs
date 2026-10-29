@@ -12,6 +12,16 @@ public enum CancelResult
     Invalid, // Neu (Schritt 2): Kündigungsgrund fehlt oder ist zu lang → Controller antwortet mit 400
 }
 
+/// <summary>Ergebnis von "Kündigung zurücknehmen" (ContractService.UndoCancellationAsync).</summary>
+public enum UndoCancellationResult
+{
+    Undone,
+    NotFound,
+    NotCancelled, // Vertrag ist nicht gekündigt (z. B. aktiv)
+    AlreadyEnded, // Vertragsende ist schon vorbei → "Beendet", nicht mehr rücknehmbar
+    NotUndoable,  // Kündigung von vor Patch 1.1.0/0004: ursprüngliches Vertragsende unbekannt
+}
+
 public sealed class ContractService(
     IContractRepository contracts,
     ICustomerRepository customers,
@@ -103,6 +113,37 @@ public sealed class ContractService(
             return (CancelResult.NotActive, null);
         }
         return (CancelResult.Cancelled, Preview(contract));
+    }
+
+    /// <summary>
+    /// Kündigung zurücknehmen (docs/features/kuendigung.md, Regel 7): nur gekündigte Verträge, deren Vertragsende
+    /// noch nicht vorbei ist, und nur wenn das Vertragsende von vor der Kündigung gespeichert wurde.
+    /// </summary>
+    public async Task<UndoCancellationResult> UndoCancellationAsync(int id)
+    {
+        var contract = await contracts.GetAsync(id);
+        if (contract is null)
+        {
+            return UndoCancellationResult.NotFound;
+        }
+        // GetAsync liefert nach dem Vertragsende "Ended" (ContractStatus.Effective), auch für gekündigte Verträge
+        if (contract.Status == ContractStatus.Ended)
+        {
+            return UndoCancellationResult.AlreadyEnded;
+        }
+        if (contract.Status != ContractStatus.Cancelled)
+        {
+            return UndoCancellationResult.NotCancelled;
+        }
+        if (!contract.CancellationUndoable)
+        {
+            return UndoCancellationResult.NotUndoable;
+        }
+
+        // false: Jemand anderes hat die Kündigung inzwischen schon zurückgenommen
+        return await contracts.UndoCancellationAsync(id)
+            ? UndoCancellationResult.Undone
+            : UndoCancellationResult.NotCancelled;
     }
 
     private CancellationPreview Preview(ContractRecord contract)

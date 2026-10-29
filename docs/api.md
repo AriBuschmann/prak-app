@@ -52,6 +52,7 @@ Telefon 30, Straße 100, Ort 80 Zeichen.
 | POST    | `/api/contracts`              | Vertrag anlegen                                |
 | GET     | `/api/contracts/{id}/cancellation-preview` | Voraussichtliches Vertragsende bei Kündigung heute (speichert nichts) |
 | POST    | `/api/contracts/{id}/cancel`  | Vertrag kündigen, Body: `{ "reason": "..." }`  |
+| POST    | `/api/contracts/{id}/undo-cancellation` | Kündigung zurücknehmen (ohne Body)   |
 
 Regeln für `POST /api/contracts`: Kunde, Vertragsart und Vertragsbeginn sind Pflicht, der Monatsbeitrag ist größer
 als 0 und höchstens 9999,99. Vertragsbeginn und Vertragsende liegen zwischen 01.01.2000 und 31.12.2099, das
@@ -92,6 +93,17 @@ werden entfernt). Nur aktive Verträge können gekündigt werden.
 | 409    | Vertrag ist nicht aktiv (schon gekündigt oder beendet) |
 
 Die Vorschau antwortet mit 200 und den Daten oben, sonst ebenfalls mit 404 oder 409.
+
+**Kündigung zurücknehmen** – `POST /api/contracts/{id}/undo-cancellation` (ohne Body). Setzt den Status wieder auf
+`Active`, löscht Kündigungsdatum und Grund und stellt das Vertragsende von vor der Kündigung wieder her (`null` bei
+unbefristeten Verträgen). Ob das geht, zeigt `GET /api/contracts/{id}` in `cancellationUndoable`; das Vertragsende
+danach steht in `endDateBeforeCancellation`.
+
+| Status | Bedeutung |
+|--------|-----------|
+| 204    | Zurückgenommen (ohne Inhalt) |
+| 404    | Vertrag nicht gefunden |
+| 409    | Vertrag ist nicht gekündigt, schon beendet, oder die Kündigung wurde vor Einführung der Rücknahme erfasst (Grund steht in `title`) |
 
 ## Zahlungen
 

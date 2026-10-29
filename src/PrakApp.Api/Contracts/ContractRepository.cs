@@ -11,6 +11,7 @@ public interface IContractRepository
     Task<ContractRecord?> GetAsync(int id);
     Task<int> CreateAsync(ContractInput input, string createdBy);
     Task CancelAsync(int id, DateTime cancelledAt, DateTime endDate, string reason);
+    Task<bool> UndoCancellationAsync(int id);
 }
 
 // TimeProvider liefert "heute" für den Status "Beendet" (ContractStatus.Effective)
@@ -70,7 +71,8 @@ public sealed class ContractRepository(IDbConnectionFactory db, TimeProvider tim
         const string sql = """
             SELECT c.Id, c.ContractNumber, c.CustomerId, CONCAT(cu.FirstName, N' ', cu.LastName) AS CustomerName,
                    c.ContractTypeId, t.Name AS TypeName, t.MinTermMonths, t.NoticePeriodMonths,
-                   c.StartDate, c.EndDate, c.MonthlyFee, c.Status, c.CancelledAt, c.CancellationReason
+                   c.StartDate, c.EndDate, c.MonthlyFee, c.Status, c.CancelledAt, c.CancellationReason,
+                   c.CancellationUndoable, c.EndDateBeforeCancellation
             FROM dbo.Contract c
             JOIN dbo.Customer cu    ON cu.Id = c.CustomerId
             JOIN dbo.ContractType t ON t.Id = c.ContractTypeId
@@ -117,11 +119,30 @@ public sealed class ContractRepository(IDbConnectionFactory db, TimeProvider tim
     {
         const string sql = """
             UPDATE dbo.Contract
-            SET Status = N'Cancelled', CancelledAt = @cancelledAt, CancellationReason = @reason, EndDate = @endDate
+            SET Status = N'Cancelled', CancelledAt = @cancelledAt, CancellationReason = @reason, EndDate = @endDate,
+                EndDateBeforeCancellation = EndDate, CancellationUndoable = 1
             WHERE Id = @id;
             """;
+        // EndDateBeforeCancellation = EndDate: In einem UPDATE liest SQL Server rechts immer die alten Werte,
+        // hier landet also das Vertragsende von VOR der Kündigung (für "Kündigung zurücknehmen")
 
         using var connection = db.Create();
         await connection.ExecuteAsync(sql, new { id, cancelledAt, endDate, reason });
+    }
+
+    // Kündigung zurücknehmen: wieder aktiv, Kündigungsdatum und Grund weg, das gemerkte Vertragsende gilt wieder.
+    // Die Bedingung im WHERE schützt davor, dass zwei gleichzeitige Rücknahmen beide etwas ändern.
+    // Rückgabe: true, wenn genau dieser Vertrag geändert wurde
+    public async Task<bool> UndoCancellationAsync(int id)
+    {
+        const string sql = """
+            UPDATE dbo.Contract
+            SET Status = N'Active', CancelledAt = NULL, CancellationReason = NULL, EndDate = EndDateBeforeCancellation,
+                EndDateBeforeCancellation = NULL, CancellationUndoable = 0
+            WHERE Id = @id AND Status = N'Cancelled' AND CancellationUndoable = 1;
+            """;
+
+        using var connection = db.Create();
+        return await connection.ExecuteAsync(sql, new { id }) == 1;
     }
 }

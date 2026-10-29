@@ -82,6 +82,10 @@ export interface ContractRecord {
   status: ContractStatus;
   cancelledAt: string | null;
   cancellationReason: string | null;
+  /** Kündigung kann zurückgenommen werden (nur bei Kündigungen ab Patch 1.1.0/0004) */
+  cancellationUndoable: boolean;
+  /** Vertragsende, das nach der Rücknahme wieder gilt (null = unbefristet) */
+  endDateBeforeCancellation: string | null;
 }
 
 export interface BalanceInfo {

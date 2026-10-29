@@ -20,7 +20,11 @@ Die Anwendung berechnet automatisch, wann der Vertrag endet.
    das nach Regel 4 berechnete Datum, endet der Vertrag erst am letzten Tag der Mindestlaufzeit.
    Beispiel: Beginn 01.03.2026, Mindestlaufzeit 12 Monate → frühestes Ende 28.02.2027.
 6. Nach der Kündigung hat der Vertrag den Status **Gekündigt**. Beiträge sind bis zum Vertragsende fällig.
-7. Die Kündigung kann nicht rückgängig gemacht werden (dafür gibt es später ein eigenes Feature).
+7. **Kündigung zurücknehmen:** Solange der Vertrag noch nicht beendet ist, kann die Kündigung zurückgenommen
+   werden. Der Vertrag ist dann wieder **Aktiv**, Kündigungsdatum und Grund werden gelöscht und es gilt wieder das
+   Vertragsende von vor der Kündigung (bei unbefristeten Verträgen: keins). Kündigungen, die vor Einführung der
+   Rücknahme (Patch `1.1.0/0004`) erfasst wurden, können nicht zurückgenommen werden, weil ihr altes Vertragsende
+   nicht gespeichert ist.
 8. **Befristete Verträge:** Hat der Vertrag schon ein Vertragsende, das vor dem nach Regel 4 und 5
    berechneten Datum liegt, bleibt es bestehen. Liegt es später, gilt das berechnete Datum.
 9. **Kündigung vor Vertragsbeginn** ist erlaubt; die Mindestlaufzeit gilt trotzdem. Der Vertrag endet
@@ -39,6 +43,8 @@ Die Anwendung berechnet automatisch, wann der Vertrag endet.
 | Regel 2, Leerzeichen | Leerzeichen am Anfang und Ende werden entfernt und zählen nicht zu den 200 Zeichen | Annahme |
 | Reihenfolge der Prüfungen | erst Kündigungsgrund (400), dann Vertrag vorhanden (404) und aktiv (409) | Annahme |
 | Voraussichtliches Vertragsende im Dialog | berechnet der Server über `GET /api/contracts/{id}/cancellation-preview`, damit die Regeln nur an einer Stelle stehen | Annahme |
+| Regel 7, alte Kündigungen | nicht rücknehmbar (Knopf ausgegraut, Hinweis als Tooltip), weil das alte Vertragsende fehlt | Annahme – mit Betreuer klären |
+| Regel 7, Nachweis der Rücknahme | es wird kein Grund und kein Verlauf gespeichert, die Kündigungsdaten sind danach gelöscht | Annahme – mit Betreuer klären |
 
 Kündigungsfristen und Mindestlaufzeiten stehen in der Tabelle `ContractType`
 (siehe auch Handbuch, Kapitel „Tarife“).
@@ -48,6 +54,8 @@ Kündigungsfristen und Mindestlaufzeiten stehen in der Tabelle `ContractType`
 - Auf der Vertragsseite gibt es den Button **Kündigen** (nur bei aktiven Verträgen aktiv).
 - Er öffnet einen Dialog mit dem Feld „Kündigungsgrund“ und zeigt das voraussichtliche Vertragsende an.
 - Nach dem Speichern wird die Seite neu geladen; Status, Kündigungsdatum, Grund und Vertragsende sind sichtbar.
+- Bei gekündigten Verträgen gibt es zusätzlich **Kündigung zurücknehmen**. Der Bestätigungsdialog zeigt das
+  Vertragsende, das danach wieder gilt.
 - Alle Texte auf Deutsch und Englisch.
 
 ## Stand der Umsetzung
@@ -60,6 +68,9 @@ Kündigungsfristen und Mindestlaufzeiten stehen in der Tabelle `ContractType`
 - [x] Dialog in der Oberfläche (mit Vorschau-Endpunkt `GET /api/contracts/{id}/cancellation-preview`)
 - [x] Übersetzungen (de/en) – Fehlermeldungen des Servers sind wie im ganzen Projekt nur auf Deutsch
 - [x] Playwright-Test für den Ablauf (`e2e/cancellation.spec.ts`, legt sich bei jedem Lauf einen eigenen Vertrag an)
+- [x] Regel 7: Kündigung zurücknehmen – Spalten `EndDateBeforeCancellation` und `CancellationUndoable`
+  (Patch `1.1.0/0004_contract_undo_cancellation.sql`), Endpunkt `POST /api/contracts/{id}/undo-cancellation`,
+  Dialog, Tests (`ContractServiceUndoTests.cs`, `e2e/undo-cancellation.spec.ts`)
 
 ## Wo steht was im Code?
 
@@ -67,9 +78,9 @@ Kündigungsfristen und Mindestlaufzeiten stehen in der Tabelle `ContractType`
 |------|-------|
 | Berechnung des Vertragsendes (Regeln 4, 5, 8, 9) | `src/PrakApp.Api/Contracts/CancellationCalculator.cs` |
 | Prüfung des Kündigungsgrunds (Regel 2) | `src/PrakApp.Api/Contracts/CancellationValidator.cs` |
-| Ablauf: prüfen, berechnen, speichern; Vorschau | `src/PrakApp.Api/Contracts/ContractService.cs` (`CancelAsync`, `PreviewCancellationAsync`) |
+| Ablauf: prüfen, berechnen, speichern; Vorschau; Rücknahme | `src/PrakApp.Api/Contracts/ContractService.cs` (`CancelAsync`, `PreviewCancellationAsync`, `UndoCancellationAsync`) |
 | Endpunkte | `src/PrakApp.Api/Contracts/ContractsController.cs` |
-| Speichern in der Datenbank | `src/PrakApp.Api/Contracts/ContractRepository.cs` (`CancelAsync`) |
-| Dialog | `src/PrakApp.Web/src/pages/contracts/contract-detail.*` |
-| Unit- und Integrationstests | `tests/PrakApp.Api.Tests/Contracts/Cancel*Tests.cs`, `ContractServiceCancelTests.cs` |
-| Ende-zu-Ende-Test | `src/PrakApp.Web/e2e/cancellation.spec.ts` |
+| Speichern in der Datenbank | `src/PrakApp.Api/Contracts/ContractRepository.cs` (`CancelAsync`, `UndoCancellationAsync`) |
+| Dialoge | `src/PrakApp.Web/src/pages/contracts/contract-detail.*` |
+| Unit- und Integrationstests | `tests/PrakApp.Api.Tests/Contracts/Cancel*Tests.cs`, `ContractServiceCancelTests.cs`, `ContractServiceUndoTests.cs` |
+| Ende-zu-Ende-Tests | `src/PrakApp.Web/e2e/cancellation.spec.ts`, `src/PrakApp.Web/e2e/undo-cancellation.spec.ts` |

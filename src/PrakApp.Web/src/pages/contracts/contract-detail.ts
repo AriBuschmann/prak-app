@@ -22,6 +22,11 @@ export class ContractDetail {
   cancelErrors: Record<string, string[]> = {};
   cancelPreview: CancellationPreview | null = null;
 
+  // Zustand des Dialogs "Kündigung zurücknehmen"
+  undoOpen = false;
+  undoError = '';
+  savingUndo = false;
+
   paymentOpen = false;
   payment = { amount: '' as number | string, reference: '' };
   paymentErrors: Record<string, string[]> = {};
@@ -138,6 +143,44 @@ export class ContractDetail {
         return;
       }
       throw e;
+    }
+  }
+
+  // Texte für "Kündigung zurücknehmen" hier statt im HTML: Ein Value Converter ("| t") darf in Aurelia nur am Ende
+  // eines Ausdrucks stehen, nicht in einer Bedingung (sonst Fehler AUR0167 und die Seite bleibt leer)
+  get undoTooltip(): string {
+    return this.contract?.cancellationUndoable ? '' : this.i18n.tr('contract.undoNotPossible');
+  }
+
+  get endDateAfterUndo(): string {
+    const end = this.contract?.endDateBeforeCancellation;
+    return end ? formatDate(end) : this.i18n.tr('contract.openEnded');
+  }
+
+  // Dialog "Kündigung zurücknehmen" öffnen. Er zeigt, welches Vertragsende danach wieder gilt
+  showUndoCancellation(): void {
+    this.undoError = '';
+    this.undoOpen = true;
+  }
+
+  // Kündigung zurücknehmen. Lehnt der Server ab (409, z. B. Vertrag inzwischen beendet), steht der Grund im Dialog;
+  // sonst Dialog schließen und die Seite neu laden (Status wieder "Aktiv", ursprüngliches Vertragsende)
+  async saveUndoCancellation(): Promise<void> {
+    // Wie bei den anderen Dialogen: zweiten Klick eines Doppelklicks ignorieren
+    if (!this.contract || this.savingUndo) return;
+    this.savingUndo = true;
+    try {
+      await http.post(`/api/contracts/${this.contract.id}/undo-cancellation`);
+      this.undoOpen = false;
+      await this.load(this.contract.id);
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 409) {
+        this.undoError = e.message;
+        return;
+      }
+      throw e;
+    } finally {
+      this.savingUndo = false;
     }
   }
 

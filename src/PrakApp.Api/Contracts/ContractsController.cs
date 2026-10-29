@@ -48,6 +48,21 @@ public sealed class ContractsController(ContractService service, IContractReposi
         };
     }
 
+    // Kündigung zurücknehmen: 204 = zurückgenommen, 404 = Vertrag unbekannt, 409 = nicht möglich (mit Begründung)
+    [HttpPost("{id:int}/undo-cancellation")]
+    public async Task<IActionResult> UndoCancellation(int id) =>
+        await service.UndoCancellationAsync(id) switch
+        {
+            UndoCancellationResult.NotFound => NotFound(),
+            UndoCancellationResult.NotCancelled =>
+                Conflict(new ProblemDetails { Title = "Nur gekündigte Verträge können zurückgenommen werden." }),
+            UndoCancellationResult.AlreadyEnded =>
+                Conflict(new ProblemDetails { Title = "Der Vertrag ist bereits beendet, die Kündigung kann nicht mehr zurückgenommen werden." }),
+            UndoCancellationResult.NotUndoable =>
+                Conflict(new ProblemDetails { Title = "Diese Kündigung wurde vor Einführung der Rücknahme erfasst und kann nicht automatisch zurückgenommen werden." }),
+            _ => NoContent(),
+        };
+
     // Neu (Schritt 4): voraussichtliches Vertragsende für den Kündigungsdialog, ohne etwas zu speichern
     [HttpGet("{id:int}/cancellation-preview")]
     public async Task<ActionResult<CancellationPreview>> GetCancellationPreview(int id)

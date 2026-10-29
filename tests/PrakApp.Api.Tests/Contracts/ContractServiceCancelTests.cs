@@ -140,6 +140,7 @@ public class ContractServiceCancelTests
         public Task<IReadOnlyList<ContractType>> GetTypesAsync() => throw new NotSupportedException();
         public Task<IReadOnlyList<ContractListItem>> GetByCustomerAsync(int customerId) => throw new NotSupportedException();
         public Task<IReadOnlyList<ContractSearchItem>> SearchByNumberAsync(string query) => throw new NotSupportedException();
+        public Task<bool> UndoCancellationAsync(int id) => throw new NotSupportedException();
         public Task<int> CreateAsync(ContractInput input, string createdBy) => throw new NotSupportedException();
     }
 

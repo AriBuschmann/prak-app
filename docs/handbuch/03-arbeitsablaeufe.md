@@ -36,6 +36,8 @@ Kontoauszug übereinstimmen.
 2. Vertrag öffnen → „Kündigen“ → Kündigungsgrund eintragen.
 3. Das System berechnet das Vertragsende. Dieses Datum in der Bestätigung an den Kunden nennen.
 4. Bis zum Vertragsende sind die Beiträge weiter fällig.
+5. Zieht der Kunde die Kündigung zurück, solange der Vertrag noch läuft: Vertrag öffnen → „Kündigung zurücknehmen“.
+   Der Vertrag ist dann wieder aktiv mit dem ursprünglichen Vertragsende.
 
 ## 3.5 Rückstände und Mahnungen
 

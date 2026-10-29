@@ -12,6 +12,10 @@
       <h1>${contract.contractNumber} <span class="badge status-${contract.status}">${'contract.statusValues.' + contract.status | t}</span></h1>
       <div class="actions">
         <button type="button" click.trigger="cancelContract()" disabled.bind="contract.status !== 'Active'" t="contract.cancel"></button>
+        <!-- Nur bei gekündigten Verträgen. Ausgegraut, wenn die Kündigung von vor der Rücknahme-Funktion stammt (Hinweis als Tooltip) -->
+        <button type="button" if.bind="contract.status === 'Cancelled'" click.trigger="showUndoCancellation()"
+                disabled.bind="!contract.cancellationUndoable"
+                title.bind="undoTooltip" t="contract.undoCancel"></button>
         <button type="button" class="primary" click.trigger="showPayment()" t="payment.new"></button>
       </div>
     </div>
@@ -22,7 +26,7 @@
           <dt t="contract.customer"></dt><dd>${contract.customerName}</dd>
           <dt t="contract.type"></dt><dd>${contract.typeName}</dd>
           <dt t="contract.startDate"></dt><dd>${formatDate(contract.startDate)}</dd>
-          <dt t="contract.endDate"></dt><dd>${formatDate(contract.endDate) || '–'}</dd>
+          <dt t="contract.endDate"></dt><dd data-testid="contract-end-date">${formatDate(contract.endDate) || '–'}</dd>
           <dt t="contract.monthlyFee"></dt><dd>${formatMoney(contract.monthlyFee)}</dd>
           <dt t="contract.noticePeriod"></dt><dd>${contract.noticePeriodMonths} ${'common.months' | t}</dd>
           <template if.bind="contract.cancelledAt">
@@ -96,6 +100,22 @@
         <button type="button" click.trigger="cancelOpen = false" t="common.cancel"></button>
         <!-- Eigener Text, damit es auf Englisch nicht "Cancel" neben "Cancel contract" heißt -->
         <button type="submit" class="primary" t="contract.cancelConfirm"></button>
+      </div>
+    </form>
+  </modal-dialog>
+
+  <!-- Kündigung zurücknehmen: Bestätigung mit dem Vertragsende, das danach wieder gilt -->
+  <modal-dialog heading.bind="'contract.undoCancel' | t" open.bind="undoOpen">
+    <form submit.trigger:prevent="saveUndoCancellation()">
+      <p t="contract.undoCancelHint"></p>
+      <dl>
+        <dt t="contract.endDateAfterUndo"></dt>
+        <dd>${endDateAfterUndo}</dd>
+      </dl>
+      <p class="error" if.bind="undoError">${undoError}</p>
+      <div class="dialog-actions">
+        <button type="button" click.trigger="undoOpen = false" t="common.cancel"></button>
+        <button type="submit" class="primary" disabled.bind="savingUndo" t="contract.undoCancel"></button>
       </div>
     </form>
   </modal-dialog>

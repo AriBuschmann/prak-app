@@ -53,7 +53,11 @@ public sealed record ContractRecord(
     decimal MonthlyFee,
     string Status,
     DateTime? CancelledAt,
-    string? CancellationReason);
+    string? CancellationReason,
+    // Für "Kündigung zurücknehmen": ob die Kündigung rücknehmbar ist und welches Vertragsende danach wieder gilt
+    // (null = unbefristet). Mit Standardwerten am Ende, damit vorhandener Code ohne diese Angaben weiter funktioniert
+    bool CancellationUndoable = false,
+    DateTime? EndDateBeforeCancellation = null);
 
 /// <summary>
 /// Kontostand eines Vertrags. Positiver Saldo = Rückstand, negativer Saldo = Guthaben.
