@@ -7,6 +7,7 @@ const languages = [
     titles: { login: 'Anmeldung', customers: 'Kunden', customer: 'Kunde', contract: 'Vertrag' },
     pager: ['Zeilen anzeigen:', 'Gehe zu Seite:', ' von '],
     weekdays: /Mo\s*Di\s*Mi\s*Do\s*Fr\s*Sa\s*So/,
+    arrows: { back: 'Zurück', forward: 'Vor' },
     notFound: 'Nicht gefunden',
   },
   {
@@ -15,6 +16,7 @@ const languages = [
     titles: { login: 'Sign in', customers: 'Customers', customer: 'Customer', contract: 'Contract' },
     pager: ['Show rows:', 'Go to page:', ' of '],
     weekdays: /Mo\s*Tu\s*We\s*Th\s*Fr\s*Sa\s*Su/,
+    arrows: { back: 'Back', forward: 'Forward' },
     notFound: 'Not found',
   },
 ];
@@ -43,6 +45,9 @@ for (const expected of languages) {
     const calendar = page.locator('.jqx-calendar').filter({ visible: true }).first();
     await expect(calendar).toContainText(month);
     await expect(calendar).toContainText(expected.weekdays);
+    // Tooltips der Pfeile zum Blättern (vorher "undefined", weil die Texte in calendarLocalization() fehlten)
+    await expect(calendar.locator('.jqx-calendar-title-navigation.jqx-icon-arrow-left')).toHaveAttribute('title', expected.arrows.back);
+    await expect(calendar.locator('.jqx-calendar-title-navigation.jqx-icon-arrow-right')).toHaveAttribute('title', expected.arrows.forward);
 
     await page.goto('/customers');
     await page.evaluate(() => {

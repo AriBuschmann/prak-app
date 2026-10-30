@@ -16,9 +16,13 @@ export function gridLocalization(): Record<string, string> {
   };
 }
 
-/** Für die Option "localization" von jqxDateTimeInput: Monats- und Tagesnamen im Kalender. */
+/** Für die Option "localization" von jqxDateTimeInput: Monats- und Tagesnamen im Kalender, Tooltips der Pfeile. */
 export function calendarLocalization(): Record<string, unknown> {
   return {
+    // Tooltips der Pfeile zum Blättern. Dieses Objekt ersetzt die englischen Standardtexte von jQWidgets komplett,
+    // fehlen sie hier, steht im Tooltip "undefined"
+    backString: i18next.t('calendar.back'),
+    forwardString: i18next.t('calendar.forward'),
     calendar: {
       '/': '/',
       ':': ':',
