@@ -44,7 +44,9 @@ test('Spalte "Verträge" zählt Verträge, nicht Zahlungen', async ({ page }) =>
 
   // 1. Die Kundennummer in das Suchfeld schreiben (das Feld hat data-testid="customer-search")
   await page.getByTestId('customer-search').fill('K-100063');
-  // 2. Enter drücken: fill() aus Schritt 1 drückt keine Taste, die Suche startet aber erst beim Loslassen einer Taste (keyup)
+  // 2. Enter drücken: Stammt aus der Zeit, als die Suche erst beim Loslassen einer Taste (keyup) startete. Seit dem
+  //    Bug-Fix "Suche reagiert nicht auf X und Einfügen" startet sie bei jeder Änderung im Feld (input), fill() reicht
+  //    also schon. Der Tastendruck schadet nicht
   await page.getByTestId('customer-search').press('Enter');
   // 3. In der Tabelle die Zeile suchen, die die Kundennummer K-100063 enthält
   const row = page.locator('.grid [role=row]').filter({ hasText: 'K-100063' });

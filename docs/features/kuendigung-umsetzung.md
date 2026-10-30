@@ -3,7 +3,7 @@
 Wie das Feature aus [kuendigung.md](kuendigung.md) Schritt für Schritt umgesetzt wurde: welche Dateien neu sind,
 was sie enthalten und was an bereits vorhandenen Dateien geändert wurde.
 
-- **Vergleichsbasis:** Stand nach Commit `460b9cc` („Kundenliste: Verträge statt Zahlungen zählen“), also vor dem Feature
+- **Vergleichsbasis:** Stand nach Commit `f5961a7` („Kundenliste: Verträge statt Zahlungen zählen“), also vor dem Feature
 - **Stand dieser Übersicht:** 23.10.2026
 - **Fachregeln, Entscheidungen und Annahmen:** stehen in [kuendigung.md](kuendigung.md) und werden hier nicht wiederholt
 

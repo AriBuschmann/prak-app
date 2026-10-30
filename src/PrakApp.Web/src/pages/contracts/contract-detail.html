@@ -105,7 +105,7 @@
       <div class="dialog-actions">
         <button type="button" click.trigger="cancelOpen = false" t="common.cancel"></button>
         <!-- Eigener Text, damit es auf Englisch nicht "Cancel" neben "Cancel contract" heißt -->
-        <button type="submit" class="primary" t="contract.cancelConfirm"></button>
+        <button type="submit" class="primary" disabled.bind="savingCancel" t="contract.cancelConfirm"></button>
       </div>
     </form>
   </modal-dialog>

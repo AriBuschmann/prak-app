@@ -132,8 +132,9 @@ Beispiel für das Erfassen einer Zahlung (`POST /api/contracts/12/payments`):
 }
 ```
 
-Regeln: Der Betrag muss größer als 0 sein. Das Zahlungsdatum ist Pflicht, darf nicht in der Zukunft und nicht vor
-dem 01.01.2000 liegen.
+Regeln: Der Betrag muss größer als 0 sein und darf höchstens 99.999,99 betragen. Das Zahlungsdatum ist Pflicht,
+darf nicht in der Zukunft und nicht vor dem 01.01.2000 liegen. Der Verwendungszweck ist freiwillig und hat höchstens
+100 Zeichen.
 
 **CSV-Export** – `GET /api/contracts/{id}/payments/export` liefert die Datei `zahlungen-<Vertragsnummer>.csv`
 (404, wenn es den Vertrag nicht gibt). Format für ein deutsches Excel: UTF-8 mit BOM, Semikolon als Trennzeichen,

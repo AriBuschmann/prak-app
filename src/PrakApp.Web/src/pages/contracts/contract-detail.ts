@@ -21,6 +21,7 @@ export class ContractDetail {
   cancelReason = '';
   cancelErrors: Record<string, string[]> = {};
   cancelPreview: CancellationPreview | null = null;
+  savingCancel = false;
 
   // Zustand des Dialogs "Kündigung zurücknehmen"
   undoOpen = false;
@@ -135,7 +136,10 @@ export class ContractDetail {
   // Neu (Schritt 4): Kündigung speichern. Bei falscher Eingabe (400) die Meldungen am Feld zeigen,
   // sonst Dialog schließen und die Seite neu laden (Status, Kündigungsdatum, Grund und Vertragsende)
   async saveCancellation(): Promise<void> {
-    if (!this.contract) return;
+    // Zweiten Klick eines Doppelklicks ignorieren: Sonst lehnt der Server die zweite Kündigung mit 409 ab
+    // ("Nur aktive Verträge können gekündigt werden."), und oben erscheint der rote Hinweis "Unerwarteter Fehler"
+    if (!this.contract || this.savingCancel) return;
+    this.savingCancel = true;
     try {
       await http.post(`/api/contracts/${this.contract.id}/cancel`, { reason: this.cancelReason });
       this.cancelOpen = false;
@@ -146,6 +150,8 @@ export class ContractDetail {
         return;
       }
       throw e;
+    } finally {
+      this.savingCancel = false;
     }
   }
 

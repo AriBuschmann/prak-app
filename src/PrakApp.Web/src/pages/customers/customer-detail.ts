@@ -26,6 +26,7 @@ export class CustomerDetail {
   editOpen = false;
   form: Customer | null = null;
   errors: Record<string, string[]> = {};
+  saving = false;
 
   // Zustand des Dialogs "Kunde löschen"
   deleteOpen = false;
@@ -83,7 +84,9 @@ export class CustomerDetail {
   }
 
   async save(): Promise<void> {
-    if (!this.customer || !this.form) return;
+    // Läuft schon eine Anfrage (z. B. zweiter Klick eines Doppelklicks), nichts tun: sonst geht die Änderung zweimal raus
+    if (!this.customer || !this.form || this.saving) return;
+    this.saving = true;
     try {
       this.customer = await http.put<Customer>(`/api/customers/${this.customer.id}`, this.form);
       this.editOpen = false;
@@ -93,6 +96,8 @@ export class CustomerDetail {
         return;
       }
       throw e;
+    } finally {
+      this.saving = false;
     }
   }
 

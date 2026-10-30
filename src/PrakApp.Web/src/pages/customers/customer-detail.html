@@ -35,7 +35,7 @@
       <customer-form customer.bind="form" errors.bind="errors"></customer-form>
       <div class="dialog-actions">
         <button type="button" click.trigger="editOpen = false" t="common.cancel"></button>
-        <button type="submit" class="primary" t="common.save"></button>
+        <button type="submit" class="primary" disabled.bind="saving" t="common.save"></button>
       </div>
     </form>
   </modal-dialog>

@@ -56,7 +56,7 @@ public class CustomerEndpointTests(WebApplicationFactory<Program> factory) : ICl
 
     // Bug: Die Suche setzt den Text in SQL "LIKE" ein. Dort sind %, _ und [ ] Platzhalter (% = beliebig viele Zeichen,
     // _ = genau ein Zeichen, [a-z] = ein Zeichen von a bis z). Wer "%" eingab, fand deshalb alle Kunden.
-    // Jetzt maskiert EscapeLike im CustomerRepository diese Zeichen, sie werden als normale Zeichen gesucht.
+    // Jetzt maskiert SqlLike.Escape (src/PrakApp.Api/Data/SqlLike.cs) diese Zeichen, sie werden als normale Zeichen gesucht.
     // Kein Kunde in den Demo-Daten enthält eines dieser Zeichen (in der Datenbank geprüft), also muss die Suche
     // jeweils 0 Treffer liefern. Der Test liest nur, er ändert nichts.
     [Theory]
