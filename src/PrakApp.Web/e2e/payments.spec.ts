@@ -78,3 +78,46 @@ test('Backspace im Zahlungsdatum leert das Feld statt 1900 einzusetzen', async (
   // ... und in der Zahlungstabelle steht keine Zeile mit unserem Verwendungszweck, es wurde also nichts gespeichert
   await expect(page.locator('.grid [role=row]').filter({ hasText: reference })).toHaveCount(0);
 });
+
+// Verbesserung: Zahlungen in der Zukunft ablehnen. Der Server lehnte ein Datum in der Zukunft schon ab (PaymentValidator),
+// im Kalender des Dialogs ließen sich zukünftige Tage aber noch auswählen. Jetzt sind sie dort gesperrt.
+// Der Test speichert nichts: Der Klick auf den gesperrten Tag ändert nichts, die Anfrage an die API wird abgelehnt.
+test('Zahlungsdatum in der Zukunft: im Kalender gesperrt und vom Server abgelehnt', async ({ page }) => {
+  const two = (n: number) => String(n).padStart(2, '0');
+  // Heute und morgen in deutscher Zeit (wie die App im Browser rechnet)
+  const [y, m, d] = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Berlin' }).split('-').map(Number);
+  const tomorrow = new Date(Date.UTC(y, m - 1, d + 1));
+  const todayText = `${two(d)}.${two(m)}.${y}`;
+  const tomorrowIso = tomorrow.toISOString().slice(0, 10);
+  // Ist morgen schon im nächsten Monat (heute ist der Monatsletzte), steht der Tag im Kalender als "othermonth"-Zelle
+  const tomorrowInNextMonth = tomorrow.getUTCMonth() !== m - 1;
+
+  await page.goto('/login');
+  await page.locator('button[data-user="praktikum"]').click();
+  await expect(page).toHaveURL(/\/customers$/);
+  await page.goto('/contracts/77');
+  await page.getByRole('button', { name: 'Zahlung erfassen' }).click();
+  const dateInput = page.getByTestId('payment-date').locator('input').first();
+  await expect(dateInput).toHaveValue(todayText);
+
+  // Kalender über den Knopf im Datumsfeld öffnen und die Zelle für morgen suchen
+  await page.getByTestId('payment-date').locator('.jqx-action-button, [class*="jqx-icon-calendar"]').first().click();
+  const tomorrowCell = page
+    .locator('[class*="jqx-calendar-cell"]')
+    .filter({ visible: true })
+    .filter({ hasText: new RegExp(`^${tomorrow.getUTCDate()}$`) })
+    .and(page.locator(tomorrowInNextMonth ? '[class*="othermonth"]' : ':not([class*="othermonth"])'));
+  // Morgen ist gesperrt, ein Klick darauf ändert das Datum nicht
+  await expect(tomorrowCell).toHaveClass(/jqx-calendar-cell-disabled/);
+  await tomorrowCell.click();
+  await expect(dateInput).toHaveValue(todayText);
+
+  // Am Kalender vorbei direkt an die API geschickt: Der Server lehnt ab, es entsteht keine Zahlung
+  const before = (await (await page.request.get('/api/contracts/77/payments')).json()).length;
+  const response = await page.request.post('/api/contracts/77/payments', {
+    data: { amount: 24.9, paymentDate: tomorrowIso, reference: `Zukunft-${Date.now()}` },
+  });
+  expect(response.status()).toBe(400);
+  expect((await response.json()).errors.PaymentDate).toEqual(['Zahlungsdatum darf nicht in der Zukunft liegen.']);
+  expect((await (await page.request.get('/api/contracts/77/payments')).json()).length).toBe(before);
+});

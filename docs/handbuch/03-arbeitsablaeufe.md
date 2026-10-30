@@ -31,7 +31,8 @@ des Vortags weiter.
 4. Kann eine Zahlung keinem Vertrag zugeordnet werden: zurück an die Buchhaltung.
 
 Das Zahlungsdatum ist wichtig für Mahnungen und für Rückfragen von Kunden. Es muss exakt mit dem
-Kontoauszug übereinstimmen.
+Kontoauszug übereinstimmen. Ein Datum in der Zukunft ist nicht möglich: Im Kalender sind Tage nach heute
+gesperrt, und das System lehnt ein solches Datum ab.
 
 Für Rückfragen (z. B. von der Buchhaltung) lassen sich die Zahlungen eines Vertrags auf der Vertragsseite mit
 „Als CSV exportieren“ als Datei speichern und in Excel öffnen.

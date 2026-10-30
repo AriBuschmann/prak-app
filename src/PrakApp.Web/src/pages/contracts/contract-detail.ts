@@ -88,6 +88,9 @@ export class ContractDetail {
     this.paymentErrors = {};
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    // Zahlungen in der Zukunft gibt es nicht: Tage nach heute sind im Kalender gesperrt (der Server lehnt sie ohnehin ab).
+    // Bei jedem Öffnen neu setzen, damit "heute" auch stimmt, wenn die Seite über Mitternacht offen bleibt
+    $(this.paymentDateEl).jqxDateTimeInput({ max: today });
     $(this.paymentDateEl).jqxDateTimeInput('setDate', today);
     this.paymentOpen = true;
   }
